@@ -34,7 +34,7 @@ function displayStat(data, scoreMode) {
 		document.getElementById("negativePercent").innerHTML = data.negativeGamesPercent.toString() + "%";
 		document.getElementById("scoreTotal").innerHTML = parseInt(data.scoreTotal).toLocaleString("fr-fr");
 		document.getElementById("scoreMean").innerHTML = parseInt(data.scoreMean.toString()).toLocaleString("fr-fr") + "±"
-		        + parseInt(data.scoreStandardDeviation.toString()).toLocaleString("fr-fr");
+				+ parseInt(data.scoreStandardDeviation.toString()).toLocaleString("fr-fr");
 		document.getElementById("totalMax").innerHTML = parseInt(data.totalMax).toLocaleString("fr-fr");
 		document.getElementById("totalMin").innerHTML = parseInt(data.totalMin).toLocaleString("fr-fr");
 
@@ -86,9 +86,9 @@ function displayStat(data, scoreMode) {
 		}
 
 		var dateOptions = {
-		    year : 'numeric',
-		    month : 'short',
-		    day : 'numeric'
+			year : 'numeric',
+			month : 'short',
+			day : 'numeric'
 		};
 		var index;
 		var scoreList = [];
@@ -102,49 +102,49 @@ function displayStat(data, scoreMode) {
 		}
 
 		var scoreChart = {
-		    "colors" : [ "#ff7f00" ],
-		    "title" : {
-			    "text" : "Score"
-		    },
-		    "xAxis" : {
-		        "type" : "category",
-		        "tickInterval" : Math.ceil(data.listScore.length / 10)
-		    },
-		    "legend" : {
-			    "enabled" : true
-		    },
-		    "series" : [ {
-		        "type" : "column",
-		        "name" : "Score",
-		        "data" : scoreList,
-		        "dataLabels" : {
-			        "enabled" : false
-		        }
-		    } ]
+			"colors" : [ "#ff7f00" ],
+			"title" : {
+				"text" : "Score"
+			},
+			"xAxis" : {
+				"type" : "category",
+				"tickInterval" : Math.ceil(data.listScore.length / 10)
+			},
+			"legend" : {
+				"enabled" : true
+			},
+			"series" : [ {
+				"type" : "column",
+				"name" : "Score",
+				"data" : scoreList,
+				"dataLabels" : {
+					"enabled" : false
+				}
+			} ]
 		};
 		$("#scoreChart").highcharts(scoreChart);
 
 		if (scoreMode == 0) {
 			var sumChart = {
-			    "colors" : [ "#0000ff" ],
-			    "title" : {
-				    "text" : "Total"
-			    },
-			    "xAxis" : {
-			        "type" : "category",
-			        "tickInterval" : Math.ceil(data.listScore.length / 10)
-			    },
-			    "legend" : {
-				    "enabled" : true
-			    },
-			    "series" : [ {
-			        "type" : "area",
-			        "name" : "Total",
-			        "data" : sumList,
-			        "dataLabels" : {
-				        "enabled" : false
-			        }
-			    } ]
+				"colors" : [ "#0000ff" ],
+				"title" : {
+					"text" : "Total"
+				},
+				"xAxis" : {
+					"type" : "category",
+					"tickInterval" : Math.ceil(data.listScore.length / 10)
+				},
+				"legend" : {
+					"enabled" : true
+				},
+				"series" : [ {
+					"type" : "area",
+					"name" : "Total",
+					"data" : sumList,
+					"dataLabels" : {
+						"enabled" : false
+					}
+				} ]
 			};
 			$("#sumChart").highcharts(sumChart);
 		} else {
@@ -169,26 +169,26 @@ function getStat() {
 
 	if (selectedTournamentIndex !== -1 && selectedPlayerIndex !== -1 && selectedYearIndex !== -1) {
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRAnalyze",
-		        "tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
-		        "playerId" : selectPlayer.options[selectPlayer.selectedIndex].value,
-		        "scoreMode" : selectScore.options[selectScore.selectedIndex].value,
-		        "periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
-		        "year" : selectYear.options[selectYear.selectedIndex].value,
-		        "trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
-		        "month" : selectMonth.options[selectMonth.selectedIndex].value
-		    },
-		    success : function(result) {
-			    hideLoading();
-			    data = $.parseJSON(result);
-			    displayStat(data, selectScore.selectedIndex);
-		    },
-		    error : function(xhr, status, error) {
-			    hideLoading();
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRAnalyze",
+				"tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
+				"playerId" : selectPlayer.options[selectPlayer.selectedIndex].value,
+				"scoreMode" : selectScore.options[selectScore.selectedIndex].value,
+				"periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
+				"year" : selectYear.options[selectYear.selectedIndex].value,
+				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
+				"month" : selectMonth.options[selectMonth.selectedIndex].value
+			},
+			success : function(result) {
+				hideLoading();
+				data = $.parseJSON(result);
+				displayStat(data, selectScore.selectedIndex);
+			},
+			error : function(xhr, status, error) {
+				hideLoading();
+			}
 		});
 	} else {
 		displayStat(null, selectScore.selectedIndex);
@@ -199,79 +199,79 @@ function getYears() {
 	var selectTournament = document.getElementById("selectTournament");
 	var selectedTournamentId = selectTournament.options[selectTournament.selectedIndex].value;
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-	        "action" : "getRCRYears",
-	        "tournamentId" : selectedTournamentId
-	    },
-	    success : function(result) {
-		    years = $.parseJSON(result);
-		    var index;
-		    var selectYear = document.getElementById("selectYear");
-		    selectYear.options.length = 0;
-		    for (index = 0; index < years.length; index++) {
-			    year = years[index];
-			    var option = document.createElement("option");
-			    option.value = year;
-			    option.innerHTML = year;
-			    selectYear.appendChild(option);
-		    }
-		    getStat();
-	    }
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRYears",
+			"tournamentId" : selectedTournamentId
+		},
+		success : function(result) {
+			years = $.parseJSON(result);
+			var index;
+			var selectYear = document.getElementById("selectYear");
+			selectYear.options.length = 0;
+			for (index = 0; index < years.length; index++) {
+				year = years[index];
+				var option = document.createElement("option");
+				option.value = year;
+				option.innerHTML = year;
+				selectYear.appendChild(option);
+			}
+			getStat();
+		}
 	});
 }
 
 function getTournaments() {
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-		    "action" : "getRCRTournaments"
-	    },
-	    success : function(result) {
-		    tournaments = $.parseJSON(result);
-		    var index;
-		    var selectTournament = document.getElementById("selectTournament");
-		    selectTournament.options.length = 0;
-		    for (index = 0; index < tournaments.length; index++) {
-			    tournament = tournaments[index];
-			    var option = document.createElement("option");
-			    option.value = tournament.id;
-			    option.innerHTML = tournament.name;
-			    selectTournament.appendChild(option);
-		    }
-		    getYears();
-	    }
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRTournaments"
+		},
+		success : function(result) {
+			tournaments = $.parseJSON(result);
+			var index;
+			var selectTournament = document.getElementById("selectTournament");
+			selectTournament.options.length = 0;
+			for (index = 0; index < tournaments.length; index++) {
+				tournament = tournaments[index];
+				var option = document.createElement("option");
+				option.value = tournament.id;
+				option.innerHTML = tournament.name;
+				selectTournament.appendChild(option);
+			}
+			getYears();
+		}
 	});
 }
 
 function getPlayers(selectedPlayer) {
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-		    "action" : "getRCRPlayers"
-	    },
-	    success : function(result) {
-		    players = $.parseJSON(result);
-		    players.sort(function(player1, player2) {
-			    return player1.name.toUpperCase().localeCompare(player2.name.toUpperCase());
-		    });
-		    var index;
-		    var selectPlayer = document.getElementById("selectPlayer");
-		    selectPlayer.options.length = 0;
-		    for (index = 0; index < players.length; index++) {
-			    player = players[index];
-			    var option = document.createElement("option");
-			    option.value = player.id;
-			    option.innerHTML = player.name;
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRPlayers"
+		},
+		success : function(result) {
+			players = $.parseJSON(result);
+			players.sort(function(player1, player2) {
+				return player1.name.toUpperCase().localeCompare(player2.name.toUpperCase());
+			});
+			var index;
+			var selectPlayer = document.getElementById("selectPlayer");
+			selectPlayer.options.length = 0;
+			for (index = 0; index < players.length; index++) {
+				player = players[index];
+				var option = document.createElement("option");
+				option.value = player.id;
+				option.innerHTML = player.name;
 				if(selectedPlayer === player.name) {
 					option.selected = "selected";
 				}
-			    selectPlayer.appendChild(option);
-		    }
-	    }
+				selectPlayer.appendChild(option);
+			}
+		}
 	});
 }
 

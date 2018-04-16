@@ -325,7 +325,6 @@ function displayRanking(selectedRankingIndex, listScores) {
 		}
 			break;
 		case -1: {
-
 		}
 			break;
 	}
@@ -367,6 +366,7 @@ function getRanking() {
 				hideLoading();
 			},
 			error : function(xhr, status, error) {
+				displayRanking(-1, null);
 				hideLoading();
 			}
 		});

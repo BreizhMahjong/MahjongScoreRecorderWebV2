@@ -4,9 +4,9 @@ function loginEvent() {
 	var login = $("#loginInput").val();
 	var password = $("#passwordInput").val();
 	$.post(SERVER_QUERY_URL, {
-	    "action" : "login",
-	    "username" : login,
-	    "password" : password
+		"action" : "login",
+		"username" : login,
+		"password" : password
 	}, function(result) {
 		var result = $.parseJSON(result);
 		if (result.result) {
@@ -43,9 +43,9 @@ $(document).ready(function() {
 	});
 
 	$("#loginButton").leanModal({
-	    "top" : 20,
-	    "overlay" : 0.4,
-	    "closeButton" : ".modal_close"
+		"top" : 20,
+		"overlay" : 0.4,
+		"closeButton" : ".modal_close"
 	});
 
 	$("#logoutButton").on("click", function() {

@@ -1,3 +1,5 @@
+var buttonDisplay;
+
 function createGameNode(table, game) {
 	var gameInfoLine = document.createElement("tr");
 	table.appendChild(gameInfoLine);
@@ -26,10 +28,10 @@ function createGameNode(table, game) {
 	dateGrid.style.borderRight = "none";
 	var date = new Date(game.year, game.month, game.day, 0, 0, 0, 0);
 	dateGrid.innerHTML = "Date : " + date.toLocaleDateString("fr-fr", {
-	    weekday : 'long',
-	    year : 'numeric',
-	    month : 'long',
-	    day : 'numeric'
+		weekday : 'long',
+		year : 'numeric',
+		month : 'long',
+		day : 'numeric'
 	});
 
 	var nbRoundsGrid = document.createElement("td");
@@ -129,23 +131,23 @@ function displayGames(ids) {
 		table.style.margin = "4px";
 		table.style.width = "640px";
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRGame",
-		        "id" : ids[index]
-		    },
-		    success : function(result) {
-			    createGameNode(table, $.parseJSON(result));
-			    newGamePanel.appendChild(table);
-			    index++;
-			    if (index < ids.length) {
-				    getNextGame();
-			    } else {
-				    gamePanel.parentNode.replaceChild(newGamePanel, gamePanel);
-				    hideLoading();
-			    }
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRGame",
+				"id" : ids[index]
+			},
+			success : function(result) {
+				createGameNode(table, $.parseJSON(result));
+				newGamePanel.appendChild(table);
+				index++;
+				if (index < ids.length) {
+					getNextGame();
+				} else {
+					gamePanel.parentNode.replaceChild(newGamePanel, gamePanel);
+					hideLoading();
+				}
+			}
 		});
 	}
 	getNextGame();
@@ -161,25 +163,31 @@ function getRCRGameIds() {
 	var selectedDayIndex = selectDay.selectedIndex;
 
 	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1 && selectedDayIndex !== -1) {
+		buttonDisplay.disabled = true;
+
 		var gamePanel = document.getElementById("gamePanel");
-		while(gamePanel.firstChild) {
+		while (gamePanel.firstChild) {
 			gamePanel.removeChild(gamePanel.firstChild);
 		}
 		showLoading();
-		
+
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRGameIds",
-		        "tournamentId" : selectTournament[selectedTournamentIndex].value,
-		        "year" : selectYear[selectedYearIndex].value,
-		        "month" : selectMonth.selectedIndex,
-		        "day" : selectDay[selectedDayIndex].value
-		    },
-		    success : function(result) {
-			    displayGames($.parseJSON(result));
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRGameIds",
+				"tournamentId" : selectTournament[selectedTournamentIndex].value,
+				"year" : selectYear[selectedYearIndex].value,
+				"month" : selectMonth.selectedIndex,
+				"day" : selectDay[selectedDayIndex].value
+			},
+			success : function(result) {
+				buttonDisplay.disabled = false;
+				displayGames($.parseJSON(result));
+			},
+			error : function(xhr, status, error) {
+				buttonDisplay.disabled = false;
+			}
 		});
 	}
 }
@@ -192,27 +200,27 @@ function getDays() {
 	var selectMonth = document.getElementById("selectMonth");
 	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRDays",
-		        "tournamentId" : selectTournament[selectedTournamentIndex].value,
-		        "year" : selectYear[selectedYearIndex].value,
-		        "month" : selectMonth.selectedIndex
-		    },
-		    success : function(result) {
-			    days = $.parseJSON(result);
-			    var index;
-			    var selectDay = document.getElementById("selectDay");
-			    selectDay.options.length = 0;
-			    for (index = 0; index < days.length; index++) {
-				    day = days[index];
-				    var option = document.createElement("option");
-				    option.value = day;
-				    option.innerHTML = day;
-				    selectDay.appendChild(option);
-			    }
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRDays",
+				"tournamentId" : selectTournament[selectedTournamentIndex].value,
+				"year" : selectYear[selectedYearIndex].value,
+				"month" : selectMonth.selectedIndex
+			},
+			success : function(result) {
+				days = $.parseJSON(result);
+				var index;
+				var selectDay = document.getElementById("selectDay");
+				selectDay.options.length = 0;
+				for (index = 0; index < days.length; index++) {
+					day = days[index];
+					var option = document.createElement("option");
+					option.value = day;
+					option.innerHTML = day;
+					selectDay.appendChild(option);
+				}
+			}
 		});
 	}
 }
@@ -222,51 +230,51 @@ function getYears() {
 	var selectedTournamentIndex = selectTournament.selectedIndex;
 	if (selectedTournamentIndex !== -1) {
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRYears",
-		        "tournamentId" : selectTournament.options[selectTournament.selectedIndex].value
-		    },
-		    success : function(result) {
-			    years = $.parseJSON(result);
-			    var index;
-			    var selectYear = document.getElementById("selectYear");
-			    selectYear.options.length = 0;
-			    for (index = 0; index < years.length; index++) {
-				    year = years[index];
-				    var option = document.createElement("option");
-				    option.value = year;
-				    option.innerHTML = year;
-				    selectYear.appendChild(option);
-			    }
-			    getDays();
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRYears",
+				"tournamentId" : selectTournament.options[selectTournament.selectedIndex].value
+			},
+			success : function(result) {
+				years = $.parseJSON(result);
+				var index;
+				var selectYear = document.getElementById("selectYear");
+				selectYear.options.length = 0;
+				for (index = 0; index < years.length; index++) {
+					year = years[index];
+					var option = document.createElement("option");
+					option.value = year;
+					option.innerHTML = year;
+					selectYear.appendChild(option);
+				}
+				getDays();
+			}
 		});
 	}
 }
 
 function getTournaments() {
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-		    "action" : "getRCRTournaments"
-	    },
-	    success : function(result) {
-		    tournaments = $.parseJSON(result);
-		    var index;
-		    var selectTournament = document.getElementById("selectTournament");
-		    selectTournament.options.length = 0;
-		    for (index = 0; index < tournaments.length; index++) {
-			    tournament = tournaments[index];
-			    var option = document.createElement("option");
-			    option.value = tournament.id;
-			    option.innerHTML = tournament.name;
-			    selectTournament.appendChild(option);
-		    }
-		    getYears();
-	    }
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRTournaments"
+		},
+		success : function(result) {
+			tournaments = $.parseJSON(result);
+			var index;
+			var selectTournament = document.getElementById("selectTournament");
+			selectTournament.options.length = 0;
+			for (index = 0; index < tournaments.length; index++) {
+				tournament = tournaments[index];
+				var option = document.createElement("option");
+				option.value = tournament.id;
+				option.innerHTML = tournament.name;
+				selectTournament.appendChild(option);
+			}
+			getYears();
+		}
 	});
 }
 
@@ -276,7 +284,8 @@ function prepare() {
 	document.getElementById("selectYear").onchange = getDays;
 	document.getElementById("selectMonth").onchange = getDays;
 	// document.getElementById("selectDay").onchange = getRCRGameIds;
-	document.getElementById("buttonDisplay").onclick = getRCRGameIds;
+	buttonDisplay = document.getElementById("buttonDisplay");
+	buttonDisplay.onclick = getRCRGameIds;
 }
 
 $(document).ready(prepare());

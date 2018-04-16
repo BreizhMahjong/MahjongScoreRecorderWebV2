@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Pseudo&nbsp;:</td>
-			<td style="width: 50%;"><select id="selectPlayerName" style="width: 100%;" /></td>
+			<td style="width: 50%;"><select id="selectPlayerName" style="width: 100%;"></select></td>
 			<td style="text-align: center; width: 20%;"><button id="buttonDeletePlayer" style="width: 80%;">Supprimer</button></td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Nom&nbsp;:</td>
-			<td style="width: 50%;"><select id="selectTournamentName" style="width: 100%;" /></td>
+			<td style="width: 50%;"><select id="selectTournamentName" style="width: 100%;"></select></td>
 			<td style="text-align: center; width: 20%;"><button id="buttonDeleteTournament" style="width: 80%;">Supprimer</button></td>
 		</tr>
 		<tr>
