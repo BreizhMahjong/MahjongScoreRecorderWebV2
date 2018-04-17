@@ -182,10 +182,11 @@ function getRCRGameIds() {
 				"day" : selectDay[selectedDayIndex].value
 			},
 			success : function(result) {
-				buttonDisplay.disabled = false;
 				displayGames($.parseJSON(result));
+				buttonDisplay.disabled = false;
 			},
 			error : function(xhr, status, error) {
+				hideLoading();
 				buttonDisplay.disabled = false;
 			}
 		});
@@ -283,7 +284,7 @@ function prepare() {
 	document.getElementById("selectTournament").onchange = getYears;
 	document.getElementById("selectYear").onchange = getDays;
 	document.getElementById("selectMonth").onchange = getDays;
-	// document.getElementById("selectDay").onchange = getRCRGameIds;
+
 	buttonDisplay = document.getElementById("buttonDisplay");
 	buttonDisplay.onclick = getRCRGameIds;
 }

@@ -169,8 +169,8 @@ function save() {
 					reset();
 				} else {
 					window.alert(updateResult.message);
+					enableButtons();
 				}
-				enableButtons();
 			},
 			error : function(xhr, status, error) {
 				enableButtons();
