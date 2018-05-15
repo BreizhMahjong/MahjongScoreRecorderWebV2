@@ -278,7 +278,7 @@ function enableButtons() {
 function prepare() {
 	getPlayers();
 	getTournaments();
-	
+
 	selectPlayer = document.getElementById("selectPlayerName");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
 	buttonAddPlayer = document.getElementById("buttonAddPlayer");
@@ -289,7 +289,7 @@ function prepare() {
 	buttonModifyTournament = document.getElementById("buttonModifyTournament");
 	buttonDeleteGame = document.getElementById("buttonDeleteGame");
 
-	selectPlayer.onchange = displayPlayer;	
+	selectPlayer.onchange = displayPlayer;
 	buttonAddPlayer.onclick = addPlayer;
 	buttonDeletePlayer.onclick = deletePlayer;
 	buttonModifyPlayer.onclick = modifyPlayer;

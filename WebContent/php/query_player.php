@@ -5,30 +5,30 @@ require_once ("query_player_config.php");
 function addPlayer($name) {
 	session_start ();
 	$result = array (
-			ADD_PLAYER_RESULT => true,
-			ADD_PLAYER_MESSAGE => ADD_PLAYER_MESSAGE_OK 
+		ADD_PLAYER_RESULT => true,
+		ADD_PLAYER_MESSAGE => ADD_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ( $_SESSION [SESSION_IS_ADMIN] ) ? boolval ( $_SESSION [SESSION_IS_ADMIN] ) : false;
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
 	if ($isAdmin) {
-		if ($name !== null && strlen($name) > 0) {
+		if ($name !== null && strlen ($name) > 0) {
 			$query = "SELECT " . TABLE_PLAYER_ID . " FROM " . TABLE_PLAYER;
-			$queryResult = executeQuery ( $query, null );
+			$queryResult = executeQuery ($query, null);
 			$existingIds = array ();
-			foreach ( $queryResult as $line ) {
-				$existingIds [] = intval ( $line [TABLE_PLAYER_ID] );
+			foreach ($queryResult as $line) {
+				$existingIds [] = intval ($line [TABLE_PLAYER_ID]);
 			}
-			if (empty ( $existingIds )) {
+			if (empty ($existingIds)) {
 				$id = 1;
 			} else {
-				$id = min ( array_diff ( range ( 1, max ( $existingIds ) + 1 ), $existingIds ) );
+				$id = min (array_diff (range (1, max ($existingIds) + 1), $existingIds));
 			}
 			$query = "INSERT INTO " . TABLE_PLAYER . "(" . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . ") VALUES(?, ?, ?)";
 			$parameters = array (
-					$id,
-					$name,
-					0
+				$id,
+				$name,
+				0
 			);
-			$added = executeUpdate ( $query, $parameters );
+			$added = executeUpdate ($query, $parameters);
 			if (! $added) {
 				$result [ADD_PLAYER_RESULT] = false;
 				$result [ADD_PLAYER_MESSAGE] = ADD_PLAYER_MESSAGE_EXISTING;
@@ -41,29 +41,29 @@ function addPlayer($name) {
 		$result [ADD_PLAYER_RESULT] = false;
 		$result [ADD_PLAYER_MESSAGE] = ADD_PLAYER_MESSAGE_ADMIN;
 	}
-	return json_encode ( $result );
+	return json_encode ($result);
 }
 function modifyPlayer($id, $name, $hidden) {
 	session_start ();
 	$result = array (
-			MODIFY_PLAYER_RESULT => true,
-			MODIFY_PLAYER_MESSAGE => MODIFY_PLAYER_MESSAGE_OK 
+		MODIFY_PLAYER_RESULT => true,
+		MODIFY_PLAYER_MESSAGE => MODIFY_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ( $_SESSION [SESSION_IS_ADMIN] ) ? boolval ( $_SESSION [SESSION_IS_ADMIN] ) : false;
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
 	if ($isAdmin) {
-		if ($id !== null && $name !== null && strlen($name) > 0 && $hidden !== null) {
-		    if($hidden !== "0") {
-		        $hidden = 1;
-		    } else {
-		        $hidden = 0;
-		    }
-		    $query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_HIDDEN . "=? WHERE " . TABLE_PLAYER_ID . "=?";
+		if ($id !== null && $name !== null && strlen ($name) > 0 && $hidden !== null) {
+			if ($hidden !== "0") {
+				$hidden = 1;
+			} else {
+				$hidden = 0;
+			}
+			$query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_HIDDEN . "=? WHERE " . TABLE_PLAYER_ID . "=?";
 			$parameters = array (
-					$name,
-					$hidden,
-					$id
+				$name,
+				$hidden,
+				$id
 			);
-			$modified = executeUpdate ( $query, $parameters );
+			$modified = executeUpdate ($query, $parameters);
 			if (! $modified) {
 				$result [MODIFY_PLAYER_RESULT] = false;
 				$result [MODIFY_PLAYER_MESSAGE] = ADD_PLAYER_MESSAGE_EXISTING;
@@ -76,22 +76,22 @@ function modifyPlayer($id, $name, $hidden) {
 		$result [MODIFY_PLAYER_RESULT] = false;
 		$result [MODIFY_PLAYER_MESSAGE] = MODIFY_PLAYER_MESSAGE_ADMIN;
 	}
-	return json_encode ( $result );
+	return json_encode ($result);
 }
 function deletePlayer($id) {
 	session_start ();
 	$result = array (
-			DELETE_PLAYER_RESULT => true,
-			DELETE_PLAYER_MESSAGE => DELETE_PLAYER_MESSAGE_OK 
+		DELETE_PLAYER_RESULT => true,
+		DELETE_PLAYER_MESSAGE => DELETE_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ( $_SESSION [SESSION_IS_ADMIN] ) ? boolval ( $_SESSION [SESSION_IS_ADMIN] ) : false;
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
 	if ($isAdmin) {
 		if ($id !== null) {
 			$query = "DELETE FROM " . TABLE_PLAYER . " WHERE " . TABLE_PLAYER_ID . "=?";
 			$parameters = array (
-					$id 
+				$id
 			);
-			$deleted = executeUpdate ( $query, $parameters );
+			$deleted = executeUpdate ($query, $parameters);
 			if (! $deleted) {
 				$result [DELETE_PLAYER_RESULT] = false;
 				$result [DELETE_PLAYER_MESSAGE] = DELETE_PLAYER_MESSAGE_DB;
@@ -104,14 +104,14 @@ function deletePlayer($id) {
 		$result [DELETE_PLAYER_RESULT] = false;
 		$result [DELETE_PLAYER_MESSAGE] = DELETE_PLAYER_MESSAGE_ADMIN;
 	}
-	return json_encode ( $result );
+	return json_encode ($result);
 }
 function getAllPlayers() {
-    $query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
-	$result = executeQuery ( $query, null );
+	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
+	$result = executeQuery ($query, null);
 	$players = array ();
-	if (! empty ( $result )) {
-		foreach ( $result as $line ) {
+	if (! empty ($result)) {
+		foreach ($result as $line) {
 			$player = array ();
 			$player [PLAYER_ID] = $line [TABLE_PLAYER_ID];
 			$player [PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
@@ -119,20 +119,20 @@ function getAllPlayers() {
 			$players [] = $player;
 		}
 	}
-	return json_encode ( $players );
+	return json_encode ($players);
 }
 function getNonHiddenPlayers() {
 	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . " WHERE " . TABLE_PLAYER_HIDDEN . "=0 ORDER BY " . TABLE_PLAYER_ID . " ASC";
-	$result = executeQuery ( $query, null );
+	$result = executeQuery ($query, null);
 	$players = array ();
-	if (! empty ( $result )) {
-		foreach ( $result as $line ) {
+	if (! empty ($result)) {
+		foreach ($result as $line) {
 			$player = array ();
 			$player [PLAYER_ID] = $line [TABLE_PLAYER_ID];
 			$player [PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
 			$players [] = $player;
 		}
 	}
-	return json_encode ( $players );
+	return json_encode ($players);
 }
 ?>

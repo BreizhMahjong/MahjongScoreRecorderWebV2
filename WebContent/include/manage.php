@@ -25,7 +25,7 @@
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Caché&nbsp;:</td>
-			<td style="text-align: left; width: 50%;"><input id="inputHidden" type="checkbox"/></td>
+			<td style="text-align: left; width: 50%;"><input id="inputHidden" type="checkbox" /></td>
 		</tr>
 	</table>
 	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">

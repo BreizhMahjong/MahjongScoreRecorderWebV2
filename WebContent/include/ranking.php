@@ -34,10 +34,10 @@
 		<td style="text-align: right; width: 10%;">Trimestre&nbsp;:</td>
 		<td style="width: 10%;"><select id="selectTrimester" style="width: 100%;">
 				<?php $trimester = floor((intval(date("m"))-1)/3); ?>
-				<option value="0"<?php if($trimester==0) { echo " selected=\"selected\""; } ?>>Hiver</option>
-				<option value="1"<?php if($trimester==1) { echo " selected=\"selected\""; } ?>>Printemps</option>
-				<option value="2"<?php if($trimester==2) { echo " selected=\"selected\""; } ?>>Été</option>
-				<option value="3"<?php if($trimester==3) { echo " selected=\"selected\""; } ?>>Automne</option>
+				<option value="0" <?php if($trimester==0) { echo " selected=\"selected\""; } ?>>Hiver</option>
+				<option value="1" <?php if($trimester==1) { echo " selected=\"selected\""; } ?>>Printemps</option>
+				<option value="2" <?php if($trimester==2) { echo " selected=\"selected\""; } ?>>Été</option>
+				<option value="3" <?php if($trimester==3) { echo " selected=\"selected\""; } ?>>Automne</option>
 		</select></td>
 		<td style="text-align: right; width: 10%;">Mois&nbsp;:</td>
 		<td style="width: 15%;"><select id="selectMonth" style="width: 100%;">

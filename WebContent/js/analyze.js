@@ -266,7 +266,7 @@ function getPlayers(selectedPlayer) {
 				var option = document.createElement("option");
 				option.value = player.id;
 				option.innerHTML = player.name;
-				if(selectedPlayer === player.name) {
+				if (selectedPlayer === player.name) {
 					option.selected = "selected";
 				}
 				selectPlayer.appendChild(option);
