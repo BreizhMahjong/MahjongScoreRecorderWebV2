@@ -234,7 +234,7 @@ function getPlayers() {
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
-			"action" : "getAllPlayers"
+			"action" : "getNonHiddenPlayers"
 		},
 		success : function(result) {
 			players = $.parseJSON(result);

@@ -1,3 +1,6 @@
+var selectPlayer;
+var inputModifyPlayerName;
+
 var buttonAddPlayer;
 var buttonDeletePlayer;
 var buttonModifyPlayer;
@@ -5,6 +8,8 @@ var buttonAddTournament;
 var buttonDeleteTournament;
 var buttonModifyTournament;
 var buttonDeleteGame;
+
+var players;
 
 function addPlayer() {
 	disableButtons();
@@ -33,15 +38,19 @@ function addPlayer() {
 	});
 }
 
+function displayPlayer() {
+	inputModifyPlayerName.value = players[selectPlayer.selectedIndex].name;
+	inputHidden.checked = players[selectPlayer.selectedIndex].hidden != 0;
+}
+
 function deletePlayer() {
 	disableButtons();
-	selectPlayer = document.getElementById("selectPlayerName");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "deletePlayer",
-			"id" : selectPlayer[selectPlayer.selectedIndex].value
+			"id" : players[selectPlayer.selectedIndex].id
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -61,15 +70,16 @@ function deletePlayer() {
 
 function modifyPlayer() {
 	disableButtons();
-	selectPlayer = document.getElementById("selectPlayerName");
 	inputNewPlayerName = document.getElementById("inputModifyPlayerName");
+	inputHidden = document.getElementById("inputHidden");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "modifyPlayer",
-			"id" : selectPlayer[selectPlayer.selectedIndex].value,
-			"name" : inputNewPlayerName.value
+			"id" : players[selectPlayer.selectedIndex].id,
+			"name" : inputNewPlayerName.value,
+			"hidden" : inputHidden.checked ? "1" : "0"
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -191,6 +201,7 @@ function getPlayers() {
 				option.innerHTML = player.name;
 				playerNode.appendChild(option);
 			}
+			displayPlayer();
 		}
 	});
 }
@@ -267,6 +278,9 @@ function enableButtons() {
 function prepare() {
 	getPlayers();
 	getTournaments();
+	
+	selectPlayer = document.getElementById("selectPlayerName");
+	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
 	buttonAddPlayer = document.getElementById("buttonAddPlayer");
 	buttonDeletePlayer = document.getElementById("buttonDeletePlayer");
 	buttonModifyPlayer = document.getElementById("buttonModifyPlayer");
@@ -275,6 +289,7 @@ function prepare() {
 	buttonModifyTournament = document.getElementById("buttonModifyTournament");
 	buttonDeleteGame = document.getElementById("buttonDeleteGame");
 
+	selectPlayer.onchange = displayPlayer;	
 	buttonAddPlayer.onclick = addPlayer;
 	buttonDeletePlayer.onclick = deletePlayer;
 	buttonModifyPlayer.onclick = modifyPlayer;

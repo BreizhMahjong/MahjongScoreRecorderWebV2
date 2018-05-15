@@ -21,7 +21,11 @@
 		<tr>
 			<td style="text-align: right; width: 30%;">Nouveau pseudo&nbsp;:</td>
 			<td style="width: 50%;"><input id="inputModifyPlayerName" type="text" style="width: 100%;" /></td>
-			<td style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
+			<td rowSpan="2" style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Caché&nbsp;:</td>
+			<td style="text-align: left; width: 50%;"><input id="inputHidden" type="checkbox"/></td>
 		</tr>
 	</table>
 	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">

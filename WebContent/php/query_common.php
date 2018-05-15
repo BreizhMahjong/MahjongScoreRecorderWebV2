@@ -18,6 +18,7 @@ define ( "RANKING_RESULT_LIMIT", 30 );
 // Player
 define ( "PLAYER_ID", "id" );
 define ( "PLAYER_NAME", "name" );
+define ( "HIDDEN", "hidden" );
 
 // Tournament
 define ( "TOURNAMENT_ID", "id" );

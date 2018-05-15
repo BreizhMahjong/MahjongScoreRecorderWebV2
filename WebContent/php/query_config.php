@@ -17,11 +17,14 @@ define ( "ACTION_ADD_PLAYER_PARAM_GAME", "name" );
 define ( "ACTION_MODIFY_PLAYER", "modifyPlayer" );
 define ( "ACTION_MODIFY_PLAYER_PARAM_ID", "id" );
 define ( "ACTION_MODIFY_PLAYER_PARAM_GAME", "name" );
+define ( "ACTION_MODIFY_PLAYER_PARAM_HIDDEN", "hidden" );
 
 define ( "ACTION_DELETE_PLAYER", "deletePlayer" );
 define ( "ACTION_DELETE_PLAYER_PARAM_ID", "id" );
 
 define ( "ACTION_GET_ALL_PLAYERS", "getAllPlayers" );
+
+define ( "ACTION_GET_NON_HIDDEN_PLAYERS", "getNonHiddenPlayers" );
 
 define ( "ACTION_ADD_RCR_TOURNAMENT", "addRCRTournament" );
 define ( "ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME", "name" );

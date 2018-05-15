@@ -30,7 +30,8 @@ if ($action !== null) {
 		case ACTION_MODIFY_PLAYER :
 			$playerId = isset ( $_POST [ACTION_MODIFY_PLAYER_PARAM_ID] ) ? intval ( $_POST [ACTION_MODIFY_PLAYER_PARAM_ID] ) : null;
 			$name = isset ( $_POST [ACTION_MODIFY_PLAYER_PARAM_GAME] ) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_GAME] : null;
-			echo modifyPlayer ( $playerId, $name );
+			$hidden = isset ( $_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN] ) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN] : null;
+			echo modifyPlayer ( $playerId, $name, $hidden );
 			break;
 		case ACTION_DELETE_PLAYER :
 			$playerId = isset ( $_POST [ACTION_DELETE_PLAYER_PARAM_ID] ) ? intval ( $_POST [ACTION_DELETE_PLAYER_PARAM_ID] ) : null;
@@ -39,6 +40,9 @@ if ($action !== null) {
 		case ACTION_GET_ALL_PLAYERS :
 			echo getAllPlayers ();
 			break;
+		case ACTION_GET_NON_HIDDEN_PLAYERS :
+		    echo getNonHiddenPlayers ();
+		    break;
 		case ACTION_ADD_RCR_TOURNAMENT :
 			$name = isset ( $_POST [ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME] ) ? $_POST [ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME] : null;
 			echo addRCRTournament ( $name );
