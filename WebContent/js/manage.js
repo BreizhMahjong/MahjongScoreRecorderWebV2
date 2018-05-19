@@ -276,9 +276,6 @@ function enableButtons() {
 }
 
 function prepare() {
-	getPlayers();
-	getTournaments();
-
 	selectPlayer = document.getElementById("selectPlayerName");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
 	buttonAddPlayer = document.getElementById("buttonAddPlayer");
@@ -297,6 +294,9 @@ function prepare() {
 	buttonDeleteTournament.onclick = deleteTournament;
 	buttonModifyTournament.onclick = modifyTournament;
 	buttonDeleteGame.onclick = deleteGame;
+
+	getPlayers();
+	getTournaments();
 }
 
 $(document).ready(prepare());
