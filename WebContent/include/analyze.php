@@ -8,8 +8,8 @@
 		</select></td>
 		<td style="text-align: right; width: 10%;">Score&nbsp;:</td>
 		<td style="width: 15%;"><select id="selectScore" style="width: 100%;">
-				<option value="finalScore">Score</option>
-				<option value="absScore">Gain</option>
+				<option value="finalScore">Score final</option>
+				<option value="absScore">Score brut</option>
 				<option value="gameScore">Stack</option>
 		</select></td>
 		<td style="width: 10%;"></td>
