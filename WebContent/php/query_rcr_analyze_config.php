@@ -2,6 +2,7 @@
 require_once ("query_rcr_common.php");
 
 define ("ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_FINAL_SCORE", "finalScore");
+define ("ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_ABS_SCORE", "absScore");
 define ("ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_GAME_SCORE", "gameScore");
 
 define ("RCR_ANALYZE_NB_GAMES", "numberOfGames");

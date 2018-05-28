@@ -50,14 +50,20 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 		}
 	}
 	
-	if ($scoreMode === ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_GAME_SCORE) {
-		$field = TABLE_RCR_GAME_SCORE_GAME_SCORE;
-	} else {
-		$field = TABLE_RCR_GAME_SCORE_FINAL_SCORE;
+	switch ($scoreMode) {
+		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_FINAL_SCORE:
+			$field = TABLE_RCR_GAME_SCORE_FINAL_SCORE;
+			break;
+		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_ABS_SCORE:
+			$field = TABLE_RCR_GAME_SCORE_GAME_SCORE . "-30000";
+			break;
+		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_GAME_SCORE:
+			$field = TABLE_RCR_GAME_SCORE_GAME_SCORE;
+			break;
 	}
 	
 	if ($playerId !== null) {
-		$querySelect = "SELECT " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . ", " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_NB_PLAYERS . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . $field . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ")-1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY;
+		$querySelect = "SELECT " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . ", " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_NB_PLAYERS . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . $field . " AS " . TABLE_VAR_SCORE_SCORE . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ")-1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY;
 		$queryFrom = " FROM " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
 		$queryWhere = " WHERE " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID . " AND " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . "=?";
 		$queryTournament = " AND " . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
@@ -128,7 +134,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			$line = $result [$index];
 			$nbPlayers = intval ($line [TABLE_RCR_GAME_ID_NB_PLAYERS]);
 			$ranking = intval ($line [TABLE_RCR_GAME_SCORE_RANKING]);
-			$score = intval ($line [$field]);
+			$score = intval ($line [TABLE_VAR_SCORE_SCORE]);
 			
 			$listScore [] = $score;
 			if ($score >= 0) {
