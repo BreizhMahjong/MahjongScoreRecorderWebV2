@@ -75,7 +75,19 @@ if (isset ( $_GET ["menu"] )) {
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<?php if($isLogin) {?>
-						<li><img class="navbar-brand" src="<?php echo '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg'; ?>"/></li>
+						<li><img class="navbar-brand" src="<?php 
+						$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg'; 
+						if(file_exists($avatarPath)) {
+						    echo $avatarPath;
+						} else {
+						    $avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.png'; 
+						    if(file_exists($avatarPath)) {
+						        echo $avatarPath;
+						    } else {
+						        echo "../wp-content/uploads/2015/11/bambou-1.png";
+						    }
+						}
+                        ?>"/></li>
 						<li><button id="logoutButton" type="button" class="btn btn-default navbar-btn" onclick="logoutEvent()">
 								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion </button></li>
 						<?php } else { ?>
