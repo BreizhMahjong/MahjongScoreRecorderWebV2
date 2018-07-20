@@ -33,20 +33,20 @@ session_start ();
 <body>
 <?php
 require_once ("php/query_common.php");
-$isLogin = isset ( $_SESSION [SESSION_LOG_IN_ID] );
+$isLogin = isset ($_SESSION [SESSION_LOG_IN_ID]);
 if ($isLogin) {
 	$loginId = $_SESSION [SESSION_LOG_IN_ID];
-	$displayName = isset ( $_SESSION [SESSION_DISPLAY_NAME] ) ? $_SESSION [SESSION_DISPLAY_NAME] : "";
-	$isAdmin = isset ( $_SESSION [SESSION_IS_ADMIN] ) ? $_SESSION [SESSION_IS_ADMIN] : false;
+	$displayName = isset ($_SESSION [SESSION_DISPLAY_NAME]) ? $_SESSION [SESSION_DISPLAY_NAME] : "";
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
 } else {
 	$loginId = 0;
 	$displayName = "";
 	$isAdmin = false;
 }
 
-if (isset ( $_GET ["menu"] )) {
+if (isset ($_GET ["menu"])) {
 	$menu = $_GET ["menu"];
-	if (($menu == "manage" && !$isAdmin ) or ($menu == "newgame" && !$isLogin)) {
+	if (($menu == "manage" && !$isAdmin) or ($menu == "newgame" && !$isLogin)) {
 		$menu = "ranking";
 	}
 } else {
@@ -67,7 +67,7 @@ if (isset ( $_GET ["menu"] )) {
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
- 						<li <?php if(!$isAdmin) { echo "class=\"disabled\""; }?> <?php if($menu === "manage") { echo "class=\"active\""; } ?>><a href="?menu=manage">Admin</a></li>
+						<li <?php if(!$isAdmin) { echo "class=\"disabled\""; }?> <?php if($menu === "manage") { echo "class=\"active\""; } ?>><a href="?menu=manage">Admin</a></li>
 						<li <?php if(!$isLogin) { echo "class=\"disabled\""; }?> <?php if($menu === "newgame") { echo "class=\"active\""; } ?>><a href="?menu=newgame">Nouvelle Partie</a></li>
 						<li <?php if($menu === "ranking") { echo "class=\"active\""; }?>><a href="?menu=ranking">Classements</a></li>
 						<li <?php if($menu === "analyze") { echo "class=\"active\""; }?>><a href="?menu=analyze">Analyse</a></li>
@@ -75,24 +75,27 @@ if (isset ( $_GET ["menu"] )) {
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<?php if($isLogin) {?>
-						<li><img class="navbar-brand" src="<?php 
-						$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg'; 
-						if(file_exists($avatarPath)) {
-						    echo $avatarPath;
-						} else {
-						    $avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.png'; 
-						    if(file_exists($avatarPath)) {
-						        echo $avatarPath;
-						    } else {
-						        echo "../wp-content/uploads/2015/11/bambou-1.png";
-						    }
-						}
-                        ?>"/></li>
+						<li><img class="navbar-brand"
+							src="<?php
+							$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg';
+							if (file_exists ($avatarPath)) {
+								echo $avatarPath;
+							} else {
+								$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.png';
+								if (file_exists ($avatarPath)) {
+									echo $avatarPath;
+								} else {
+									echo "../wp-content/uploads/2018/07/ouest-40x40.png";
+								}
+							}
+							?>" /></li>
 						<li><button id="logoutButton" type="button" class="btn btn-default navbar-btn" onclick="logoutEvent()">
-								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion </button></li>
+								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion
+							</button></li>
 						<?php } else { ?>
 						<li><button id="loginButton" href="#modal" type="button" class="btn btn-success navbar-btn">
-								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Connexion </button></li>
+								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Connexion
+							</button></li>
 						<?php } ?>
 					</ul>
 				</div>
@@ -108,7 +111,9 @@ if (isset ( $_GET ["menu"] )) {
 
 	<hr />
 	<footer>
-		<p align="center">Authors : Pierric Willemet, Yulong Zhao @ <a href="https://breizhmahjong.fr/">Breizh Mahjong</a>
+		<p align="center">
+			Authors : Pierric Willemet, Yulong Zhao @ <a href="https://breizhmahjong.fr/">Breizh Mahjong</a>
+	
 	</footer>
 
 	<div id="modal" class="popupContainer">
