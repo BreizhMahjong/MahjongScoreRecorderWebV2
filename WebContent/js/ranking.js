@@ -43,13 +43,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 		case 0: {// Total
 			title3.innerHTML = "Score";
 			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -82,13 +89,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 			};
 			title3.innerHTML = "Score (UMA)";
 			title4.innerHTML = "Date";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -116,13 +130,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 		case 2: { // Mean final score
 			title3.innerHTML = "Score moyen";
 			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -155,13 +176,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 			};
 			title3.innerHTML = "Stack";
 			title4.innerHTML = "Date";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -189,13 +217,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 		case 4: { // Mean stack
 			title3.innerHTML = "Stack moyen";
 			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -222,13 +257,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 		case 5: { // Annual total
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -256,13 +298,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var trimesterStrings = [ "hiver", "printemps", "été", "automne" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
@@ -293,13 +342,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 			};
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
+				if(lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+				
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
 				colRanking.style.width = "25%";
-				colRanking.innerHTML = (index + 1);
+				colRanking.innerHTML = (lastIndex + 1);
 				line.appendChild(colRanking);
 
 				var colName = document.createElement("td");
