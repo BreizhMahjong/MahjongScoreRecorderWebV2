@@ -27,10 +27,10 @@
 		</select></td>
 		<td style="text-align: right; width: 10%;">Trimestre&nbsp;:</td>
 		<td style="width: 10%;"><select id="selectTrimester" style="width: 100%;">
-				<option value="0">Hiver</option>
-				<option value="1">Printemps</option>
-				<option value="2">Été</option>
-				<option value="3">Automne</option>
+				<option value="0">1er</option>
+				<option value="1">2ème</option>
+				<option value="2">3ème</option>
+				<option value="3">4ème</option>
 		</select></td>
 		<td style="text-align: right; width: 10%;">Mois&nbsp;:</td>
 		<td style="width: 15%;"><select id="selectMonth" style="width: 100%;">

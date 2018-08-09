@@ -47,11 +47,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -93,11 +93,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -134,11 +134,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -180,11 +180,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -221,11 +221,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -261,11 +261,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -295,18 +295,18 @@ function displayRanking(selectedRankingIndex, listScores) {
 		}
 			break;
 		case 6: { // Trimesterial total
-			var trimesterStrings = [ "hiver", "printemps", "été", "automne" ];
+			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
 			var lastIndex = -1;
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
@@ -346,11 +346,11 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastScore = null;
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
-				if(lastIndex == -1 || lastScore.score != score.score) {
+				if (lastIndex == -1 || lastScore.score != score.score) {
 					lastIndex = index;
 				}
 				lastScore = score;
-				
+
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
 				colRanking.align = "center";
