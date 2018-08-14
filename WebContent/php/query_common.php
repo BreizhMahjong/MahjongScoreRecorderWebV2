@@ -1,7 +1,10 @@
 <?php
 define ("SESSION_LOG_IN_ID", "loginId");
-define ("SESSION_DISPLAY_NAME", "displayName");
 define ("SESSION_IS_ADMIN", "isAdmin");
+
+define ("COOKIE_NAME_ID", "bmjcLoginID");
+define ("COOKIE_NAME_ADMIN", "bmjcIsAdmin");
+define ("COOKIE_EXPIRE_TIME", 86400);
 
 define ("PERIOD_MODE_ALL", "all");
 define ("PERIOD_MODE_YEAR", "year");

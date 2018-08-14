@@ -33,14 +33,12 @@ session_start ();
 <body>
 <?php
 require_once ("php/query_common.php");
-$isLogin = isset ($_SESSION [SESSION_LOG_IN_ID]);
+$isLogin = isset ($_COOKIE [COOKIE_NAME_ID]) && isset ($_COOKIE [COOKIE_NAME_ADMIN]);
 if ($isLogin) {
-	$loginId = $_SESSION [SESSION_LOG_IN_ID];
-	$displayName = isset ($_SESSION [SESSION_DISPLAY_NAME]) ? $_SESSION [SESSION_DISPLAY_NAME] : "";
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
+	$loginId = intval ($_COOKIE [COOKIE_NAME_ID]);
+	$isAdmin = boolval ($_COOKIE [COOKIE_NAME_ADMIN]);
 } else {
 	$loginId = 0;
-	$displayName = "";
 	$isAdmin = false;
 }
 
@@ -67,14 +65,51 @@ if (isset ($_GET ["menu"])) {
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li <?php if(!$isAdmin) { echo "class=\"disabled\""; }?> <?php if($menu === "manage") { echo "class=\"active\""; } ?>><a href="?menu=manage">Admin</a></li>
-						<li <?php if(!$isLogin) { echo "class=\"disabled\""; }?> <?php if($menu === "newgame") { echo "class=\"active\""; } ?>><a href="?menu=newgame">Nouvelle Partie</a></li>
-						<li <?php if($menu === "ranking") { echo "class=\"active\""; }?>><a href="?menu=ranking">Classements</a></li>
-						<li <?php if($menu === "analyze") { echo "class=\"active\""; }?>><a href="?menu=analyze">Analyse</a></li>
-						<li <?php if($menu === "history") { echo "class=\"active\""; }?>><a href="?menu=history">Historique</a></li>
+						<li <?php
+
+if (!$isAdmin) {
+							echo "class=\"disabled\"";
+						}
+						?> <?php
+
+if ($menu === "manage") {
+							echo "class=\"active\"";
+						}
+						?>><a href="?menu=manage">Admin</a></li>
+						<li <?php
+
+if (!$isLogin) {
+							echo "class=\"disabled\"";
+						}
+						?> <?php
+
+if ($menu === "newgame") {
+							echo "class=\"active\"";
+						}
+						?>><a href="?menu=newgame">Nouvelle Partie</a></li>
+						<li <?php
+
+if ($menu === "ranking") {
+							echo "class=\"active\"";
+						}
+						?>><a href="?menu=ranking">Classements</a></li>
+						<li <?php
+
+if ($menu === "analyze") {
+							echo "class=\"active\"";
+						}
+						?>><a href="?menu=analyze">Analyse</a></li>
+						<li <?php
+
+if ($menu === "history") {
+							echo "class=\"active\"";
+						}
+						?>><a href="?menu=history">Historique</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<?php if($isLogin) {?>
+						<?php
+						if ($isLogin) {
+							?>
 						<li><img class="navbar-brand"
 							src="<?php
 							$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg';
@@ -92,11 +127,15 @@ if (isset ($_GET ["menu"])) {
 						<li><button id="logoutButton" type="button" class="btn btn-default navbar-btn" onclick="logoutEvent()">
 								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion
 							</button></li>
-						<?php } else { ?>
+						<?php
+						} else {
+							?>
 						<li><button id="loginButton" href="#modal" type="button" class="btn btn-success navbar-btn">
 								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Connexion
 							</button></li>
-						<?php } ?>
+						<?php
+						}
+						?>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -105,7 +144,9 @@ if (isset ($_GET ["menu"])) {
 		</nav>
 
 		<div id="content">
-			<?php include("include/" . $menu . ".php");?>
+			<?php
+			include ("include/" . $menu . ".php");
+			?>
 		</div>
 	</div>
 
@@ -113,7 +154,6 @@ if (isset ($_GET ["menu"])) {
 	<footer>
 		<p align="center">
 			Authors : Pierric Willemet, Yulong Zhao @ <a href="https://breizhmahjong.fr/">Breizh Mahjong</a>
-	
 	</footer>
 
 	<div id="modal" class="popupContainer">
@@ -144,6 +184,8 @@ if (isset ($_GET ["menu"])) {
 	<script type="text/javascript" src="lib/select2-4.0.2/js/select2.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/<?php echo $menu; ?>.js"></script>
+	<script src="js/<?php
+	echo $menu;
+	?>.js"></script>
 </body>
 </html>
