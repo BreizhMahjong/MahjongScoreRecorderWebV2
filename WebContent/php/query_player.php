@@ -8,7 +8,7 @@ function addPlayer($name) {
 		ADD_PLAYER_RESULT => true,
 		ADD_PLAYER_MESSAGE => ADD_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($name !== null && strlen ($name) > 0) {
 			$query = "SELECT " . TABLE_PLAYER_ID . " FROM " . TABLE_PLAYER;
@@ -49,7 +49,7 @@ function modifyPlayer($id, $name, $hidden) {
 		MODIFY_PLAYER_RESULT => true,
 		MODIFY_PLAYER_MESSAGE => MODIFY_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($id !== null && $name !== null && strlen ($name) > 0 && $hidden !== null) {
 			if ($hidden !== "0") {
@@ -84,7 +84,7 @@ function deletePlayer($id) {
 		DELETE_PLAYER_RESULT => true,
 		DELETE_PLAYER_MESSAGE => DELETE_PLAYER_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($id !== null) {
 			$query = "DELETE FROM " . TABLE_PLAYER . " WHERE " . TABLE_PLAYER_ID . "=?";

@@ -33,10 +33,10 @@ session_start ();
 <body>
 <?php
 require_once ("php/query_common.php");
-$isLogin = isset ($_COOKIE [COOKIE_NAME_ID]) && isset ($_COOKIE [COOKIE_NAME_ADMIN]);
+$isLogin = isset ($_COOKIE [COOKIE_NAME_ID]);
 if ($isLogin) {
 	$loginId = intval ($_COOKIE [COOKIE_NAME_ID]);
-	$isAdmin = boolval ($_COOKIE [COOKIE_NAME_ADMIN]);
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 } else {
 	$loginId = 0;
 	$isAdmin = false;
@@ -65,51 +65,14 @@ if (isset ($_GET ["menu"])) {
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li <?php
-
-if (!$isAdmin) {
-							echo "class=\"disabled\"";
-						}
-						?> <?php
-
-if ($menu === "manage") {
-							echo "class=\"active\"";
-						}
-						?>><a href="?menu=manage">Admin</a></li>
-						<li <?php
-
-if (!$isLogin) {
-							echo "class=\"disabled\"";
-						}
-						?> <?php
-
-if ($menu === "newgame") {
-							echo "class=\"active\"";
-						}
-						?>><a href="?menu=newgame">Nouvelle Partie</a></li>
-						<li <?php
-
-if ($menu === "ranking") {
-							echo "class=\"active\"";
-						}
-						?>><a href="?menu=ranking">Classements</a></li>
-						<li <?php
-
-if ($menu === "analyze") {
-							echo "class=\"active\"";
-						}
-						?>><a href="?menu=analyze">Analyse</a></li>
-						<li <?php
-
-if ($menu === "history") {
-							echo "class=\"active\"";
-						}
-						?>><a href="?menu=history">Historique</a></li>
+						<li <?php if (!$isAdmin) { echo "class=\"disabled\""; } ?> <?php if ($menu === "manage") { echo "class=\"active\""; }?>><a href="?menu=manage">Admin</a></li>
+						<li <?php if (!$isLogin) { echo "class=\"disabled\""; } ?> <?php if ($menu === "newgame") { echo "class=\"active\""; }?>><a href="?menu=newgame">Nouvelle Partie</a></li>
+						<li <?php if ($menu === "ranking") { echo "class=\"active\""; }?>><a href="?menu=ranking">Classements</a></li>
+						<li <?php if ($menu === "analyze") { echo "class=\"active\""; }?>><a href="?menu=analyze">Analyse</a></li>
+						<li <?php if ($menu === "history") { echo "class=\"active\""; }?>><a href="?menu=history">Historique</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<?php
-						if ($isLogin) {
-							?>
+						<?php if ($isLogin) { ?>
 						<li><img class="navbar-brand"
 							src="<?php
 							$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg';
@@ -120,22 +83,18 @@ if ($menu === "history") {
 								if (file_exists ($avatarPath)) {
 									echo $avatarPath;
 								} else {
-									echo "../wp-content/uploads/2018/07/ouest-40x40.png";
+									echo "../wp-content/uploads/2018/07/ouest-riichi.png";
 								}
 							}
 							?>" /></li>
 						<li><button id="logoutButton" type="button" class="btn btn-default navbar-btn" onclick="logoutEvent()">
 								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion
 							</button></li>
-						<?php
-						} else {
-							?>
+						<?php } else { ?>
 						<li><button id="loginButton" href="#modal" type="button" class="btn btn-success navbar-btn">
 								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Connexion
 							</button></li>
-						<?php
-						}
-						?>
+						<?php } ?>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -144,9 +103,7 @@ if ($menu === "history") {
 		</nav>
 
 		<div id="content">
-			<?php
-			include ("include/" . $menu . ".php");
-			?>
+			<?php include ("include/" . $menu . ".php"); ?>
 		</div>
 	</div>
 
@@ -184,8 +141,6 @@ if ($menu === "history") {
 	<script type="text/javascript" src="lib/select2-4.0.2/js/select2.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="js/main.js"></script>
-	<script src="js/<?php
-	echo $menu;
-	?>.js"></script>
+	<script src="js/<?php echo $menu; ?>.js"></script>
 </body>
 </html>

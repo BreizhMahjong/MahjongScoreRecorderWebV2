@@ -8,7 +8,7 @@ function addRCRTournament($name) {
 		ADD_RCR_TOURNAMENT_RESULT => true,
 		ADD_RCR_TOURNAMENT_MESSAGE => ADD_RCR_TOURNAMENT_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($name !== null && strlen ($name) > 0) {
 			$query = "SELECT " . TABLE_RCR_TOURNAMENT_ID . " FROM " . TABLE_RCR_TOURNAMENT;
@@ -48,7 +48,7 @@ function modifyRCRTournament($id, $name) {
 		MODIFY_RCR_TOURNAMENT_RESULT => true,
 		MODIFY_RCR_TOURNAMENT_MESSAGE => MODIFY_RCR_TOURNAMENT_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($id !== null && $name !== null && strlen ($name) > 0) {
 			$query = "UPDATE " . TABLE_RCR_TOURNAMENT . " SET " . TABLE_RCR_TOURNAMENT_NAME . "=? WHERE " . TABLE_RCR_TOURNAMENT_ID . "=?";
@@ -77,7 +77,7 @@ function deleteRCRTournament($id) {
 		DELETE_RCR_TOURNAMENT_RESULT => true,
 		DELETE_RCR_TOURNAMENT_MESSAGE => DELETE_RCR_TOURNAMENT_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($id !== null) {
 			$query = "DELETE FROM " . TABLE_RCR_TOURNAMENT . " WHERE " . TABLE_RCR_TOURNAMENT_ID . "=?";

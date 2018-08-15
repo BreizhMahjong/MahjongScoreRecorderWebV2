@@ -9,7 +9,7 @@ function addRCRGame($game) {
 		ADD_RCR_GAME_RESULT => true,
 		ADD_RCR_GAME_MESSAGE => ADD_RCR_GAME_MESSAGE_OK
 	);
-	if (isset ($_SESSION [SESSION_LOG_IN_ID])) {
+	if (isset ($_COOKIE [COOKIE_NAME_ID])) {
 		if ($game !== null) {
 			$gameArray = json_decode ($game, true);
 			$tournamentId = array_key_exists (RCR_GAME_TOURNAMENT_ID, $gameArray) ? intval ($gameArray [RCR_GAME_TOURNAMENT_ID]) : null;
@@ -19,7 +19,7 @@ function addRCRGame($game) {
 			$month = array_key_exists (RCR_GAME_MONTH, $gameArray) ? intval ($gameArray [RCR_GAME_MONTH]) : null;
 			$day = array_key_exists (RCR_GAME_MONTH, $gameArray) ? intval ($gameArray [RCR_GAME_DAY]) : null;
 			$scores = array_key_exists (RCR_GAME_SCORES, $gameArray) ? $gameArray [RCR_GAME_SCORES] : null;
-			
+
 			if ($tournamentId !== null && $nbPlayers !== null && $nbRounds !== null && $year !== null && $month !== null && $day !== null && $scores !== null && ! empty ($scores)) {
 				beginTransaction ();
 				$query = "SELECT " . TABLE_RCR_GAME_ID_ID . " FROM " . TABLE_RCR_GAME_ID . " WHERE YEAR(" . TABLE_RCR_GAME_ID_DATE . ")=? AND MONTH(" . TABLE_RCR_GAME_ID_DATE . ")=? AND DAY(" . TABLE_RCR_GAME_ID_DATE . ")=?";
@@ -40,7 +40,7 @@ function addRCRGame($game) {
 					$gameId = min (array_diff (range ($minGameId, max ($existingIds) + 1), $existingIds));
 				}
 				$date = strval ($year) . "-" . strval ($month + 1) . "-" . strval ($day);
-				
+
 				$query = "INSERT INTO " . TABLE_RCR_GAME_ID . " (" . TABLE_RCR_GAME_ID_ID . ", " . TABLE_RCR_GAME_ID_DATE . ", " . TABLE_RCR_GAME_ID_TOURNAMENT_ID . ", " . TABLE_RCR_GAME_ID_NB_PLAYERS . ", " . TABLE_RCR_GAME_ID_NB_ROUNDS . ") " . "VALUES(?, ?, ?, ?, ?)";
 				$parameters = array (
 					$gameId,
@@ -50,7 +50,7 @@ function addRCRGame($game) {
 					$nbRounds
 				);
 				$idAdded = executeUpdate ($query, $parameters);
-				
+
 				if ($idAdded) {
 					$scoreAddError = false;
 					foreach ($scores as $score) {
@@ -117,7 +117,7 @@ function deleteRCRGame($id) {
 		DELETE_RCR_GAME_RESULT => true,
 		DELETE_RCR_GAME_MESSAGE => DELETE_RCR_GAME_MESSAGE_OK
 	);
-	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? boolval ($_SESSION [SESSION_IS_ADMIN]) : false;
+	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
 	if ($isAdmin) {
 		if ($id !== null) {
 			$query = "DELETE FROM " . TABLE_RCR_GAME_SCORE . " WHERE " . TABLE_RCR_GAME_SCORE_GAME_ID . "=?";
@@ -125,7 +125,7 @@ function deleteRCRGame($id) {
 				$id
 			);
 			$deleted = executeUpdate ($query, $parameters);
-			
+
 			if (! $deleted) {
 				$result [DELETE_RCR_GAME_RESULT] = false;
 				$result [DELETE_RCR_GAME_MESSAGE] = DELETE_RCR_GAME_MESSAGE_DB;
@@ -232,7 +232,7 @@ function getRCRGame($id) {
 			$game [RCR_GAME_MONTH] = intval ($result [0] [TABLE_VAR_MONTH]);
 			$game [RCR_GAME_DAY] = intval ($result [0] [TABLE_VAR_DAY]);
 			$game [RCR_GAME_SCORES] = array ();
-			
+
 			$querySelect = "SELECT " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_UMA_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE;
 			$queryFrom = " FROM " . TABLE_RCR_GAME_SCORE . ", " . TABLE_PLAYER;
 			$queryWhere = " WHERE " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . "=" . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . " AND " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID . "=?";

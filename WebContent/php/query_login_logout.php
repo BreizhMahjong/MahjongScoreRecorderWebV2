@@ -27,7 +27,7 @@ function login($userName, $password) {
 				session_start ();
 				$now = time ();
 				setcookie (COOKIE_NAME_ID, strval ($id), $now + COOKIE_EXPIRE_TIME);
-				setcookie (COOKIE_NAME_ADMIN, strval ($isAdmin), $now + COOKIE_EXPIRE_TIME);
+				setcookie (COOKIE_NAME_ADMIN, $isAdmin ? BOOL_TRUE_VALUE : BOOL_FALSE_VALUE , $now + COOKIE_EXPIRE_TIME);
 				$result [LOGIN_RESULT] = true;
 				$result [LOGIN_IS_ADMIN] = $isAdmin;
 				$result [LOGIN_MESSAGE] = LOGIN_MESSAGE_OK;
@@ -48,8 +48,8 @@ function login($userName, $password) {
 function isLoggedIn() {
 	session_start ();
 	$result = array (
-		LOGIN_RESULT => isset ($_COOKIE [COOKIE_NAME_ID]) && isset ($_COOKIE [COOKIE_NAME_ADMIN]),
-		LOGIN_IS_ADMIN => isset ($_COOKIE [COOKIE_NAME_ID]) && isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? boolval ($_COOKIE [COOKIE_NAME_ADMIN]) : false,
+		LOGIN_RESULT => isset ($_COOKIE [COOKIE_NAME_ID]),
+		LOGIN_IS_ADMIN => isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false,
 		LOGIN_MESSAGE => LOGIN_MESSAGE_OK
 	);
 	return json_encode ($result);
