@@ -33,7 +33,7 @@
 		</select></td>
 		<td style="text-align: right; width: 10%;">Trimestre&nbsp;:</td>
 		<td style="width: 10%;"><select id="selectTrimester" style="width: 100%;">
-				<?php $trimester = floor((intval(date("m"))-1)/3); ?>
+				<?php $trimester = floor ((intval (date ("m")) - 1) / 3);?>
 				<option value="0" <?php if($trimester==0) { echo " selected=\"selected\""; } ?>>1er</option>
 				<option value="1" <?php if($trimester==1) { echo " selected=\"selected\""; } ?>>2ème</option>
 				<option value="2" <?php if($trimester==2) { echo " selected=\"selected\""; } ?>>3ème</option>
