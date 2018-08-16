@@ -9,7 +9,7 @@ function addRCRGame($game) {
 		ADD_RCR_GAME_RESULT => true,
 		ADD_RCR_GAME_MESSAGE => ADD_RCR_GAME_MESSAGE_OK
 	);
-	if (isset ($_COOKIE [COOKIE_NAME_ID])) {
+	if (isset ($_SESSION[SESSION_LOG_IN_ID])) {
 		if ($game !== null) {
 			$gameArray = json_decode ($game, true);
 			$tournamentId = array_key_exists (RCR_GAME_TOURNAMENT_ID, $gameArray) ? intval ($gameArray [RCR_GAME_TOURNAMENT_ID]) : null;
@@ -117,7 +117,7 @@ function deleteRCRGame($id) {
 		DELETE_RCR_GAME_RESULT => true,
 		DELETE_RCR_GAME_MESSAGE => DELETE_RCR_GAME_MESSAGE_OK
 	);
-	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
+	$isAdmin = isset ($_SESSION[SESSION_IS_ADMIN]) ? $_SESSION[SESSION_IS_ADMIN] : false;
 	if ($isAdmin) {
 		if ($id !== null) {
 			$query = "DELETE FROM " . TABLE_RCR_GAME_SCORE . " WHERE " . TABLE_RCR_GAME_SCORE_GAME_ID . "=?";

@@ -26,8 +26,9 @@ function login($userName, $password) {
 			if ($passwordMatch) {
 				session_start ();
 				$now = time ();
-				setcookie (COOKIE_NAME_ID, strval ($id), $now + COOKIE_EXPIRE_TIME);
-				setcookie (COOKIE_NAME_ADMIN, $isAdmin ? BOOL_TRUE_VALUE : BOOL_FALSE_VALUE , $now + COOKIE_EXPIRE_TIME);
+				$encryptedText = encryptCookie($id, $isAdmin);
+				setcookie (COOKIE_NAME_ID, $encryptedText, $now + COOKIE_EXPIRE_TIME);
+				
 				$result [LOGIN_RESULT] = true;
 				$result [LOGIN_IS_ADMIN] = $isAdmin;
 				$result [LOGIN_MESSAGE] = LOGIN_MESSAGE_OK;
@@ -54,11 +55,42 @@ function isLoggedIn() {
 	);
 	return json_encode ($result);
 }
+function encryptCookie($id, $isAdmin) {
+    $idString = ($isAdmin ? "1" : "0") . strval($id);
+    
+    $ivSize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+    $iv = mcrypt_create_iv($ivSize, MCRYPT_RAND);
+    $encryptedId = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, ENCRYPTION_KEY, $idString, MCRYPT_MODE_CBC, $iv);
+    return base64_encode($iv . $encryptedId);
+}
+function decryptCookie($encryptedCookieBase64) {
+    $encryptedText = base64_decode($encryptedCookieBase64);
+    $ivSize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+    $iv = substr($encryptedText, 0, $ivSize);
+    $encryptedId = substr($encryptedText, $ivSize);
+    
+    $decryptedId = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, ENCRYPTION_KEY, $encryptedId, MCRYPT_MODE_CBC, $iv);
+    if(strlen($decryptedId) >= 2) {
+        $isAdminString = substr($decryptedId, 0, 1);
+        $idString = trim(substr($decryptedId, 1));
+        if(is_numeric($isAdminString) && is_numeric($idString)) {
+            $_SESSION[SESSION_LOG_IN_ID] = intval($idString);
+            $_SESSION[SESSION_IS_ADMIN] = $isAdminString === "1";
+        } else {
+            unset($_SESSION[SESSION_LOG_IN_ID]);
+            unset($_SESSION[SESSION_IS_ADMIN]);
+        }
+    } else {
+        unset($_SESSION[SESSION_LOG_IN_ID]);
+        unset($_SESSION[SESSION_IS_ADMIN]);
+    }
+}
 function logout() {
 	session_start ();
 	$now = time ();
 	setcookie (COOKIE_NAME_ID, "", $now - 1);
-	setcookie (COOKIE_NAME_ADMIN, "", $now - 1);
+	unset($_SESSION[SESSION_LOG_IN_ID]);
+	unset($_SESSION[SESSION_IS_ADMIN]);
 	session_destroy ();
 }
 ?>

@@ -33,12 +33,21 @@ session_start ();
 <body>
 <?php
 require_once ("php/query_common.php");
-$isLogin = isset ($_COOKIE [COOKIE_NAME_ID]);
-if ($isLogin) {
-	$loginId = intval ($_COOKIE [COOKIE_NAME_ID]);
-	$isAdmin = isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false;
-} else {
-	$loginId = 0;
+require_once ("php/query_login_logout.php");
+
+if (isset ($_COOKIE [COOKIE_NAME_ID])) {
+    decryptCookie($_COOKIE [COOKIE_NAME_ID]);
+    $isLogin = isset ($_SESSION[SESSION_LOG_IN_ID]);
+    if($isLogin) {
+        $loginId = $_SESSION[SESSION_LOG_IN_ID];
+        $isAdmin = $_SESSION[SESSION_IS_ADMIN];
+    } else {
+        $loginId = 0;
+        $isAdmin = false;
+    }
+} else {	
+    $isLogin = false;
+    $loginId = 0;
 	$isAdmin = false;
 }
 

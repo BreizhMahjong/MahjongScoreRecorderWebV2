@@ -1,6 +1,8 @@
 <?php
 require_once ("query_common.php");
 
+define ("ENCRYPTION_KEY", "BreizhMahjongRNS");
+
 define ("LOGIN_RESULT", "result");
 define ("LOGIN_IS_ADMIN", "isAdmin");
 define ("LOGIN_MESSAGE", "message");

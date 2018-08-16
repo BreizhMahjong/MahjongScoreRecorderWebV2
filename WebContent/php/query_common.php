@@ -2,11 +2,7 @@
 define ("SESSION_LOG_IN_ID", "loginId");
 define ("SESSION_IS_ADMIN", "isAdmin");
 
-define ("BOOL_TRUE_VALUE", 1);
-define ("BOOL_FALSE_VALUE", -1);
-
 define ("COOKIE_NAME_ID", "bmjcLoginID");
-define ("COOKIE_NAME_ADMIN", "bmjcIsAdmin");
 define ("COOKIE_EXPIRE_TIME", 86400);
 
 define ("PERIOD_MODE_ALL", "all");
