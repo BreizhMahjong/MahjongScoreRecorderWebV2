@@ -110,11 +110,19 @@ function createGameNode(table, game) {
 		umaScoreGrid.align = "center";
 		umaScoreGrid.innerHTML = parseInt(score.umaScore).toLocaleString("fr-fr");
 
+		var finalScore = parseInt(score.finalScore);
 		var finalScoreGrid = document.createElement("td");
 		playerLine.appendChild(finalScoreGrid);
 		finalScoreGrid.style.width = "20%";
 		finalScoreGrid.align = "center";
-		finalScoreGrid.innerHTML = parseInt(score.finalScore).toLocaleString("fr-fr");
+		if (finalScore >= 0) {
+			finalScoreGrid.innerHTML = finalScore.toLocaleString("fr-fr");
+		} else {
+			var finalScoreFontGrid = document.createElement("font");
+			finalScoreGrid.appendChild(finalScoreFontGrid);
+			finalScoreFontGrid.color = "#FF0000";
+			finalScoreFontGrid.innerHTML = finalScore.toLocaleString("fr-fr");
+		}
 	}
 }
 
