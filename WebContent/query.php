@@ -1,13 +1,13 @@
 <?php
 ini_set ('display_errors', 'On');
 
-require_once ("./php/query_config.php");
-require_once ("./php/query_login_logout.php");
-require_once ("./php/query_player.php");
-require_once ("./php/query_rcr_tournament.php");
-require_once ("./php/query_rcr_game.php");
-require_once ("./php/query_rcr_ranking.php");
-require_once ("./php/query_rcr_analyze.php");
+require_once ("./db_php/query_config.php");
+require_once ("./db_php/query_login_logout.php");
+require_once ("./db_php/query_player.php");
+require_once ("./db_php/query_rcr_tournament.php");
+require_once ("./db_php/query_rcr_game.php");
+require_once ("./db_php/query_rcr_ranking.php");
+require_once ("./db_php/query_rcr_analyze.php");
 
 $action = isset ($_POST [ACTION]) ? $_POST [ACTION] : null;
 if ($action !== null) {

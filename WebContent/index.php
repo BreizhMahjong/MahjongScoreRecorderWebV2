@@ -32,8 +32,8 @@ session_start ();
 </head>
 <body>
 <?php
-require_once ("php/query_common.php");
-require_once ("php/query_login_logout.php");
+require_once ("db_php/query_common.php");
+require_once ("db_php/query_login_logout.php");
 
 if (isset ($_COOKIE [COOKIE_NAME_ID])) {
     decryptCookie($_COOKIE [COOKIE_NAME_ID]);
@@ -112,7 +112,7 @@ if (isset ($_GET ["menu"])) {
 		</nav>
 
 		<div id="content">
-			<?php include ("include/" . $menu . ".php"); ?>
+			<?php include ("page_php/" . $menu . ".php"); ?>
 		</div>
 	</div>
 
@@ -149,7 +149,7 @@ if (isset ($_GET ["menu"])) {
 	<script type="text/javascript" src="lib/DataTables/datatables.min.js"></script>
 	<script type="text/javascript" src="lib/select2-4.0.2/js/select2.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/<?php echo $menu; ?>.js"></script>
+	<script src="page_js/main.js"></script>
+	<script src="page_js/<?php echo $menu; ?>.js"></script>
 </body>
 </html>
