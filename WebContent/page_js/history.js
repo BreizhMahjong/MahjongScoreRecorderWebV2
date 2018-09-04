@@ -115,8 +115,10 @@ function createGameNode(table, game) {
 		playerLine.appendChild(finalScoreGrid);
 		finalScoreGrid.style.width = "20%";
 		finalScoreGrid.align = "center";
-		if (finalScore >= 0) {
-			finalScoreGrid.innerHTML = finalScore.toLocaleString("fr-fr");
+		if (finalScore > 0) {
+			finalScoreGrid.innerHTML = "+" + finalScore.toLocaleString("fr-fr");
+		} else if (finalScore == 0) {
+			finalScoreGrid.innerHTML = "000";
 		} else {
 			var finalScoreFontGrid = document.createElement("font");
 			finalScoreGrid.appendChild(finalScoreFontGrid);

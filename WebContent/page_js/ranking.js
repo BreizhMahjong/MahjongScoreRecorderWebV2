@@ -64,10 +64,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
+				var totalScore = parseInt(score.score);
 				var colTotalScore = document.createElement("td");
 				colTotalScore.align = "center";
 				colTotalScore.style.width = "25%";
-				colTotalScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
 				line.appendChild(colTotalScore);
 
 				var colNbGames = document.createElement("td");
@@ -110,10 +120,20 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
+				var finalScore = parseInt(score.score);
 				var colScore = document.createElement("td");
 				colScore.align = "center";
 				colScore.style.width = "25%";
-				colScore.innerHTML = "" + parseInt(score.score).toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				if (finalScore > 0) {
+					colScore.innerHTML = "+" + finalScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				} else if (finalScore == 0) {
+					colScore.innerHTML = "000" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				} else {
+					var colScoreFont = document.createElement("font");
+					colScore.appendChild(colScoreFont);
+					colScoreFont.color = "#FF0000";
+					colScoreFont.innerHTML = finalScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				}
 				line.appendChild(colScore);
 
 				var colDate = document.createElement("td");
@@ -151,11 +171,21 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colTotalScore = document.createElement("td");
-				colTotalScore.align = "center";
-				colTotalScore.style.width = "25%";
-				colTotalScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colTotalScore);
+				var meanScore = parseInt(score.score);
+				var colMeanScore = document.createElement("td");
+				colMeanScore.align = "center";
+				colMeanScore.style.width = "25%";
+				if (meanScore >= 0) {
+					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr");
+				} else if (meanScore == 0) {
+					colMeanScore.innerHTML = "0";
+				} else {
+					var colMeanScoreFont = document.createElement("font");
+					colMeanScore.appendChild(colMeanScoreFont);
+					colMeanScoreFont.color = "#FF0000";
+					colMeanScoreFont.innerHTML = meanScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colMeanScore);
 
 				var colNbGames = document.createElement("td");
 				colNbGames.align = "center";
@@ -197,11 +227,19 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colScore = document.createElement("td");
-				colScore.align = "center";
-				colScore.style.width = "25%";
-				colScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colScore);
+				var stack = parseInt(score.score);
+				var colStack = document.createElement("td");
+				colStack.align = "center";
+				colStack.style.width = "25%";
+				if (stack >= 30000) {
+					colStack.innerHTML = stack.toLocaleString("fr-fr");
+				} else {
+					var colStackFont = document.createElement("font");
+					colStack.appendChild(colStackFont);
+					colStackFont.color = "#FF0000";
+					colStackFont.innerHTML = stack.toLocaleString("fr-fr");
+				}
+				line.appendChild(colStack);
 
 				var colDate = document.createElement("td");
 				colDate.align = "center";
@@ -238,11 +276,19 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colTotalScore = document.createElement("td");
-				colTotalScore.align = "center";
-				colTotalScore.style.width = "25%";
-				colTotalScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colTotalScore);
+				var meanStack = parseInt(score.score);
+				var colMeanStack = document.createElement("td");
+				colMeanStack.align = "center";
+				colMeanStack.style.width = "25%";
+				if (meanStack >= 30000) {
+					colMeanStack.innerHTML = meanStack.toLocaleString("fr-fr");
+				} else {
+					var colMeanStackFont = document.createElement("font");
+					colMeanStack.appendChild(colMeanStackFont);
+					colMeanStackFont.color = "#FF0000";
+					colMeanStackFont.innerHTML = meanStack.toLocaleString("fr-fr");					
+				}
+				line.appendChild(colMeanStack);
 
 				var colNbGames = document.createElement("td");
 				colNbGames.align = "center";
@@ -278,11 +324,21 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colScore = document.createElement("td");
-				colScore.align = "center";
-				colScore.style.width = "25%";
-				colScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colScore);
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
 
 				var colDate = document.createElement("td");
 				colDate.align = "center";
@@ -319,11 +375,21 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colScore = document.createElement("td");
-				colScore.align = "center";
-				colScore.style.width = "25%";
-				colScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colScore);
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
 
 				var colDate = document.createElement("td");
 				colDate.align = "center";
@@ -363,11 +429,21 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var colScore = document.createElement("td");
-				colScore.align = "center";
-				colScore.style.width = "25%";
-				colScore.innerHTML = parseInt(score.score).toLocaleString("fr-fr");
-				line.appendChild(colScore);
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
 
 				var colDate = document.createElement("td");
 				colDate.align = "center";
