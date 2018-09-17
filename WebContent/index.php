@@ -45,7 +45,7 @@ if (isset ($_COOKIE [COOKIE_NAME_ID])) {
         $loginId = 0;
         $isAdmin = false;
     }
-} else {	
+} else {
     $isLogin = false;
     $loginId = 0;
 	$isAdmin = false;
@@ -138,7 +138,7 @@ if (isset ($_GET ["menu"])) {
 					<input id="passwordInput" type="password" class="form-control" aria-describedby="basic-addon2" />
 				</div>
 				<br />
-				<button id="validateLoginButton" type="button" class="btn btn-primary" onclick="loginEvent()" aria-label="Left Align">Se connecter</button>
+				<button id="validateLoginButton" type="submit" class="btn btn-primary" onclick="loginEvent()" aria-label="Left Align">Se connecter</button>
 			</form>
 		</section>
 	</div>
