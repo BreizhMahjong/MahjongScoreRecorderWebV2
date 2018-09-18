@@ -148,7 +148,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 		}
 			break;
 		case 2: { // Mean final score
-			title3.innerHTML = "Score moyen";
+			title3.innerHTML = "Score moyen (écart type)";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
 			var lastScore = null;
@@ -176,14 +176,14 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colMeanScore.align = "center";
 				colMeanScore.style.width = "25%";
 				if (meanScore >= 0) {
-					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr");
+					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else if (meanScore == 0) {
-					colMeanScore.innerHTML = "0";
+					colMeanScore.innerHTML = "0" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else {
 					var colMeanScoreFont = document.createElement("font");
 					colMeanScore.appendChild(colMeanScoreFont);
 					colMeanScoreFont.color = "#FF0000";
-					colMeanScoreFont.innerHTML = meanScore.toLocaleString("fr-fr");
+					colMeanScoreFont.innerHTML = meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				}
 				line.appendChild(colMeanScore);
 
@@ -253,7 +253,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 		}
 			break;
 		case 4: { // Mean stack
-			title3.innerHTML = "Stack moyen";
+			title3.innerHTML = "Stack moyen (écart type)";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
 			var lastScore = null;
@@ -281,12 +281,12 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colMeanStack.align = "center";
 				colMeanStack.style.width = "25%";
 				if (meanStack >= 30000) {
-					colMeanStack.innerHTML = meanStack.toLocaleString("fr-fr");
+					colMeanStack.innerHTML = meanStack.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else {
 					var colMeanStackFont = document.createElement("font");
 					colMeanStack.appendChild(colMeanStackFont);
 					colMeanStackFont.color = "#FF0000";
-					colMeanStackFont.innerHTML = meanStack.toLocaleString("fr-fr");					
+					colMeanStackFont.innerHTML = meanStack.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				}
 				line.appendChild(colMeanStack);
 
