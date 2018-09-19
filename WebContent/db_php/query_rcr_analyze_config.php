@@ -25,5 +25,4 @@ define ("RCR_ANALYZE_FIVE_PLAYERS_GAMES_PLACES", "fivePlayerGamePlaces");
 define ("RCR_ANALYZE_FIVE_PLAYERS_GAMES_PLACES_PERCENTAGE", "fivePlayerGamePlacePercent");
 define ("RCR_ANALYZE_LIST_DATE", "listDate");
 define ("RCR_ANALYZE_LIST_SCORE", "listScore");
-define ("RCR_ANALYZE_LIST_SUM", "listSum");
 ?>

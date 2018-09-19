@@ -33,8 +33,8 @@ function displayStat(data, scoreMode) {
 		document.getElementById("negative").innerHTML = parseInt(data.negativeGames).toLocaleString("fr-fr");
 		document.getElementById("negativePercent").innerHTML = data.negativeGamesPercent.toString() + "%";
 		document.getElementById("scoreTotal").innerHTML = parseInt(data.scoreTotal).toLocaleString("fr-fr");
-		document.getElementById("scoreMean").innerHTML = parseInt(data.scoreMean.toString()).toLocaleString("fr-fr") + "±"
-				+ parseInt(data.scoreStandardDeviation.toString()).toLocaleString("fr-fr");
+		document.getElementById("scoreMean").innerHTML = parseInt(data.scoreMean.toString()).toLocaleString("fr-fr") + " ("
+				+ parseInt(data.scoreStandardDeviation.toString()).toLocaleString("fr-fr") + ")";
 		document.getElementById("totalMax").innerHTML = parseInt(data.totalMax).toLocaleString("fr-fr");
 		document.getElementById("totalMin").innerHTML = parseInt(data.totalMin).toLocaleString("fr-fr");
 
@@ -93,12 +93,16 @@ function displayStat(data, scoreMode) {
 		var index;
 		var scoreList = [];
 		var sumList = [];
+		var sum = 0;
 		for (index = 0; index < data.listScore.length; index++) {
 			var dataDate = data.listDate[index];
 			var date = new Date(dataDate.year, dataDate.month, dataDate.day, 0, 0, 0, 0);
 			var dateString = date.toLocaleDateString("fr-fr", dateOptions) + " (" + dataDate.id.toString() + ")";
-			scoreList.push([ dateString, data.listScore[index] ]);
-			sumList.push([ dateString, data.listSum[index] ]);
+			
+			var score = data.listScore[index];
+			scoreList.push([ dateString, score ]);
+			sum += score;
+			sumList.push([ dateString, sum ]);
 		}
 
 		var scoreChart = {

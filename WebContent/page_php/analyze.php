@@ -76,7 +76,7 @@
 			<td align="center" style="width: 15%;">Score min</td>
 			<td align="center" style="width: 15%;">Positif %</td>
 			<td align="center" style="width: 15%;">Négatif %</td>
-			<td align="center" style="width: 15%;">Moyenne</td>
+			<td align="center" style="width: 15%;">Moyenne (écart type)</td>
 			<td align="center" style="width: 15%;">Total min</td>
 		</tr>
 		<tr>

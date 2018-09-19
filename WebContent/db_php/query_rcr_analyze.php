@@ -159,7 +159,6 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			}
 			
 			$totalScore += $score;
-			$listSum [] = $totalScore;
 			if ($index === 0 or $totalScore > $maxTotal) {
 				$maxTotal = $totalScore;
 			}
@@ -214,7 +213,6 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 		$analyzeData [RCR_ANALYZE_FIVE_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFivePlayersPercent;
 		$analyzeData [RCR_ANALYZE_LIST_DATE] = $listDate;
 		$analyzeData [RCR_ANALYZE_LIST_SCORE] = $listScore;
-		$analyzeData [RCR_ANALYZE_LIST_SUM] = $listSum;
 	}
 	return json_encode ($analyzeData);
 }
