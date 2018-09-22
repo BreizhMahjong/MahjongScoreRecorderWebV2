@@ -27,8 +27,8 @@ function login($userName, $password) {
 				session_start ();
 				$now = time ();
 				$encryptedText = encryptCookie($id, $isAdmin);
-				setcookie (COOKIE_NAME_ID, $encryptedText, $now + COOKIE_EXPIRE_TIME);
-				
+				setcookie (COOKIE_NAME_ID, $encryptedText, $now + COOKIE_EXPIRE_TIME, "", "", false, false);
+
 				$result [LOGIN_RESULT] = true;
 				$result [LOGIN_IS_ADMIN] = $isAdmin;
 				$result [LOGIN_MESSAGE] = LOGIN_MESSAGE_OK;
@@ -49,15 +49,15 @@ function login($userName, $password) {
 function isLoggedIn() {
 	session_start ();
 	$result = array (
-		LOGIN_RESULT => isset ($_COOKIE [COOKIE_NAME_ID]),
-		LOGIN_IS_ADMIN => isset ($_COOKIE [COOKIE_NAME_ADMIN]) ? intval ($_COOKIE [COOKIE_NAME_ADMIN]) == BOOL_TRUE_VALUE : false,
+		LOGIN_RESULT => isset ($_SESSION[SESSION_LOG_IN_ID]),
+		LOGIN_IS_ADMIN => isset ($_SESSION[SESSION_IS_ADMIN]) ? $_SESSION[SESSION_IS_ADMIN] : false,
 		LOGIN_MESSAGE => LOGIN_MESSAGE_OK
 	);
 	return json_encode ($result);
 }
 function encryptCookie($id, $isAdmin) {
     $idString = ($isAdmin ? "1" : "0") . strval ($id);
-    
+
     $ivSize = mcrypt_get_iv_size (MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     $iv = mcrypt_create_iv ($ivSize, MCRYPT_RAND);
     $encryptedId = mcrypt_encrypt (MCRYPT_RIJNDAEL_128, ENCRYPTION_KEY, $idString, MCRYPT_MODE_CBC, $iv);
@@ -71,7 +71,7 @@ function decryptCookie($encryptedCookieBase64) {
         $iv = substr ($encryptedText, 0, $ivSize);
         $encryptedId = substr ($encryptedText, $ivSize);
         $decryptedId = mcrypt_decrypt (MCRYPT_RIJNDAEL_128, ENCRYPTION_KEY, $encryptedId, MCRYPT_MODE_CBC, $iv);
-        
+
         if ($decryptedId !== false && strlen ($decryptedId) >= 2) {
             $isAdminString = substr ($decryptedId, 0, 1);
             $idString = trim (substr ($decryptedId, 1));
@@ -82,7 +82,7 @@ function decryptCookie($encryptedCookieBase64) {
             }
         }
     }
-    
+
     if (!$success) {
         unset ($_SESSION[SESSION_LOG_IN_ID]);
         unset ($_SESSION[SESSION_IS_ADMIN]);
@@ -91,7 +91,7 @@ function decryptCookie($encryptedCookieBase64) {
 function logout() {
 	session_start ();
 	$now = time ();
-	setcookie (COOKIE_NAME_ID, "", $now - 1);
+	setcookie (COOKIE_NAME_ID, "", $now - 1, "", "", false, false);
 	unset ($_SESSION[SESSION_LOG_IN_ID]);
 	unset ($_SESSION[SESSION_IS_ADMIN]);
 	session_destroy ();
