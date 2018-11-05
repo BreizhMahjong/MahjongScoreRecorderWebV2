@@ -3,7 +3,7 @@ require_once ("query_rcr_common.php");
 
 define ("ADD_RCR_GAME_RESULT", "result");
 define ("ADD_RCR_GAME_MESSAGE", "message");
-define ("ADD_RCR_GAME_MESSAGE_OK", "ok");
+define ("ADD_RCR_GAME_MESSAGE_OK", "Scores enregistrés. ID ");
 define ("ADD_RCR_GAME_MESSAGE_LOGIN", "Vous devez vous identifier pour ajouter des scores.");
 define ("ADD_RCR_GAME_MESSAGE_NULL", "L'information du jeu ne peut pas être vide.");
 define ("ADD_RCR_GAME_MESSAGE_GAME_ERROR", "Il y a une erreur dans les informations du jeu.");

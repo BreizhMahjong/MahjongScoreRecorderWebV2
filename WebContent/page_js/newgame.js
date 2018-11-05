@@ -165,7 +165,7 @@ function save() {
 			success : function(result) {
 				updateResult = $.parseJSON(result);
 				if (updateResult.result) {
-					window.alert("Les scores ont été enregistrés");
+					window.alert(updateResult.message);
 					reset();
 				} else {
 					window.alert(updateResult.message);

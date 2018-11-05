@@ -7,7 +7,7 @@ function addRCRGame($game) {
 	session_start ();
 	$result = array (
 		ADD_RCR_GAME_RESULT => true,
-		ADD_RCR_GAME_MESSAGE => ADD_RCR_GAME_MESSAGE_OK
+		ADD_RCR_GAME_MESSAGE => ""
 	);
 	if (isset ($_SESSION[SESSION_LOG_IN_ID])) {
 		if ($game !== null) {
@@ -90,6 +90,7 @@ function addRCRGame($game) {
 						$result [ADD_RCR_GAME_MESSAGE] = ADD_RCR_GAME_MESSAGE_SCORE_ERROR;
 					} else {
 						commit ();
+						$result [ADD_RCR_GAME_MESSAGE] = ADD_RCR_GAME_MESSAGE_OK . strval($gameId);
 					}
 				} else {
 					rollBack ();
