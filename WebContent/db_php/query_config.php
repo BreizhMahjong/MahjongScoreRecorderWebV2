@@ -18,6 +18,7 @@ define ("ACTION_MODIFY_PLAYER", "modifyPlayer");
 define ("ACTION_MODIFY_PLAYER_PARAM_ID", "id");
 define ("ACTION_MODIFY_PLAYER_PARAM_GAME", "name");
 define ("ACTION_MODIFY_PLAYER_PARAM_HIDDEN", "hidden");
+define ("ACTION_MODIFY_PLAYER_PARAM_REGULAR", "regular");
 
 define ("ACTION_DELETE_PLAYER", "deletePlayer");
 define ("ACTION_DELETE_PLAYER_PARAM_ID", "id");

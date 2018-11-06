@@ -1,15 +1,24 @@
-var selectPlayer;
+var selectModifyPlayer;
 var inputModifyPlayerName;
+var inputHidden;
+var inputRegular;
+var selectDeletePlayer;
 
 var buttonAddPlayer;
 var buttonDeletePlayer;
 var buttonModifyPlayer;
+
+var selectModifyTournament;
+var inputModifyTournamentName;
+var selectDeleteTournament;
+
 var buttonAddTournament;
 var buttonDeleteTournament;
 var buttonModifyTournament;
 var buttonDeleteGame;
 
 var players;
+var tournaments;
 
 function addPlayer() {
 	disableButtons();
@@ -39,8 +48,11 @@ function addPlayer() {
 }
 
 function displayPlayer() {
-	inputModifyPlayerName.value = players[selectPlayer.selectedIndex].name;
-	inputHidden.checked = players[selectPlayer.selectedIndex].hidden != 0;
+	if (selectModifyPlayer.selectedIndex >= 0) {
+		inputModifyPlayerName.value = players[selectModifyPlayer.selectedIndex].name;
+		inputHidden.checked = players[selectModifyPlayer.selectedIndex].hidden != 0;
+		inputRegular.checked = players[selectModifyPlayer.selectedIndex].regular != 0;
+	}
 }
 
 function deletePlayer() {
@@ -50,7 +62,7 @@ function deletePlayer() {
 		type : "POST",
 		data : {
 			"action" : "deletePlayer",
-			"id" : players[selectPlayer.selectedIndex].id
+			"id" : players[selectDeletePlayer.selectedIndex].id
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -70,16 +82,15 @@ function deletePlayer() {
 
 function modifyPlayer() {
 	disableButtons();
-	inputNewPlayerName = document.getElementById("inputModifyPlayerName");
-	inputHidden = document.getElementById("inputHidden");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "modifyPlayer",
-			"id" : players[selectPlayer.selectedIndex].id,
-			"name" : inputNewPlayerName.value,
-			"hidden" : inputHidden.checked ? "1" : "0"
+			"id" : players[selectModifyPlayer.selectedIndex].id,
+			"name" : inputModifyPlayerName.value,
+			"hidden" : inputHidden.checked ? "1" : "0",
+			"regular" : inputRegular.checked ? "1" : "0"
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -125,15 +136,20 @@ function addTournament() {
 	});
 }
 
+function displayTournament() {
+	if (selectModifyTournament.selectedIndex >= 0) {
+		inputModifyTournamentName.value = tournaments[selectModifyTournament.selectedIndex].name;
+	}
+}
+
 function deleteTournament() {
 	disableButtons();
-	selectTournament = document.getElementById("selectTournamentName");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "deleteRCRTournament",
-			"id" : selectTournament[selectTournament.selectedIndex].value
+			"id" : tournaments[selectDeleteTournament.selectedIndex].id
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -153,15 +169,13 @@ function deleteTournament() {
 
 function modifyTournament() {
 	disableButtons();
-	selectTournament = document.getElementById("selectTournamentName");
-	inputNewTournamentName = document.getElementById("inputModifyTournamentName");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "modifyRCRTournament",
-			"id" : selectTournament[selectTournament.selectedIndex].value,
-			"name" : inputNewTournamentName.value
+			"id" : tournaments[selectModifyTournament.selectedIndex].id,
+			"name" : inputModifyTournamentName.value
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -192,14 +206,23 @@ function getPlayers() {
 			players.sort(function(player1, player2) {
 				return player1.name.toUpperCase().localeCompare(player2.name.toUpperCase());
 			});
-			playerNode = document.getElementById("selectPlayerName")
-			playerNode.options.length = 0;
+			selectModifyPlayer.options.length = 0;
+			selectDeletePlayer.options.length = 0;
+			var index;
 			for (index = 0; index < players.length; index++) {
 				player = players[index];
-				var option = document.createElement("option");
-				option.value = player.id;
-				option.innerHTML = player.name;
-				playerNode.appendChild(option);
+				{
+					var option = document.createElement("option");
+					option.value = player.id;
+					option.innerHTML = player.name;
+					selectModifyPlayer.appendChild(option);
+				}
+				{
+					var option = document.createElement("option");
+					option.value = player.id;
+					option.innerHTML = player.name;
+					selectDeletePlayer.appendChild(option);
+				}
 			}
 			displayPlayer();
 		}
@@ -215,16 +238,25 @@ function getTournaments() {
 		},
 		success : function(result) {
 			tournaments = $.parseJSON(result);
+			selectModifyTournament.options.length = 0;
+			selectDeleteTournament.options.length = 0;
 			var index;
-			var selectTournament = document.getElementById("selectTournamentName");
-			selectTournament.options.length = 0;
 			for (index = 0; index < tournaments.length; index++) {
 				tournament = tournaments[index];
-				var option = document.createElement("option");
-				option.value = tournament.id;
-				option.innerHTML = tournament.name;
-				selectTournament.appendChild(option);
+				{
+					var option = document.createElement("option");
+					option.value = tournament.id;
+					option.innerHTML = tournament.name;
+					selectModifyTournament.appendChild(option);
+				}
+				{
+					var option = document.createElement("option");
+					option.value = tournament.id;
+					option.innerHTML = tournament.name;
+					selectDeleteTournament.appendChild(option);
+				}
 			}
+			displayTournament();
 		}
 	});
 }
@@ -276,8 +308,16 @@ function enableButtons() {
 }
 
 function prepare() {
-	selectPlayer = document.getElementById("selectPlayerName");
+	selectModifyPlayer = document.getElementById("selectModifyPlayer");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
+	inputHidden = document.getElementById("inputHidden");
+	inputRegular = document.getElementById("inputRegular");
+	selectDeletePlayer = document.getElementById("selectDeletePlayer");
+	
+	selectModifyTournament = document.getElementById("selectModifyTournament");
+	inputModifyTournamentName = document.getElementById("inputModifyTournamentName");
+	selectDeleteTournament = document.getElementById("selectDeleteTournament");
+	
 	buttonAddPlayer = document.getElementById("buttonAddPlayer");
 	buttonDeletePlayer = document.getElementById("buttonDeletePlayer");
 	buttonModifyPlayer = document.getElementById("buttonModifyPlayer");
@@ -286,7 +326,8 @@ function prepare() {
 	buttonModifyTournament = document.getElementById("buttonModifyTournament");
 	buttonDeleteGame = document.getElementById("buttonDeleteGame");
 
-	selectPlayer.onchange = displayPlayer;
+	selectModifyPlayer.onchange = displayPlayer;
+	selectModifyTournament.onchange = displayTournament;
 	buttonAddPlayer.onclick = addPlayer;
 	buttonDeletePlayer.onclick = deletePlayer;
 	buttonModifyPlayer.onclick = modifyPlayer;

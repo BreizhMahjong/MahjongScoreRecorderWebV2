@@ -22,11 +22,12 @@ function addPlayer($name) {
 			} else {
 				$id = min (array_diff (range (1, max ($existingIds) + 1), $existingIds));
 			}
-			$query = "INSERT INTO " . TABLE_PLAYER . "(" . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . ") VALUES(?, ?, ?)";
+			$query = "INSERT INTO " . TABLE_PLAYER . "(" . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . ", " . TABLE_PLAYER_REGULAR . ") VALUES(?, ?, ?, ?)";
 			$parameters = array (
 				$id,
 				$name,
-				0
+				0,
+				1
 			);
 			$added = executeUpdate ($query, $parameters);
 			if (! $added) {
@@ -43,7 +44,7 @@ function addPlayer($name) {
 	}
 	return json_encode ($result);
 }
-function modifyPlayer($id, $name, $hidden) {
+function modifyPlayer($id, $name, $hidden, $regular) {
 	session_start ();
 	$result = array (
 		MODIFY_PLAYER_RESULT => true,
@@ -57,10 +58,11 @@ function modifyPlayer($id, $name, $hidden) {
 			} else {
 				$hidden = 0;
 			}
-			$query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_HIDDEN . "=? WHERE " . TABLE_PLAYER_ID . "=?";
+			$query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_HIDDEN . "=?, " . TABLE_PLAYER_REGULAR . "=? WHERE " . TABLE_PLAYER_ID . "=?";
 			$parameters = array (
 				$name,
 				$hidden,
+				$regular,
 				$id
 			);
 			$modified = executeUpdate ($query, $parameters);
@@ -107,7 +109,7 @@ function deletePlayer($id) {
 	return json_encode ($result);
 }
 function getAllPlayers() {
-	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
+	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_HIDDEN . ", " . TABLE_PLAYER_REGULAR . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
 	$result = executeQuery ($query, null);
 	$players = array ();
 	if (! empty ($result)) {
@@ -115,7 +117,8 @@ function getAllPlayers() {
 			$player = array ();
 			$player [PLAYER_ID] = $line [TABLE_PLAYER_ID];
 			$player [PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
-			$player [HIDDEN] = $line [TABLE_PLAYER_HIDDEN];
+			$player [PLAYER_HIDDEN] = $line [TABLE_PLAYER_HIDDEN];
+			$player [PLAYER_REGULAR] = $line [TABLE_PLAYER_REGULAR];
 			$players [] = $player;
 		}
 	}

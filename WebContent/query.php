@@ -31,7 +31,8 @@ if ($action !== null) {
 			$playerId = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) : null;
 			$name = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_GAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_GAME] : null;
 			$hidden = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN] : null;
-			echo modifyPlayer ($playerId, $name, $hidden);
+			$regular = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR] : null;
+			echo modifyPlayer ($playerId, $name, $hidden, $regular);
 			break;
 		case ACTION_DELETE_PLAYER:
 			$playerId = isset ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) : null;

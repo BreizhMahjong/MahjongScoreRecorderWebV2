@@ -92,10 +92,10 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 1: {// Final Scores
 			var dateOptions = {
-				weekday : 'short',
-				year : 'numeric',
-				month : 'short',
-				day : 'numeric'
+			    weekday : 'short',
+			    year : 'numeric',
+			    month : 'short',
+			    day : 'numeric'
 			};
 			title3.innerHTML = "Score (UMA)";
 			title4.innerHTML = "Date";
@@ -199,10 +199,10 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 3: { // Stack
 			var dateOptions = {
-				weekday : 'short',
-				year : 'numeric',
-				month : 'short',
-				day : 'numeric'
+			    weekday : 'short',
+			    year : 'numeric',
+			    month : 'short',
+			    day : 'numeric'
 			};
 			title3.innerHTML = "Stack";
 			title4.innerHTML = "Date";
@@ -403,8 +403,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 7: { // Mensual total
 			var dateOptions = {
-				year : 'numeric',
-				month : 'short'
+			    year : 'numeric',
+			    month : 'short'
 			};
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -480,29 +480,29 @@ function getRanking() {
 
 	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
 		$.ajax({
-			url : SERVER_QUERY_URL,
-			type : "POST",
-			data : {
-				"action" : "getRCRRanking",
-				"tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
-				"rankingMode" : selectRanking.options[selectRanking.selectedIndex].value,
-				"sortingMode" : selectSorting.options[selectSorting.selectedIndex].value,
-				"periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
-				"year" : selectYear.options[selectYear.selectedIndex].value,
-				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
-				"month" : selectMonth.options[selectMonth.selectedIndex].value,
-				"useMinGames" : checkUseMinGames.checked ? "1" : "0"
-			},
-			success : function(result) {
-				hideLoading();
-				listScores = $.parseJSON(result);
-				displayRanking(selectedRankingIndex, listScores);
-				hideLoading();
-			},
-			error : function(xhr, status, error) {
-				displayRanking(-1, null);
-				hideLoading();
-			}
+		    url : SERVER_QUERY_URL,
+		    type : "POST",
+		    data : {
+		        "action" : "getRCRRanking",
+		        "tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
+		        "rankingMode" : selectRanking.options[selectRanking.selectedIndex].value,
+		        "sortingMode" : selectSorting.options[selectSorting.selectedIndex].value,
+		        "periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
+		        "year" : selectYear.options[selectYear.selectedIndex].value,
+		        "trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
+		        "month" : selectMonth.options[selectMonth.selectedIndex].value,
+		        "useMinGames" : checkUseMinGames.checked ? "1" : "0"
+		    },
+		    success : function(result) {
+			    hideLoading();
+			    listScores = $.parseJSON(result);
+			    displayRanking(selectedRankingIndex, listScores);
+			    hideLoading();
+		    },
+		    error : function(xhr, status, error) {
+			    displayRanking(-1, null);
+			    hideLoading();
+		    }
 		});
 	} else {
 		displayRanking(-1, null);
@@ -513,80 +513,79 @@ function getYears() {
 	var selectTournament = document.getElementById("selectTournament");
 	var selectedTournamentId = selectTournament.options[selectTournament.selectedIndex].value;
 	$.ajax({
-		url : SERVER_QUERY_URL,
-		type : "POST",
-		data : {
-			"action" : "getRCRYears",
-			"tournamentId" : selectedTournamentId
-		},
-		success : function(result) {
-			years = $.parseJSON(result);
-			var index;
-			var selectYear = document.getElementById("selectYear");
-			selectYear.options.length = 0;
-			for (index = 0; index < years.length; index++) {
-				year = years[index];
-				var option = document.createElement("option");
-				option.value = year;
-				option.innerHTML = year;
-				selectYear.appendChild(option);
-			}
-			getRanking();
-		}
+	    url : SERVER_QUERY_URL,
+	    type : "POST",
+	    data : {
+	        "action" : "getRCRYears",
+	        "tournamentId" : selectedTournamentId
+	    },
+	    success : function(result) {
+		    years = $.parseJSON(result);
+		    var index;
+		    var selectYear = document.getElementById("selectYear");
+		    selectYear.options.length = 0;
+		    for (index = 0; index < years.length; index++) {
+			    year = years[index];
+			    var option = document.createElement("option");
+			    option.value = year;
+			    option.innerHTML = year;
+			    selectYear.appendChild(option);
+		    }
+		    getRanking();
+	    }
 	});
 }
 
 function getTournaments() {
 	$.ajax({
-		url : SERVER_QUERY_URL,
-		type : "POST",
-		data : {
-			"action" : "getRCRTournaments"
-		},
-		success : function(result) {
-			tournaments = $.parseJSON(result);
-			var index;
-			var selectTournament = document.getElementById("selectTournament");
-			selectTournament.options.length = 0;
-			for (index = 0; index < tournaments.length; index++) {
-				tournament = tournaments[index];
-				var option = document.createElement("option");
-				option.value = tournament.id;
-				option.innerHTML = tournament.name;
-				selectTournament.appendChild(option);
-			}
-			getYears();
-		}
+	    url : SERVER_QUERY_URL,
+	    type : "POST",
+	    data : {
+		    "action" : "getRCRTournaments"
+	    },
+	    success : function(result) {
+		    tournaments = $.parseJSON(result);
+		    var index;
+		    var selectTournament = document.getElementById("selectTournament");
+		    selectTournament.options.length = 0;
+		    for (index = 0; index < tournaments.length; index++) {
+			    tournament = tournaments[index];
+			    var option = document.createElement("option");
+			    option.value = tournament.id;
+			    option.innerHTML = tournament.name;
+			    selectTournament.appendChild(option);
+		    }
+		    getYears();
+	    }
 	});
 }
 
-var konamicode = [
-	38, 38, 40, 40, 37, 39, 37, 39 //, 66, 65
+var konamicode = [ 38, 38, 40, 40, 37, 39, 37, 39 // , 66, 65
 ];
 var currentCodeIndex = 0;
 var keyDown = false;
 
 function keydown(e) {
-	if(!keyDown) {
+	if (!keyDown) {
 		keyDown = true;
-		
-		if(e && e.keyCode == konamicode[currentCodeIndex]) {
-			currentCodeIndex ++;
+
+		if (e && e.keyCode == konamicode[currentCodeIndex]) {
+			currentCodeIndex++;
 		} else {
 			currentCodeIndex = 0;
 		}
-		
-		if(currentCodeIndex == konamicode.length) {
+
+		if (currentCodeIndex == konamicode.length) {
 			var checkUseMinGames = document.getElementById("checkUseMinGames");
 			checkUseMinGames.checked = !checkUseMinGames.checked;
 			var audio;
-			if(checkUseMinGames.checked) {
+			if (checkUseMinGames.checked) {
 				audio = new Audio("sound/MarioPowerup.wav");
 			} else {
 				audio = new Audio("sound/MarioPipe.wav");
 			}
 			audio.play();
-	
+
 			currentCodeIndex = 0;
 			getRanking();
 		}
@@ -607,17 +606,17 @@ function prepare() {
 	document.getElementById("selectYear").onchange = getRanking;
 	document.getElementById("selectTrimester").onchange = getRanking;
 	document.getElementById("selectMonth").onchange = getRanking;
-	
-    if (document.addEventListener) {
-       document.addEventListener("keydown", keydown, false);
-       document.addEventListener("keyup", keyup, false);
-    } else if (document.attachEvent) {
-       document.attachEvent("onkeydown", keydown);
-       document.attachEvent("onkeyup", keyup);
-    } else {
-       document.onkeydown= keydown;
-       document.onkeyup= keyup;
-    }
+
+	if (document.addEventListener) {
+		document.addEventListener("keydown", keydown, false);
+		document.addEventListener("keyup", keyup, false);
+	} else if (document.attachEvent) {
+		document.attachEvent("onkeydown", keydown);
+		document.attachEvent("onkeyup", keyup);
+	} else {
+		document.onkeydown = keydown;
+		document.onkeyup = keyup;
+	}
 }
 
 $(document).ready(prepare());

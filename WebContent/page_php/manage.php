@@ -15,17 +15,30 @@
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Pseudo&nbsp;:</td>
-			<td style="width: 50%;"><select id="selectPlayerName" style="width: 100%;"></select></td>
-			<td style="text-align: center; width: 20%;"><button id="buttonDeletePlayer" style="width: 80%;">Supprimer</button></td>
+			<td style="width: 50%;"><select id="selectModifyPlayer" style="width: 100%;"></select></td>
+			<td rowSpan="4" style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Nouveau pseudo&nbsp;:</td>
 			<td style="width: 50%;"><input id="inputModifyPlayerName" type="text" style="width: 100%;" /></td>
-			<td rowSpan="2" style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Caché&nbsp;:</td>
 			<td style="text-align: left; width: 50%;"><input id="inputHidden" type="checkbox" /></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Régulier&nbsp;:</td>
+			<td style="text-align: left; width: 50%;"><input id="inputRegular" type="checkbox" /></td>
+		</tr>
+	</table>
+	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">
+		<tr>
+			<td colSpan="3" style="text-align: center; border-bottom: 1px groove gray">Supprimer joueur</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Pseudo&nbsp;:</td>
+			<td style="width: 50%;"><select id="selectDeletePlayer" style="width: 100%;"></select></td>
+			<td style="text-align: center; width: 20%;"><button id="buttonDeletePlayer" style="width: 80%;">Supprimer</button></td>
 		</tr>
 	</table>
 	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">
@@ -44,13 +57,22 @@
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Nom&nbsp;:</td>
-			<td style="width: 50%;"><select id="selectTournamentName" style="width: 100%;"></select></td>
-			<td style="text-align: center; width: 20%;"><button id="buttonDeleteTournament" style="width: 80%;">Supprimer</button></td>
+			<td style="width: 50%;"><select id="selectModifyTournament" style="width: 100%;"></select></td>
+			<td rowSpan="2" style="text-align: center; width: 20%;"><button id="buttonModifyTournament" style="width: 80%;">Modifier</button></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Nouveau nom&nbsp;:</td>
 			<td style="width: 50%;"><input id="inputModifyTournamentName" type="text" required="required" style="width: 100%;" /></td>
-			<td style="text-align: center; width: 20%;"><button id="buttonModifyTournament" style="width: 80%;">Modifier</button></td>
+		</tr>
+	</table>
+	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">
+		<tr>
+			<td colSpan="3" style="text-align: center; border-bottom: 1px groove gray">Supprimer tournoi</td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Nom&nbsp;:</td>
+			<td style="width: 50%;"><select id="selectDeleteTournament" style="width: 100%;"></select></td>
+			<td style="text-align: center; width: 20%;"><button id="buttonDeleteTournament" style="width: 80%;">Supprimer</button></td>
 		</tr>
 	</table>
 	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">
