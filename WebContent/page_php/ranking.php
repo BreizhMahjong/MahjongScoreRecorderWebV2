@@ -57,6 +57,7 @@
 		<td style="width: 10%;" />
 	</tr>
 </table>
+<input type="checkbox" id="checkUseMinGames" style="display:none"/>
 <table id="rankingTable" class="table table-striped" style="width: 100%;">
 	<thead>
 		<tr>

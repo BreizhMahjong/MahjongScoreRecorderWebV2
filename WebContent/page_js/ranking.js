@@ -475,6 +475,7 @@ function getRanking() {
 	var selectedYearIndex = selectYear.selectedIndex;
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
+	var checkUseMinGames = document.getElementById("checkUseMinGames");
 	showLoading();
 
 	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
@@ -489,7 +490,8 @@ function getRanking() {
 				"periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
 				"year" : selectYear.options[selectYear.selectedIndex].value,
 				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
-				"month" : selectMonth.options[selectMonth.selectedIndex].value
+				"month" : selectMonth.options[selectMonth.selectedIndex].value,
+				"useMinGames" : checkUseMinGames.checked ? "1" : "0"
 			},
 			success : function(result) {
 				hideLoading();
@@ -558,6 +560,43 @@ function getTournaments() {
 	});
 }
 
+var konamicode = [
+	38, 38, 40, 40, 37, 39, 37, 39 //, 66, 65
+];
+var currentCodeIndex = 0;
+var keyDown = false;
+
+function keydown(e) {
+	if(!keyDown) {
+		keyDown = true;
+		
+		if(e && e.keyCode == konamicode[currentCodeIndex]) {
+			currentCodeIndex ++;
+		} else {
+			currentCodeIndex = 0;
+		}
+		
+		if(currentCodeIndex == konamicode.length) {
+			var checkUseMinGames = document.getElementById("checkUseMinGames");
+			checkUseMinGames.checked = !checkUseMinGames.checked;
+			var audio;
+			if(checkUseMinGames.checked) {
+				audio = new Audio("sound/MarioPowerup.wav");
+			} else {
+				audio = new Audio("sound/MarioPipe.wav");
+			}
+			audio.play();
+	
+			currentCodeIndex = 0;
+			getRanking();
+		}
+	}
+}
+
+function keyup(e) {
+	keyDown = false;
+}
+
 function prepare() {
 	toggleSelect();
 	getTournaments();
@@ -568,6 +607,17 @@ function prepare() {
 	document.getElementById("selectYear").onchange = getRanking;
 	document.getElementById("selectTrimester").onchange = getRanking;
 	document.getElementById("selectMonth").onchange = getRanking;
+	
+    if (document.addEventListener) {
+       document.addEventListener("keydown", keydown, false);
+       document.addEventListener("keyup", keyup, false);
+    } else if (document.attachEvent) {
+       document.attachEvent("onkeydown", keydown);
+       document.attachEvent("onkeyup", keyup);
+    } else {
+       document.onkeydown= keydown;
+       document.onkeyup= keyup;
+    }
 }
 
 $(document).ready(prepare());
