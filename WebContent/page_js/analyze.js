@@ -255,7 +255,7 @@ function getPlayers(selectedPlayer) {
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
-			"action" : "getRCRPlayers"
+			"action" : "getRegularRCRPlayers"
 		},
 		success : function(result) {
 			players = $.parseJSON(result);

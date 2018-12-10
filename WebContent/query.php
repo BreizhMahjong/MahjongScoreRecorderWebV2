@@ -68,8 +68,8 @@ if ($action !== null) {
 			$id = isset ($_POST [ACTION_DELETE_RCR_GAME_PARAM_ID]) ? intval ($_POST [ACTION_DELETE_RCR_GAME_PARAM_ID]) : null;
 			echo deleteRCRGame ($id);
 			break;
-		case ACTION_GET_RCR_PLAYERS:
-			echo getRCRPlayers ();
+		case ACTION_GET_REGULAR_RCR_PLAYERS:
+			echo getRegularRCRPlayers ();
 			break;
 		case ACTION_GET_RCR_YEARS:
 			$tournamentId = isset ($_POST [ACTION_GET_RCR_YEARS_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_YEARS_PARAM_TOURNAMENT_ID]) : null;

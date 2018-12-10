@@ -45,7 +45,7 @@ define ("ACTION_ADD_RCR_GAME_PARAM_GAME", "game");
 define ("ACTION_DELETE_RCR_GAME", "deleteRCRGame");
 define ("ACTION_DELETE_RCR_GAME_PARAM_ID", "id");
 
-define ("ACTION_GET_RCR_PLAYERS", "getRCRPlayers");
+define ("ACTION_GET_REGULAR_RCR_PLAYERS", "getRegularRCRPlayers");
 
 define ("ACTION_GET_RCR_YEARS", "getRCRYears");
 define ("ACTION_GET_RCR_YEARS_PARAM_TOURNAMENT_ID", "tournamentId");

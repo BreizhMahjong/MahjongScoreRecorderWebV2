@@ -151,9 +151,9 @@ function deleteRCRGame($id) {
 	}
 	return json_encode ($result);
 }
-function getRCRPlayers() {
+function getRegularRCRPlayers() {
 	$querySelect = "SELECT DISTINCT " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_SCORE;
-	$queryWhere = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID;
+	$queryWhere = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1 AND " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID;
 	$queryOrder = " ORDER BY " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . " ASC";
 	$result = executeQuery ($querySelect . $queryWhere . $queryOrder, null);
 	$players = array ();

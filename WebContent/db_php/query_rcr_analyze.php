@@ -49,7 +49,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 				break;
 		}
 	}
-	
+
 	switch ($scoreMode) {
 		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_FINAL_SCORE:
 			$field = TABLE_RCR_GAME_SCORE_FINAL_SCORE;
@@ -61,7 +61,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			$field = TABLE_RCR_GAME_SCORE_GAME_SCORE;
 			break;
 	}
-	
+
 	if ($playerId !== null) {
 		$querySelect = "SELECT " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . ", " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_NB_PLAYERS . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . $field . " AS " . TABLE_VAR_SCORE_SCORE . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ")-1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY;
 		$queryFrom = " FROM " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
@@ -84,15 +84,14 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			);
 			$result = executeQuery ($querySelect . $queryFrom . $queryWhere . $queryTournament . $queryOrder, $parameters);
 		}
-		
+
 		$numberOfGames = count ($result);
 		$listDate = array ();
 		$listScore = array ();
-		$listSum = array ();
-		
+
 		$numberOfPositiveGames = 0;
 		$numberOfNegativeGames = 0;
-		
+
 		$totalScore = 0;
 		$meanScore = 0.0;
 		$stdev = 0.0;
@@ -100,7 +99,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 		$minScore = 0;
 		$maxTotal = 0;
 		$minTotal = 0;
-		
+
 		$numberOfFourPlayerGames = 0;
 		$numberOfFivePlayerGames = 0;
 		$placeFourPlayers = array (
@@ -129,27 +128,27 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			0,
 			0
 		);
-		
+
 		for ($index = 0; $index < $numberOfGames; $index ++) {
 			$line = $result [$index];
 			$nbPlayers = intval ($line [TABLE_RCR_GAME_ID_NB_PLAYERS]);
 			$ranking = intval ($line [TABLE_RCR_GAME_SCORE_RANKING]);
 			$score = intval ($line [TABLE_VAR_SCORE_SCORE]);
-			
+
 			$listScore [] = $score;
 			if ($score >= 0) {
 				$numberOfPositiveGames ++;
 			} else {
 				$numberOfNegativeGames ++;
 			}
-			
+
 			if ($index === 0 or $score > $maxScore) {
 				$maxScore = $score;
 			}
 			if ($index === 0 or $score < $minScore) {
 				$minScore = $score;
 			}
-			
+
 			if ($nbPlayers === 4) {
 				$placeFourPlayers [$ranking - 1] ++;
 				$numberOfFourPlayerGames ++;
@@ -157,7 +156,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 				$placeFivePlayers [$ranking - 1] ++;
 				$numberOfFivePlayerGames ++;
 			}
-			
+
 			$totalScore += $score;
 			if ($index === 0 or $totalScore > $maxTotal) {
 				$maxTotal = $totalScore;
@@ -165,7 +164,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			if ($index === 0 or $totalScore < $minTotal) {
 				$minTotal = $totalScore;
 			}
-			
+
 			$date = array ();
 			$date [RCR_GAME_ID] = intval ($line [TABLE_RCR_GAME_ID_ID]);
 			$date [RCR_GAME_YEAR] = intval ($line [TABLE_VAR_YEAR]);
@@ -173,26 +172,26 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			$date [RCR_GAME_DAY] = intval ($line [TABLE_VAR_DAY]);
 			$listDate [] = $date;
 		}
-		
+
 		$meanScore = $numberOfGames > 0 ? floatval ($totalScore) / floatval ($numberOfGames) : 0;
 		$deviation = 0.0;
 		for ($index = 0; $index < $numberOfGames; $index ++) {
 			$deviation += pow ($listScore [$index] - $meanScore, 2.0);
 		}
 		$stdev = $numberOfGames > 1 ? intval (round (sqrt ($deviation / $numberOfGames))) : 0;
-		
+
 		if ($numberOfFourPlayerGames > 0) {
 			for ($index = 0; $index < 4; $index ++) {
 				$placeFourPlayersPercent [$index] = intval (round (floatval ($placeFourPlayers [$index]) * 100.0 / $numberOfFourPlayerGames));
 			}
 		}
-		
+
 		if ($numberOfFivePlayerGames > 0) {
 			for ($index = 0; $index < 5; $index ++) {
 				$placeFivePlayersPercent [$index] = intval (round (floatval ($placeFivePlayers [$index]) * 100.0 / $numberOfFivePlayerGames));
 			}
 		}
-		
+
 		$analyzeData [RCR_ANALYZE_NB_GAMES] = $numberOfGames;
 		$analyzeData [RCR_ANALYZE_SCORE_MAX] = $maxScore;
 		$analyzeData [RCR_ANALYZE_SCORE_MIN] = $minScore;
