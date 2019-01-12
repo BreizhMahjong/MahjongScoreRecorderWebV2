@@ -15,7 +15,7 @@ define ("MIN_GAME_PLAYED_TRIMESTER", 5);
 define ("MIN_GAME_PLAYED_YEAR", 20);
 define ("RANKING_RESULT_LIMIT", 30);
 
-// Object structure
+// Outgoing object structure
 // Player
 define ("PLAYER_ID", "id");
 define ("PLAYER_NAME", "name");

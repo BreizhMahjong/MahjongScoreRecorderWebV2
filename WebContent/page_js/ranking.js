@@ -6,7 +6,7 @@ function toggleSelect() {
 	var selectMonth = document.getElementById("selectMonth");
 
 	var toHide = false;
-	if (selectRanking.selectedIndex < 5) {
+	if (selectRanking.selectedIndex < 6) {
 		selectPeriod.style.visibility = "visible";
 	} else {
 		selectPeriod.style.visibility = "hidden";
@@ -276,18 +276,65 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var meanStack = parseInt(score.score);
+				var meanScore = parseInt(score.score);
+				var colMeanScore = document.createElement("td");
+				colMeanScore.align = "center";
+				colMeanScore.style.width = "25%";
+				if (meanScore >= 0) {
+					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				} else if (meanScore == 0) {
+					colMeanScore.innerHTML = "0" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				} else {
+					var colMeanScoreFont = document.createElement("font");
+					colMeanScore.appendChild(colMeanScoreFont);
+					colMeanScoreFont.color = "#FF0000";
+					colMeanScoreFont.innerHTML = meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				}
+				line.appendChild(colMeanScore);
+
+				var colNbGames = document.createElement("td");
+				colNbGames.align = "center";
+				colNbGames.style.width = "25%";
+				colNbGames.innerHTML = parseInt(score.nbGames).toLocaleString("fr-fr");
+				line.appendChild(colNbGames);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 5: { // Win rate
+			title3.innerHTML = "Taux de victoire";
+			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastScore = null;
+			var rateStringOption = {
+			    minimumFractionDigits : 1,
+			    maximumFractionDigits : 1
+			};
+			for (var index = 0; index < listScores.length; index++) {
+				var score = listScores[index];
+				if (lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				line.appendChild(colName);
+
+				var rate = parseInt(score.score);
 				var colMeanStack = document.createElement("td");
 				colMeanStack.align = "center";
 				colMeanStack.style.width = "25%";
-				if (meanStack >= 30000) {
-					colMeanStack.innerHTML = meanStack.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				} else {
-					var colMeanStackFont = document.createElement("font");
-					colMeanStack.appendChild(colMeanStackFont);
-					colMeanStackFont.color = "#FF0000";
-					colMeanStackFont.innerHTML = meanStack.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				}
+				colMeanStack.innerHTML = parseFloat(score.score).toLocaleString("fr-fr", rateStringOption) + "%";
 				line.appendChild(colMeanStack);
 
 				var colNbGames = document.createElement("td");
@@ -300,7 +347,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 5: { // Annual total
+		case 6: { // Annual total
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
 			var lastIndex = -1;
@@ -350,7 +397,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 6: { // Trimesterial total
+		case 7: { // Trimesterial total
 			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -401,7 +448,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 7: { // Mensual total
+		case 8: { // Mensual total
 			var dateOptions = {
 			    year : 'numeric',
 			    month : 'short'

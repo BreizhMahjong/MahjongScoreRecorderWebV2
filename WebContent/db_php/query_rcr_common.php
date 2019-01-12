@@ -1,7 +1,7 @@
 <?php
 require_once ("query_common.php");
 
-// Object structures
+// Incoming object structures
 // RCR Game
 define ("RCR_GAME_ID", "id");
 define ("RCR_GAME_TOURNAMENT_ID", "tournamentId");

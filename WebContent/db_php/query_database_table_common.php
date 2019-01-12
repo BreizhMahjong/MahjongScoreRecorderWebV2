@@ -1,5 +1,6 @@
 <?php
 define ("DOT", ".");
+define ("SQL_AND", " AND ");
 
 define ("TABLE_VAR_YEAR", "y");
 define ("TABLE_VAR_TRIMESTER", "t");
