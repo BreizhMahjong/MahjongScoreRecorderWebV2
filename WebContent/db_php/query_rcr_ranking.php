@@ -330,30 +330,142 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					$totalScore [SCORE_TOTAL_YEAR] = 0;
 					$totalScore [SCORE_TOTAL_MONTH] = 0;
 					$totalScore [SCORE_TOTAL_DAY] = 0;
-					$totalScore [SCORE_TOTAL_UMA] = 0;
 					$totalScore [SCORE_TOTAL_NB_GAMES] = $nbGame;
 					if (array_key_exists ($name, $playerWinMap)) {
 						$nbWin = $playerWinMap [$name];
-						$totalScore [SCORE_TOTAL_SCORE] = $nbWin * 100.0 / $nbGame;
+						$totalScore [SCORE_TOTAL_SCORE] = $nbWin;
+						$totalScore [SCORE_TOTAL_UMA] = $nbWin * 100.0 / $nbGame;
 					} else {
 						$totalScore [SCORE_TOTAL_SCORE] = 0;
+						$totalScore [SCORE_TOTAL_UMA] = 0;
 					}
 					$totalScores [] = $totalScore;
 				}
 				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
-							return 0;
+						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
+								return 0;
+							} else {
+								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? 1 : -1;
+							}
 						} else {
-							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? 1 : -1;
+							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? 1 : -1;
 						}
 					});
 				} else {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
-							return 0;
+						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
+								return 0;
+							} else {
+								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? -1 : 1;
+							}
 						} else {
-							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? -1 : 1;
+							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? -1 : 1;
+						}
+					});
+				}
+				break;
+			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_POSITIVE_RATE:
+				$playerGameMap = array ();
+				$playerPositiveMap = array ();
+				{
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
+					$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
+					$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
+					$queryPlayer = SQL_AND . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1";
+					$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
+					$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
+					$queryGroup = " GROUP BY " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME;
+					if ($useMinGames) {
+						$queryHaving = " HAVING COUNT(*)>=" . strval ($minGamePlayed);
+					} else {
+						$queryHaving = "";
+					}
+					if ($isPeriodSet) {
+						$parameters = array (
+							$tournamentId,
+							$dateFrom,
+							$dateTo
+						);
+						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving, $parameters);
+					} else {
+						$parameters = array (
+							$tournamentId
+						);
+						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving, $parameters);
+					}
+					foreach ($result as $line) {
+						$playerGameMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+					}
+				}
+				{
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
+					$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
+					$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
+					$queryPlayer = SQL_AND . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1";
+					$queryScore = SQL_AND . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ">0";
+					$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
+					$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
+					$queryGroup = " GROUP BY " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME;
+					if ($isPeriodSet) {
+						$parameters = array (
+							$tournamentId,
+							$dateFrom,
+							$dateTo
+						);
+						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryDate . $queryGroup, $parameters);
+					} else {
+						$parameters = array (
+							$tournamentId
+						);
+						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryGroup, $parameters);
+					}
+					foreach ($result as $line) {
+						$playerPositiveMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+					}
+				}
+
+				foreach ($playerGameMap as $name => $nbGame) {
+					$totalScore = array ();
+					$totalScore [SCORE_TOTAL_NAME] = $name;
+					$totalScore [SCORE_TOTAL_YEAR] = 0;
+					$totalScore [SCORE_TOTAL_MONTH] = 0;
+					$totalScore [SCORE_TOTAL_DAY] = 0;
+					$totalScore [SCORE_TOTAL_NB_GAMES] = $nbGame;
+					if (array_key_exists ($name, $playerPositiveMap)) {
+						$nbWin = $playerPositiveMap [$name];
+						$totalScore [SCORE_TOTAL_SCORE] = $nbWin;
+						$totalScore [SCORE_TOTAL_UMA] = $nbWin * 100.0 / $nbGame;
+					} else {
+						$totalScore [SCORE_TOTAL_SCORE] = 0;
+						$totalScore [SCORE_TOTAL_UMA] = 0;
+					}
+					$totalScores [] = $totalScore;
+				}
+				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
+					usort ($totalScores, function ($score1, $score2) {
+						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
+								return 0;
+							} else {
+								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? 1 : -1;
+							}
+						} else {
+							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? 1 : -1;
+						}
+					});
+				} else {
+					usort ($totalScores, function ($score1, $score2) {
+						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
+								return 0;
+							} else {
+								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? -1 : 1;
+							}
+						} else {
+							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? -1 : 1;
 						}
 					});
 				}

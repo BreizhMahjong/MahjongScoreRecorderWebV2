@@ -6,7 +6,7 @@ function toggleSelect() {
 	var selectMonth = document.getElementById("selectMonth");
 
 	var toHide = false;
-	if (selectRanking.selectedIndex < 6) {
+	if (selectRanking.selectedIndex < 7) {
 		selectPeriod.style.visibility = "visible";
 	} else {
 		selectPeriod.style.visibility = "hidden";
@@ -334,20 +334,65 @@ function displayRanking(selectedRankingIndex, listScores) {
 				var colMeanStack = document.createElement("td");
 				colMeanStack.align = "center";
 				colMeanStack.style.width = "25%";
-				colMeanStack.innerHTML = parseFloat(score.score).toLocaleString("fr-fr", rateStringOption) + "%";
+				colMeanStack.innerHTML = parseFloat(score.uma).toLocaleString("fr-fr", rateStringOption) + "%";
 				line.appendChild(colMeanStack);
 
 				var colNbGames = document.createElement("td");
 				colNbGames.align = "center";
 				colNbGames.style.width = "25%";
-				colNbGames.innerHTML = parseInt(score.nbGames).toLocaleString("fr-fr");
+				colNbGames.innerHTML = parseInt(score.score).toLocaleString("fr-fr") + " / " + parseInt(score.nbGames).toLocaleString("fr-fr");
 				line.appendChild(colNbGames);
 
 				newTableBody.appendChild(line);
 			}
 		}
 			break;
-		case 6: { // Annual total
+		case 6: { // Positive rate
+			title3.innerHTML = "Taux de positif";
+			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastScore = null;
+			var rateStringOption = {
+			    minimumFractionDigits : 1,
+			    maximumFractionDigits : 1
+			};
+			for (var index = 0; index < listScores.length; index++) {
+				var score = listScores[index];
+				if (lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				line.appendChild(colName);
+
+				var rate = parseInt(score.score);
+				var colMeanStack = document.createElement("td");
+				colMeanStack.align = "center";
+				colMeanStack.style.width = "25%";
+				colMeanStack.innerHTML = parseFloat(score.uma).toLocaleString("fr-fr", rateStringOption) + "%";
+				line.appendChild(colMeanStack);
+
+				var colNbGames = document.createElement("td");
+				colNbGames.align = "center";
+				colNbGames.style.width = "25%";
+				colNbGames.innerHTML = parseInt(score.score).toLocaleString("fr-fr") + " / " + parseInt(score.nbGames).toLocaleString("fr-fr");
+				line.appendChild(colNbGames);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 7: { // Annual total
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
 			var lastIndex = -1;
@@ -397,7 +442,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 7: { // Trimesterial total
+		case 8: { // Trimesterial total
 			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -448,7 +493,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 8: { // Mensual total
+		case 9: { // Mensual total
 			var dateOptions = {
 			    year : 'numeric',
 			    month : 'short'

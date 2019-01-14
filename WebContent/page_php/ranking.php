@@ -8,6 +8,7 @@
 				<option value="gameScore">Stack</option>
 				<option value="meanGameScore">Stack moyen</option>
 				<option value="winRate">Taux victoire</option>
+				<option value="positiveRate">Taux positif</option>
 				<option value="totalAnnual">Total annuel</option>
 				<option value="totalTrimestrial">Total trimestriel</option>
 				<option value="totalMensual">Total mensuel</option>
