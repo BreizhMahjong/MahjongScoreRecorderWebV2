@@ -9,7 +9,11 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 		switch ($periodMode) {
 			case PERIOD_MODE_ALL:
 				$isPeriodSet = false;
-				$minGamePlayed = MIN_GAME_PLAYED_YEAR;
+				if ($useMinGames) {
+					$minGamePlayed = intval (round (getNumberOfYearOfAllGamePeriod ($tournamentId) * MIN_GAME_PLAYED_YEAR));
+				} else {
+					$minGamePlayed = 0;
+				}
 				break;
 			case PERIOD_MODE_YEAR:
 				if ($year !== null) {
@@ -575,5 +579,28 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 		}
 	}
 	return json_encode ($totalScores);
+}
+function getNumberOfYearOfAllGamePeriod($tournamentId) {
+	$firstDate = null;
+	$lastDate = null;
+	$query = "SELECT MIN(" . TABLE_RCR_GAME_ID_DATE . ") AS minDate, MAX(" . TABLE_RCR_GAME_ID_DATE . ") AS maxDate FROM " . TABLE_RCR_GAME_ID . " WHERE " . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
+	$parameters = array (
+		$tournamentId
+	);
+	$result = executeQuery ($query, $parameters);
+	if (count ($result) > 0) {
+		$firstDate = new DateTime ($result [0] ["minDate"]);
+		$lastDate = new DateTime ($result [0] ["maxDate"]);
+	}
+	if ($firstDate !== null && $lastDate !== null) {
+		$interval = date_diff ($firstDate, $lastDate);
+		if ($interval->days !== FALSE) {
+			return $interval->days / 365.25;
+		} else {
+			return 0.0;
+		}
+	} else {
+		return 0.0;
+	}
 }
 ?>
