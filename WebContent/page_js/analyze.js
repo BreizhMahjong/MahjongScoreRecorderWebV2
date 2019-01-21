@@ -98,7 +98,7 @@ function displayStat(data, scoreMode) {
 			var dataDate = data.listDate[index];
 			var date = new Date(dataDate.year, dataDate.month, dataDate.day, 0, 0, 0, 0);
 			var dateString = date.toLocaleDateString("fr-fr", dateOptions) + " (" + dataDate.id.toString() + ")";
-			
+
 			var score = data.listScore[index];
 			scoreList.push([ dateString, score ]);
 			sum += score;
@@ -114,6 +114,11 @@ function displayStat(data, scoreMode) {
 				"type" : "category",
 				"tickInterval" : Math.ceil(data.listScore.length / 10)
 			},
+			"yAxis" : {
+				"title" : {
+					"text" : "Score"
+				}
+			},
 			"legend" : {
 				"enabled" : true
 			},
@@ -123,7 +128,8 @@ function displayStat(data, scoreMode) {
 				"data" : scoreList,
 				"dataLabels" : {
 					"enabled" : false
-				}
+				},
+				"animation" : false
 			} ]
 		};
 		$("#scoreChart").highcharts(scoreChart);
@@ -138,6 +144,11 @@ function displayStat(data, scoreMode) {
 					"type" : "category",
 					"tickInterval" : Math.ceil(data.listScore.length / 10)
 				},
+				"yAxis" : {
+					"title" : {
+						"text" : "Total"
+					}
+				},
 				"legend" : {
 					"enabled" : true
 				},
@@ -147,7 +158,8 @@ function displayStat(data, scoreMode) {
 					"data" : sumList,
 					"dataLabels" : {
 						"enabled" : false
-					}
+					},
+					"animation" : false
 				} ]
 			};
 			$("#sumChart").highcharts(sumChart);
