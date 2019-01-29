@@ -495,7 +495,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				$parameters = array (
 					$tournamentId
 				);
-				$result = executeQuery ($querySelect . $queryFrom . $querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
+				$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
 				foreach ($result as $line) {
 					$totalScore = array ();
 					$totalScore [SCORE_TOTAL_NAME] = $line [TABLE_PLAYER_NAME];
@@ -529,7 +529,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				$parameters = array (
 					$tournamentId
 				);
-				$result = executeQuery ($querySelect . $queryFrom . $querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
+				$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
 				foreach ($result as $line) {
 					$totalScore = array ();
 					$totalScore [SCORE_TOTAL_NAME] = $line [TABLE_PLAYER_NAME];
@@ -547,10 +547,10 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
 				$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
 				$queryPlayer = SQL_AND . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1";
-				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?) AS " . TABLE_VAR_MONTH;
+				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=? ";
 				$queryGroup = " GROUP BY " . TABLE_PLAYER_NAME . ", " . TABLE_VAR_YEAR . ", " . TABLE_VAR_MONTH;
 				if ($useMinGames) {
-					$queryHaving = " HAVING COUNT(*)>=" . strval (MIN_GAME_PLAYED_TRIMESTER);
+					$queryHaving = " HAVING COUNT(*)>=" . strval (MIN_GAME_PLAYED_MONTH);
 				} else {
 					$queryHaving = "";
 				}
@@ -563,7 +563,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				$parameters = array (
 					$tournamentId
 				);
-				$result = executeQuery ($querySelect . $queryFrom . $querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
+				$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder . $queryLimit, $parameters);
 				foreach ($result as $line) {
 					$totalScore = array ();
 					$totalScore [SCORE_TOTAL_NAME] = $line [TABLE_PLAYER_NAME];
