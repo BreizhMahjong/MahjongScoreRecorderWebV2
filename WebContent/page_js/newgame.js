@@ -249,13 +249,25 @@ function getPlayers() {
 				option.innerHTML = "";
 				nodePlayers[index].appendChild(option);
 			}
-			for (index = 0; index < players.length; index++) {
-				player = players[index];
-				for (playerIndex = 0; playerIndex < nodePlayers.length; playerIndex++) {
-					var option = document.createElement("option");
-					option.value = player.id;
-					option.innerHTML = player.name;
-					nodePlayers[playerIndex].appendChild(option);
+			if (isAdmin == "1") {
+				for (index = 0; index < players.length; index++) {
+					player = players[index];
+					for (playerIndex = 0; playerIndex < nodePlayers.length; playerIndex++) {
+						var option = document.createElement("option");
+						option.value = player.id;
+						option.innerHTML = player.name + " - " + player.id;
+						nodePlayers[playerIndex].appendChild(option);
+					}
+				}
+			} else {
+				for (index = 0; index < players.length; index++) {
+					player = players[index];
+					for (playerIndex = 0; playerIndex < nodePlayers.length; playerIndex++) {
+						var option = document.createElement("option");
+						option.value = player.id;
+						option.innerHTML = player.name;
+						nodePlayers[playerIndex].appendChild(option);
+					}
 				}
 			}
 		}

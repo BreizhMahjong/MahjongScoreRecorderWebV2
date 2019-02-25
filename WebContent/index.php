@@ -26,9 +26,9 @@ session_start ();
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
 </head>
 <body>
 <?php
@@ -36,18 +36,18 @@ require_once ("db_php/query_common.php");
 require_once ("db_php/query_login_logout.php");
 
 if (isset ($_COOKIE [COOKIE_NAME_ID])) {
-    decryptCookie($_COOKIE [COOKIE_NAME_ID]);
-    $isLogin = isset ($_SESSION[SESSION_LOG_IN_ID]);
-    if($isLogin) {
-        $loginId = $_SESSION[SESSION_LOG_IN_ID];
-        $isAdmin = $_SESSION[SESSION_IS_ADMIN];
-    } else {
-        $loginId = 0;
-        $isAdmin = false;
-    }
+	decryptCookie($_COOKIE [COOKIE_NAME_ID]);
+	$isLogin = isset ($_SESSION[SESSION_LOG_IN_ID]);
+	if($isLogin) {
+		$loginId = $_SESSION[SESSION_LOG_IN_ID];
+		$isAdmin = $_SESSION[SESSION_IS_ADMIN];
+	} else {
+		$loginId = 0;
+		$isAdmin = false;
+	}
 } else {
-    $isLogin = false;
-    $loginId = 0;
+	$isLogin = false;
+	$loginId = 0;
 	$isAdmin = false;
 }
 
@@ -60,6 +60,10 @@ if (isset ($_GET ["menu"])) {
 	$menu = "ranking";
 }
 ?>
+	<script type="text/javascript">
+		var isAdmin = "<?php echo $isAdmin; ?>";
+	</script>
+
 	<div id="parent">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
