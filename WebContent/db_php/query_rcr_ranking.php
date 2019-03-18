@@ -269,8 +269,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				}
 				break;
 			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_WIN_RATE:
-				$playerGameMap = array ();
-				$playerWinMap = array ();
+				$playerIndexMap = array ();
 				{
 					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
 					$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
@@ -298,7 +297,17 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving, $parameters);
 					}
 					foreach ($result as $line) {
-						$playerGameMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$totalScore = array ();
+						$totalScore [SCORE_TOTAL_NAME] = $line [TABLE_PLAYER_NAME];
+						$totalScore [SCORE_TOTAL_YEAR] = 0;
+						$totalScore [SCORE_TOTAL_MONTH] = 0;
+						$totalScore [SCORE_TOTAL_DAY] = 0;
+						$totalScore [SCORE_TOTAL_NB_GAMES] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$totalScore [SCORE_TOTAL_SCORE] = 0;
+						$totalScore [SCORE_TOTAL_UMA] = 0.0;
+
+						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count($totalScores);
+						$totalScores [] = $totalScore;
 					}
 				}
 				{
@@ -324,56 +333,43 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryGroup, $parameters);
 					}
 					foreach ($result as $line) {
-						$playerWinMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$name = $line [TABLE_PLAYER_NAME];
+						if (array_key_exists ($name, $playerIndexMap)) {
+							$index = $playerIndexMap[$name];
+							$totalScores [$index][SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
+							$totalScores [$index][SCORE_TOTAL_SCORE] = $totalScores [$index][SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index][SCORE_TOTAL_NB_GAMES];
+						}
 					}
 				}
 
-				foreach ($playerGameMap as $name => $nbGame) {
-					$totalScore = array ();
-					$totalScore [SCORE_TOTAL_NAME] = $name;
-					$totalScore [SCORE_TOTAL_YEAR] = 0;
-					$totalScore [SCORE_TOTAL_MONTH] = 0;
-					$totalScore [SCORE_TOTAL_DAY] = 0;
-					$totalScore [SCORE_TOTAL_NB_GAMES] = $nbGame;
-					if (array_key_exists ($name, $playerWinMap)) {
-						$nbWin = $playerWinMap [$name];
-						$totalScore [SCORE_TOTAL_SCORE] = $nbWin;
-						$totalScore [SCORE_TOTAL_UMA] = $nbWin * 100.0 / $nbGame;
-					} else {
-						$totalScore [SCORE_TOTAL_SCORE] = 0;
-						$totalScore [SCORE_TOTAL_UMA] = 0;
-					}
-					$totalScores [] = $totalScore;
-				}
 				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
 							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
 								return 0;
 							} else {
 								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? 1 : -1;
 							}
 						} else {
-							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? 1 : -1;
+							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? 1 : -1;
 						}
 					});
 				} else {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
 							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
 								return 0;
 							} else {
 								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? -1 : 1;
 							}
 						} else {
-							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? -1 : 1;
+							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? -1 : 1;
 						}
 					});
 				}
 				break;
 			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_POSITIVE_RATE:
-				$playerGameMap = array ();
-				$playerPositiveMap = array ();
+				$playerIndexMap = array ();
 				{
 					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
 					$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
@@ -401,7 +397,17 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving, $parameters);
 					}
 					foreach ($result as $line) {
-						$playerGameMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$totalScore = array ();
+						$totalScore [SCORE_TOTAL_NAME] = $line [TABLE_PLAYER_NAME];
+						$totalScore [SCORE_TOTAL_YEAR] = 0;
+						$totalScore [SCORE_TOTAL_MONTH] = 0;
+						$totalScore [SCORE_TOTAL_DAY] = 0;
+						$totalScore [SCORE_TOTAL_NB_GAMES] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$totalScore [SCORE_TOTAL_SCORE] = 0;
+						$totalScore [SCORE_TOTAL_UMA] = 0.0;
+
+						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count($totalScores);
+						$totalScores [] = $totalScore;
 					}
 				}
 				{
@@ -427,49 +433,37 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryGroup, $parameters);
 					}
 					foreach ($result as $line) {
-						$playerPositiveMap [$line [TABLE_PLAYER_NAME]] = intval ($line [TABLE_VAR_NB_GAMES]);
+						$name = $line [TABLE_PLAYER_NAME];
+						if (array_key_exists ($name, $playerIndexMap)) {
+							$index = $playerIndexMap[$name];
+							$totalScores [$index][SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
+							$totalScores [$index][SCORE_TOTAL_SCORE] = $totalScores [$index][SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index][SCORE_TOTAL_NB_GAMES];
+						}
 					}
 				}
 
-				foreach ($playerGameMap as $name => $nbGame) {
-					$totalScore = array ();
-					$totalScore [SCORE_TOTAL_NAME] = $name;
-					$totalScore [SCORE_TOTAL_YEAR] = 0;
-					$totalScore [SCORE_TOTAL_MONTH] = 0;
-					$totalScore [SCORE_TOTAL_DAY] = 0;
-					$totalScore [SCORE_TOTAL_NB_GAMES] = $nbGame;
-					if (array_key_exists ($name, $playerPositiveMap)) {
-						$nbWin = $playerPositiveMap [$name];
-						$totalScore [SCORE_TOTAL_SCORE] = $nbWin;
-						$totalScore [SCORE_TOTAL_UMA] = $nbWin * 100.0 / $nbGame;
-					} else {
-						$totalScore [SCORE_TOTAL_SCORE] = 0;
-						$totalScore [SCORE_TOTAL_UMA] = 0;
-					}
-					$totalScores [] = $totalScore;
-				}
 				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
 							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
 								return 0;
 							} else {
 								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? 1 : -1;
 							}
 						} else {
-							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? 1 : -1;
+							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? 1 : -1;
 						}
 					});
 				} else {
 					usort ($totalScores, function ($score1, $score2) {
-						if ($score1 [SCORE_TOTAL_UMA] === $score2 [SCORE_TOTAL_UMA]) {
+						if ($score1 [SCORE_TOTAL_SCORE] === $score2 [SCORE_TOTAL_SCORE]) {
 							if ($score1 [SCORE_TOTAL_NB_GAMES] === $score2 [SCORE_TOTAL_NB_GAMES]) {
 								return 0;
 							} else {
 								return $score1 [SCORE_TOTAL_NB_GAMES] > $score2 [SCORE_TOTAL_NB_GAMES] ? -1 : 1;
 							}
 						} else {
-							return $score1 [SCORE_TOTAL_UMA] > $score2 [SCORE_TOTAL_UMA] ? -1 : 1;
+							return $score1 [SCORE_TOTAL_SCORE] > $score2 [SCORE_TOTAL_SCORE] ? -1 : 1;
 						}
 					});
 				}
