@@ -24,15 +24,17 @@ if ($action !== null) {
 			echo logout ();
 			break;
 		case ACTION_ADD_PLAYER:
-			$name = isset ($_POST [ACTION_ADD_PLAYER_PARAM_GAME]) ? $_POST [ACTION_ADD_PLAYER_PARAM_GAME] : null;
-			echo addPlayer ($name);
+			$name = isset ($_POST [ACTION_ADD_PLAYER_PARAM_NAME]) ? $_POST [ACTION_ADD_PLAYER_PARAM_NAME] : null;
+			$realName = isset ($_POST [ACTION_ADD_PLAYER_PARAM_REAL_NAME]) ? $_POST [ACTION_ADD_PLAYER_PARAM_REAL_NAME] : null;
+			echo addPlayer ($name, $realName);
 			break;
 		case ACTION_MODIFY_PLAYER:
 			$playerId = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) : null;
-			$name = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_GAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_GAME] : null;
+			$name = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_NAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_NAME] : null;
+			$realName = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REAL_NAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_REAL_NAME] : null;
 			$hidden = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN] : null;
 			$regular = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR] : null;
-			echo modifyPlayer ($playerId, $name, $hidden, $regular);
+			echo modifyPlayer ($playerId, $name, $realName, $hidden, $regular);
 			break;
 		case ACTION_DELETE_PLAYER:
 			$playerId = isset ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) : null;

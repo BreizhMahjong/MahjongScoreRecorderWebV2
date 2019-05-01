@@ -19,6 +19,7 @@ define ("RANKING_RESULT_LIMIT", 30);
 // Player
 define ("PLAYER_ID", "id");
 define ("PLAYER_NAME", "name");
+define ("PLAYER_REAL_NAME", "realName");
 define ("PLAYER_HIDDEN", "hidden");
 define ("PLAYER_REGULAR", "regular");
 

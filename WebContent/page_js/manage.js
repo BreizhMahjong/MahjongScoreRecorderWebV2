@@ -1,5 +1,6 @@
 var selectModifyPlayer;
 var inputModifyPlayerName;
+var inputModifyPlayerRealName;
 var inputHidden;
 var inputRegular;
 var selectDeletePlayer;
@@ -23,12 +24,14 @@ var tournaments;
 function addPlayer() {
 	disableButtons();
 	inputNewPlayerName = document.getElementById("inputNewPlayerName");
+	inputNewPlayerRealName = document.getElementById("inputNewPlayerRealName");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
 			"action" : "addPlayer",
-			"name" : inputNewPlayerName.value
+			"name" : inputNewPlayerName.value,
+			"realName" : inputNewPlayerRealName.value
 		},
 		success : function(result) {
 			updateResult = $.parseJSON(result);
@@ -50,6 +53,7 @@ function addPlayer() {
 function displayPlayer() {
 	if (selectModifyPlayer.selectedIndex >= 0) {
 		inputModifyPlayerName.value = players[selectModifyPlayer.selectedIndex].name;
+		inputModifyPlayerRealName.value = players[selectModifyPlayer.selectedIndex].realName;
 		inputHidden.checked = players[selectModifyPlayer.selectedIndex].hidden != 0;
 		inputRegular.checked = players[selectModifyPlayer.selectedIndex].regular != 0;
 	}
@@ -89,6 +93,7 @@ function modifyPlayer() {
 			"action" : "modifyPlayer",
 			"id" : players[selectModifyPlayer.selectedIndex].id,
 			"name" : inputModifyPlayerName.value,
+			"realName" : inputModifyPlayerRealName.value,
 			"hidden" : inputHidden.checked ? "1" : "0",
 			"regular" : inputRegular.checked ? "1" : "0"
 		},
@@ -310,6 +315,7 @@ function enableButtons() {
 function prepare() {
 	selectModifyPlayer = document.getElementById("selectModifyPlayer");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
+	inputModifyPlayerRealName = document.getElementById("inputModifyPlayerRealName");
 	inputHidden = document.getElementById("inputHidden");
 	inputRegular = document.getElementById("inputRegular");
 	selectDeletePlayer = document.getElementById("selectDeletePlayer");

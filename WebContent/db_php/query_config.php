@@ -12,11 +12,13 @@ define ("ACTION_IS_LOGGED_IN", "isLoggedIn");
 define ("ACTION_LOGOUT", "logout");
 
 define ("ACTION_ADD_PLAYER", "addPlayer");
-define ("ACTION_ADD_PLAYER_PARAM_GAME", "name");
+define ("ACTION_ADD_PLAYER_PARAM_NAME", "name");
+define ("ACTION_ADD_PLAYER_PARAM_REAL_NAME", "realName");
 
 define ("ACTION_MODIFY_PLAYER", "modifyPlayer");
 define ("ACTION_MODIFY_PLAYER_PARAM_ID", "id");
-define ("ACTION_MODIFY_PLAYER_PARAM_GAME", "name");
+define ("ACTION_MODIFY_PLAYER_PARAM_NAME", "name");
+define ("ACTION_MODIFY_PLAYER_PARAM_REAL_NAME", "realName");
 define ("ACTION_MODIFY_PLAYER_PARAM_HIDDEN", "hidden");
 define ("ACTION_MODIFY_PLAYER_PARAM_REGULAR", "regular");
 

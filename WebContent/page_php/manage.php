@@ -6,7 +6,11 @@
 		<tr>
 			<td style="text-align: right; width: 30%;">Pseudo&nbsp;:</td>
 			<td style="width: 50%;"><input id="inputNewPlayerName" type="text" required="required" style="width: 100%;" /></td>
-			<td style="text-align: center; width: 20%;"><button id="buttonAddPlayer" style="width: 80%;">Ajouter</button></td>
+			<td rowSpan="2" style="text-align: center; width: 20%;"><button id="buttonAddPlayer" style="width: 80%;">Ajouter</button></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Nom&nbsp;:</td>
+			<td style="width: 50%;"><input id="inputNewPlayerRealName" type="text" required="required" style="width: 100%;" /></td>
 		</tr>
 	</table>
 	<table class="table" style="margin: 4px; width: 640px; border: 2px solid gray">
@@ -16,11 +20,15 @@
 		<tr>
 			<td style="text-align: right; width: 30%;">Pseudo&nbsp;:</td>
 			<td style="width: 50%;"><select id="selectModifyPlayer" style="width: 100%;"></select></td>
-			<td rowSpan="4" style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
+			<td rowSpan="5" style="text-align: center; width: 20%;"><button id="buttonModifyPlayer" style="width: 80%;">Modifier</button></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Nouveau pseudo&nbsp;:</td>
 			<td style="width: 50%;"><input id="inputModifyPlayerName" type="text" style="width: 100%;" /></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 30%;">Nouveau nom&nbsp;:</td>
+			<td style="width: 50%;"><input id="inputModifyPlayerRealName" type="text" style="width: 100%;" /></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Caché&nbsp;:</td>

@@ -114,10 +114,19 @@ function calculate() {
 	}
 
 	// Adjust score according to number of rounds
-	if (selectRound.selectedIndex == 0) {
-		for (var index = 0; index < nbPlayers; index++) {
-			scoreList[index].finalScore /= 2;
-		}
+	switch (selectRound.selectedIndex) {
+		case 0:
+			for (var index = 0; index < nbPlayers; index++) {
+				scoreList[index].finalScore /= 2;
+			}
+			break;
+		case 2:
+			for (var index = 0; index < nbPlayers; index++) {
+				scoreList[index].finalScore *= 2;
+			}
+			break;
+		default:
+			break;
 	}
 
 	// Update display
