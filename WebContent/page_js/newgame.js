@@ -1,5 +1,7 @@
 var umaSet = [ [ [ 15000, 5000, -5000, -15000 ], [ 15000, 5000, 0, -5000, -15000 ] ], [ [ 30000, 10000, -10000, -30000 ], [ 30000, 10000, 0, -10000, -30000 ] ] ];
 
+var inputFrequenPlayersOnly;
+
 var inputDate;
 var selectTournament;
 var selectPlayer;
@@ -243,7 +245,8 @@ function getPlayers() {
 		url : SERVER_QUERY_URL,
 		type : "POST",
 		data : {
-			"action" : "getNonHiddenPlayers"
+			"action" : "getPlayers",
+			"frequentPlayersOnly" : inputFrequenPlayersOnly.checked ? "1" : "0"
 		},
 		success : function(result) {
 			players = $.parseJSON(result);
@@ -306,6 +309,8 @@ function getTournaments() {
 }
 
 function prepare() {
+	inputFrequenPlayersOnly = document.getElementById("inputFrequenPlayersOnly");
+
 	inputDate = document.getElementById("inputDate");
 	selectTournament = document.getElementById("selectTournament");
 	selectPlayer = document.getElementById("selectPlayer");

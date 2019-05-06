@@ -22,7 +22,7 @@ function addPlayer($name, $realName) {
 			} else {
 				$id = min (array_diff (range (1, max ($existingIds) + 1), $existingIds));
 			}
-			$query = "INSERT INTO " . TABLE_PLAYER . "(" . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_REAL_NAME . ", " . TABLE_PLAYER_HIDDEN . ", " . TABLE_PLAYER_REGULAR . ") VALUES(?, ?, ?, ?, ?)";
+			$query = "INSERT INTO " . TABLE_PLAYER . "(" . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_REAL_NAME . ", " . TABLE_PLAYER_FREQUENT . ", " . TABLE_PLAYER_REGULAR . ") VALUES(?, ?, ?, ?, ?)";
 			$parameters = array (
 				$id,
 				$name,
@@ -45,7 +45,7 @@ function addPlayer($name, $realName) {
 	}
 	return json_encode ($result);
 }
-function modifyPlayer($id, $name, $realName, $hidden, $regular) {
+function modifyPlayer($id, $name, $realName, $frequent, $regular) {
 	session_start ();
 	$result = array (
 		MODIFY_PLAYER_RESULT => true,
@@ -53,17 +53,12 @@ function modifyPlayer($id, $name, $realName, $hidden, $regular) {
 	);
 	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
 	if ($isAdmin) {
-		if ($id !== null && $name !== null && strlen ($name) > 0 && $hidden !== null) {
-			if ($hidden !== "0") {
-				$hidden = 1;
-			} else {
-				$hidden = 0;
-			}
-			$query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_REAL_NAME . "=?, " . TABLE_PLAYER_HIDDEN . "=?, " . TABLE_PLAYER_REGULAR . "=? WHERE " . TABLE_PLAYER_ID . "=?";
+		if ($id !== null && $name !== null && strlen ($name) > 0 && $realName !== null && strlen($realName) > 0 && $frequent !== null && $regular !== null) {
+			$query = "UPDATE " . TABLE_PLAYER . " SET " . TABLE_PLAYER_NAME . "=?, " . TABLE_PLAYER_REAL_NAME . "=?, " . TABLE_PLAYER_FREQUENT . "=?, " . TABLE_PLAYER_REGULAR . "=? WHERE " . TABLE_PLAYER_ID . "=?";
 			$parameters = array (
 				$name,
 				$realName,
-				$hidden,
+				$frequent,
 				$regular,
 				$id
 			);
@@ -111,7 +106,7 @@ function deletePlayer($id) {
 	return json_encode ($result);
 }
 function getAllPlayers() {
-	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_REAL_NAME . ", " . TABLE_PLAYER_HIDDEN . ", " . TABLE_PLAYER_REGULAR . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
+	$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . ", " . TABLE_PLAYER_REAL_NAME . ", " . TABLE_PLAYER_FREQUENT . ", " . TABLE_PLAYER_REGULAR . " FROM " . TABLE_PLAYER . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
 	$result = executeQuery ($query, null);
 	$players = array ();
 	if (!empty ($result)) {
@@ -120,23 +115,28 @@ function getAllPlayers() {
 			$player [PLAYER_ID] = $line [TABLE_PLAYER_ID];
 			$player [PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
 			$player [PLAYER_REAL_NAME] = $line [TABLE_PLAYER_REAL_NAME];
-			$player [PLAYER_HIDDEN] = $line [TABLE_PLAYER_HIDDEN];
+			$player [PLAYER_FREQUENT] = $line [TABLE_PLAYER_FREQUENT];
 			$player [PLAYER_REGULAR] = $line [TABLE_PLAYER_REGULAR];
 			$players [] = $player;
 		}
 	}
 	return json_encode ($players);
 }
-function getNonHiddenPlayers() {
+function getPlayers($frequentPlayersOnly) {
 	session_start ();
 	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
+	if ($frequentPlayersOnly !== 0) {
+		$whereClause = " WHERE " . TABLE_PLAYER_FREQUENT . "=1";
+	} else {
+		$whereClause = "";
+	}
 	$nameField = "";
 	if ($isAdmin) {
 		$nameField = TABLE_PLAYER_REAL_NAME;
-		$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_REAL_NAME . " FROM " . TABLE_PLAYER . " WHERE " . TABLE_PLAYER_HIDDEN . "=0 ORDER BY " . TABLE_PLAYER_ID . " ASC";
+		$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_REAL_NAME . " FROM " . TABLE_PLAYER . $whereClause ." ORDER BY " . TABLE_PLAYER_ID . " ASC";
 	} else {
 		$nameField = TABLE_PLAYER_NAME;
-		$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . " WHERE " . TABLE_PLAYER_HIDDEN . "=0 ORDER BY " . TABLE_PLAYER_ID . " ASC";
+		$query = "SELECT " . TABLE_PLAYER_ID . ", " . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . $whereClause . " ORDER BY " . TABLE_PLAYER_ID . " ASC";
 	}
 	$result = executeQuery ($query, null);
 	$players = array ();

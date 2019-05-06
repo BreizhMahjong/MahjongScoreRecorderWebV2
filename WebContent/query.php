@@ -32,9 +32,9 @@ if ($action !== null) {
 			$playerId = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_MODIFY_PLAYER_PARAM_ID]) : null;
 			$name = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_NAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_NAME] : null;
 			$realName = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REAL_NAME]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_REAL_NAME] : null;
-			$hidden = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_HIDDEN] : null;
-			$regular = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR]) ? $_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR] : null;
-			echo modifyPlayer ($playerId, $name, $realName, $hidden, $regular);
+			$frequent = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_FREQUENT]) ? intval ($_POST [ACTION_MODIFY_PLAYER_PARAM_FREQUENT]) : null;
+			$regular = isset ($_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR]) ? intval ($_POST [ACTION_MODIFY_PLAYER_PARAM_REGULAR]) : null;
+			echo modifyPlayer ($playerId, $name, $realName, $frequent, $regular);
 			break;
 		case ACTION_DELETE_PLAYER:
 			$playerId = isset ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) ? intval ($_POST [ACTION_DELETE_PLAYER_PARAM_ID]) : null;
@@ -43,8 +43,9 @@ if ($action !== null) {
 		case ACTION_GET_ALL_PLAYERS:
 			echo getAllPlayers ();
 			break;
-		case ACTION_GET_NON_HIDDEN_PLAYERS:
-			echo getNonHiddenPlayers ();
+		case ACTION_GET_PLAYERS:
+			$frequentPlayersOnly = isset ($_POST [ACTION_GET_PLAYERS_PARAM_FREQUENT]) ? intval ($_POST [ACTION_GET_PLAYERS_PARAM_FREQUENT]) : null;
+			echo getPlayers ($frequentPlayersOnly);
 			break;
 		case ACTION_ADD_RCR_TOURNAMENT:
 			$name = isset ($_POST [ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME]) ? $_POST [ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME] : null;

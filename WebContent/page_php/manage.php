@@ -31,8 +31,8 @@
 			<td style="width: 50%;"><input id="inputModifyPlayerRealName" type="text" style="width: 100%;" /></td>
 		</tr>
 		<tr>
-			<td style="text-align: right; width: 30%;">Caché&nbsp;:</td>
-			<td style="text-align: left; width: 50%;"><input id="inputHidden" type="checkbox" /></td>
+			<td style="text-align: right; width: 30%;">Fréquent&nbsp;:</td>
+			<td style="text-align: left; width: 50%;"><input id="inputFrequent" type="checkbox" /></td>
 		</tr>
 		<tr>
 			<td style="text-align: right; width: 30%;">Régulier&nbsp;:</td>

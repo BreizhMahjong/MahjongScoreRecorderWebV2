@@ -3,8 +3,7 @@
 		<td style="text-align: right; width: 12.5%;">Date&nbsp;:</td>
 		<td style="width: 12.5%;"><input id="inputDate" type="date" style="width: 100%;"></td>
 		<td style="text-align: right; width: 12.5%;">Tournoi&nbsp;:</td>
-		<td colspan="5" style="width: 62.5%;"><select id="selectTournament" style="width: 100%;">
-		</select></td>
+		<td colspan="5" style="width: 62.5%;"><select id="selectTournament" style="width: 100%;"></select></td>
 	</tr>
 	<tr>
 		<td style="text-align: right; width: 12.5%;">Joueurs&nbsp;:</td>
@@ -25,6 +24,13 @@
 				<option value="1" selected="selected">+15000</option>
 				<option value="2">+30000</option>
 		</select></td>
+	</tr>
+	<tr>
+		<td style="text-align: right; width: 12.5%;">Options d'affichage&nbsp;:</td>
+		<td style="width: 12.5%;"></td>
+		<td style="text-align: right; width: 12.5%;">Joueurs fréquents&nbsp;:</td>
+		<td style="width: 12.5%;"><input id="inputFrequenPlayersOnly" type="checkbox" onclick="getPlayers()" checked></td>
+		<td colspan="4" style="width: 50%;"></td>
 	</tr>
 </table>
 <table class="table" style="width: 80%">

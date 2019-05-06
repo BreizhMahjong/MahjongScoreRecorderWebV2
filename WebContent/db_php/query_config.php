@@ -19,7 +19,7 @@ define ("ACTION_MODIFY_PLAYER", "modifyPlayer");
 define ("ACTION_MODIFY_PLAYER_PARAM_ID", "id");
 define ("ACTION_MODIFY_PLAYER_PARAM_NAME", "name");
 define ("ACTION_MODIFY_PLAYER_PARAM_REAL_NAME", "realName");
-define ("ACTION_MODIFY_PLAYER_PARAM_HIDDEN", "hidden");
+define ("ACTION_MODIFY_PLAYER_PARAM_FREQUENT", "frequent");
 define ("ACTION_MODIFY_PLAYER_PARAM_REGULAR", "regular");
 
 define ("ACTION_DELETE_PLAYER", "deletePlayer");
@@ -27,7 +27,8 @@ define ("ACTION_DELETE_PLAYER_PARAM_ID", "id");
 
 define ("ACTION_GET_ALL_PLAYERS", "getAllPlayers");
 
-define ("ACTION_GET_NON_HIDDEN_PLAYERS", "getNonHiddenPlayers");
+define ("ACTION_GET_PLAYERS", "getPlayers");
+define ("ACTION_GET_PLAYERS_PARAM_FREQUENT", "frequentPlayersOnly");
 
 define ("ACTION_ADD_RCR_TOURNAMENT", "addRCRTournament");
 define ("ACTION_ADD_RCR_TOURNAMENT_PARAM_NAME", "name");

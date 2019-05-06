@@ -1,7 +1,7 @@
 var selectModifyPlayer;
 var inputModifyPlayerName;
 var inputModifyPlayerRealName;
-var inputHidden;
+var inputFrequent;
 var inputRegular;
 var selectDeletePlayer;
 
@@ -54,7 +54,7 @@ function displayPlayer() {
 	if (selectModifyPlayer.selectedIndex >= 0) {
 		inputModifyPlayerName.value = players[selectModifyPlayer.selectedIndex].name;
 		inputModifyPlayerRealName.value = players[selectModifyPlayer.selectedIndex].realName;
-		inputHidden.checked = players[selectModifyPlayer.selectedIndex].hidden != 0;
+		inputFrequent.checked = players[selectModifyPlayer.selectedIndex].frequent != 0;
 		inputRegular.checked = players[selectModifyPlayer.selectedIndex].regular != 0;
 	}
 }
@@ -94,7 +94,7 @@ function modifyPlayer() {
 			"id" : players[selectModifyPlayer.selectedIndex].id,
 			"name" : inputModifyPlayerName.value,
 			"realName" : inputModifyPlayerRealName.value,
-			"hidden" : inputHidden.checked ? "1" : "0",
+			"frequent" : inputFrequent.checked ? "1" : "0",
 			"regular" : inputRegular.checked ? "1" : "0"
 		},
 		success : function(result) {
@@ -316,7 +316,7 @@ function prepare() {
 	selectModifyPlayer = document.getElementById("selectModifyPlayer");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
 	inputModifyPlayerRealName = document.getElementById("inputModifyPlayerRealName");
-	inputHidden = document.getElementById("inputHidden");
+	inputFrequent = document.getElementById("inputFrequent");
 	inputRegular = document.getElementById("inputRegular");
 	selectDeletePlayer = document.getElementById("selectDeletePlayer");
 	
