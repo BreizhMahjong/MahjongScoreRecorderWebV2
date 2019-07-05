@@ -175,7 +175,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 				var colMeanScore = document.createElement("td");
 				colMeanScore.align = "center";
 				colMeanScore.style.width = "25%";
-				if (meanScore >= 0) {
+				if (meanScore > 0) {
 					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else if (meanScore == 0) {
 					colMeanScore.innerHTML = "0" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
@@ -280,10 +280,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 				var colMeanScore = document.createElement("td");
 				colMeanScore.align = "center";
 				colMeanScore.style.width = "25%";
-				if (meanScore >= 0) {
-					colMeanScore.innerHTML = "+" + meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				} else if (meanScore == 0) {
-					colMeanScore.innerHTML = "0" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				if (meanScore >= 30000) {
+					colMeanScore.innerHTML = meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else {
 					var colMeanScoreFont = document.createElement("font");
 					colMeanScore.appendChild(colMeanScoreFont);
