@@ -103,7 +103,8 @@ if ($action !== null) {
 			$year = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_YEAR]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_YEAR]) : null;
 			$trimester = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TRIMESTER]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TRIMESTER]) : null;
 			$month = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_MONTH]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_MONTH]) : null;
-			echo getRCRAnalyze ($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month);
+			$day = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_DAY]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_DAY]) : null;
+			echo getRCRAnalyze ($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day);
 			break;
 		case ACTION_GET_RCR_RANKING:
 			$tournamentId = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_TOURNAMENT_ID]) : null;
@@ -113,8 +114,9 @@ if ($action !== null) {
 			$year = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_YEAR]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_YEAR]) : null;
 			$trimester = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_TRIMESTER]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_TRIMESTER]) : null;
 			$month = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_MONTH]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_MONTH]) : null;
+			$day = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_DAY]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_DAY]) : null;
 			$useMinGames = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_USE_MIN_GAMES]) ? boolval ($_POST [ACTION_GET_RCR_RANKING_PARAM_USE_MIN_GAMES]) : false;
-			echo getRCRRanking ($tournamentId, $rankingMode, $sortingMode, $periodMode, $year, $trimester, $month, $useMinGames);
+			echo getRCRRanking ($tournamentId, $rankingMode, $sortingMode, $periodMode, $year, $trimester, $month, $day, $useMinGames);
 			break;
 		default:
 			break;

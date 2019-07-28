@@ -75,6 +75,7 @@ define ("ACTION_GET_RCR_ANALYZE_PARAM_PERIOD_MODE", "periodMode");
 define ("ACTION_GET_RCR_ANALYZE_PARAM_YEAR", "year");
 define ("ACTION_GET_RCR_ANALYZE_PARAM_TRIMESTER", "trimester");
 define ("ACTION_GET_RCR_ANALYZE_PARAM_MONTH", "month");
+define ("ACTION_GET_RCR_ANALYZE_PARAM_DAY", "day");
 
 define ("ACTION_GET_RCR_RANKING", "getRCRRanking");
 define ("ACTION_GET_RCR_RANKING_PARAM_TOURNAMENT_ID", "tournamentId");
@@ -84,5 +85,6 @@ define ("ACTION_GET_RCR_RANKING_PARAM_PERIOD_MODE", "periodMode");
 define ("ACTION_GET_RCR_RANKING_PARAM_YEAR", "year");
 define ("ACTION_GET_RCR_RANKING_PARAM_TRIMESTER", "trimester");
 define ("ACTION_GET_RCR_RANKING_PARAM_MONTH", "month");
+define ("ACTION_GET_RCR_RANKING_PARAM_DAY", "day");
 define ("ACTION_GET_RCR_RANKING_PARAM_USE_MIN_GAMES", "useMinGames");
 ?>

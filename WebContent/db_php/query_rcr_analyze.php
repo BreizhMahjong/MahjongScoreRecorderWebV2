@@ -2,7 +2,7 @@
 require_once ("query_database_connection.php");
 require_once ("query_database_table_rcr.php");
 require_once ("query_rcr_analyze_config.php");
-function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month) {
+function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day) {
 	$analyzeData = array ();
 	if ($periodMode !== null) {
 		switch ($periodMode) {
@@ -12,8 +12,14 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			case PERIOD_MODE_YEAR:
 				if ($year !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-01-01";
-					$dateTo = strval ($year + 1) . "-01-01";
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, 1, 1);
+					$interval = new DateInterval ("P1Y");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 				} else {
 					$isPeriodSet = false;
 				}
@@ -21,25 +27,44 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			case PERIOD_MODE_TRIMESTER:
 				if ($year !== null && $trimester !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-" . strval ($trimester * 3 + 1) . "-01";
-					if ($trimester === 3) {
-						$dateTo = strval ($year + 1) . "-01-01";
-					} else {
-						$dateTo = strval ($year) . "-" . strval (($trimester + 1) * 3 + 1) . "-01";
-					}
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $trimester * 3 + 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $trimester * 3 + 1, 1);
+					$interval = new DateInterval ("P3M");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 				} else {
 					$isPeriodSet = false;
 				}
 				break;
 			case PERIOD_MODE_MONTH:
-				if ($year !== null) {
+				if ($year !== null && $month !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-" . strval ($month + 1) . "-01";
-					if ($trimester === 11) {
-						$dateTo = strval ($year + 1) . "-01-01";
-					} else {
-						$dateTo = strval ($year) . "-" . strval ($month + 2) . "-01";
-					}
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $month + 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $month + 1, 1);
+					$interval = new DateInterval ("P1M");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
+				} else {
+					$isPeriodSet = false;
+				}
+				break;
+			case PERIOD_MODE_DAY:
+				if ($year !== null && $month !== null && $day !== null) {
+					$isPeriodSet = true;
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $month + 1, $day);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $month + 1, $day);
+					$interval = new DateInterval ("P1D");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 				} else {
 					$isPeriodSet = false;
 				}
@@ -129,7 +154,7 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			0
 		);
 
-		for ($index = 0; $index < $numberOfGames; $index ++) {
+		for ($index = 0; $index < $numberOfGames; $index++) {
 			$line = $result [$index];
 			$nbPlayers = intval ($line [TABLE_RCR_GAME_ID_NB_PLAYERS]);
 			$ranking = intval ($line [TABLE_RCR_GAME_SCORE_RANKING]);
@@ -137,9 +162,9 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 
 			$listScore [] = $score;
 			if ($score >= 0) {
-				$numberOfPositiveGames ++;
+				$numberOfPositiveGames++;
 			} else {
-				$numberOfNegativeGames ++;
+				$numberOfNegativeGames++;
 			}
 
 			if ($index === 0 or $score > $maxScore) {
@@ -150,11 +175,11 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			}
 
 			if ($nbPlayers === 4) {
-				$placeFourPlayers [$ranking - 1] ++;
-				$numberOfFourPlayerGames ++;
+				$placeFourPlayers [$ranking - 1]++;
+				$numberOfFourPlayerGames++;
 			} else if ($nbPlayers === 5) {
-				$placeFivePlayers [$ranking - 1] ++;
-				$numberOfFivePlayerGames ++;
+				$placeFivePlayers [$ranking - 1]++;
+				$numberOfFivePlayerGames++;
 			}
 
 			$totalScore += $score;
@@ -175,19 +200,19 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 
 		$meanScore = $numberOfGames > 0 ? floatval ($totalScore) / floatval ($numberOfGames) : 0;
 		$deviation = 0.0;
-		for ($index = 0; $index < $numberOfGames; $index ++) {
+		for ($index = 0; $index < $numberOfGames; $index++) {
 			$deviation += pow ($listScore [$index] - $meanScore, 2.0);
 		}
 		$stdev = $numberOfGames > 1 ? intval (round (sqrt ($deviation / $numberOfGames))) : 0;
 
 		if ($numberOfFourPlayerGames > 0) {
-			for ($index = 0; $index < 4; $index ++) {
+			for ($index = 0; $index < 4; $index++) {
 				$placeFourPlayersPercent [$index] = intval (round (floatval ($placeFourPlayers [$index]) * 100.0 / $numberOfFourPlayerGames));
 			}
 		}
 
 		if ($numberOfFivePlayerGames > 0) {
-			for ($index = 0; $index < 5; $index ++) {
+			for ($index = 0; $index < 5; $index++) {
 				$placeFivePlayersPercent [$index] = intval (round (floatval ($placeFivePlayers [$index]) * 100.0 / $numberOfFivePlayerGames));
 			}
 		}

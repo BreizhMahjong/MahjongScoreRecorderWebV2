@@ -3,7 +3,7 @@ require_once ("query_database_connection.php");
 require_once ("query_database_table_player.php");
 require_once ("query_database_table_rcr.php");
 require_once ("query_rcr_ranking_config.php");
-function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $year, $trimester, $month, $useMinGames) {
+function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $year, $trimester, $month, $day, $useMinGames) {
 	$totalScores = array ();
 	if ($periodMode !== null) {
 		switch ($periodMode) {
@@ -18,8 +18,14 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_YEAR:
 				if ($year !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-01-01";
-					$dateTo = strval ($year + 1) . "-01-01";
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, 1, 1);
+					$interval = new DateInterval ("P1Y");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
 				} else {
 					$isPeriodSet = false;
@@ -29,12 +35,14 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_TRIMESTER:
 				if ($year !== null && $trimester !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-" . strval ($trimester * 3 + 1) . "-01";
-					if ($trimester === 3) {
-						$dateTo = strval ($year + 1) . "-01-01";
-					} else {
-						$dateTo = strval ($year) . "-" . strval (($trimester + 1) * 3 + 1) . "-01";
-					}
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $trimester * 3 + 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $trimester * 3 + 1, 1);
+					$interval = new DateInterval ("P3M");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 					$minGamePlayed = MIN_GAME_PLAYED_TRIMESTER;
 				} else {
 					$isPeriodSet = false;
@@ -42,15 +50,34 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				}
 				break;
 			case PERIOD_MODE_MONTH:
-				if ($year !== null) {
+				if ($year !== null && $month !== null) {
 					$isPeriodSet = true;
-					$dateFrom = strval ($year) . "-" . strval ($month + 1) . "-01";
-					if ($month === 11) {
-						$dateTo = strval ($year + 1) . "-01-01";
-					} else {
-						$dateTo = strval ($year) . "-" . strval ($month + 2) . "-01";
-					}
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $month + 1, 1);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $month + 1, 1);
+					$interval = new DateInterval ("P1M");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
 					$minGamePlayed = MIN_GAME_PLAYED_MONTH;
+				} else {
+					$isPeriodSet = false;
+					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
+				}
+				break;
+			case PERIOD_MODE_DAY:
+				if ($year !== null && $month !== null && $day !== null) {
+					$isPeriodSet = true;
+					$dateFrom = new DateTime ();
+					date_date_set ($dateFrom, $year, $month + 1, $day);
+					$dateTo = new DateTime ();
+					date_date_set ($dateTo, $year, $month + 1, $day);
+					$interval = new DateInterval ("P1D");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
+					$minGamePlayed = MIN_GAME_PLAYED_DAY;
 				} else {
 					$isPeriodSet = false;
 					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
@@ -86,8 +113,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				if ($isPeriodSet) {
 					$parameters = array (
 						$tournamentId,
-						$dateFrom,
-						$dateTo
+						$dateFromString,
+						$dateToString
 					);
 					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving . $queryOrder, $parameters);
 				} else {
@@ -123,8 +150,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				if ($isPeriodSet) {
 					$parameters = array (
 						$tournamentId,
-						$dateFrom,
-						$dateTo
+						$dateFromString,
+						$dateToString
 					);
 					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryDate . $queryOrder . $queryLimit, $parameters);
 				} else {
@@ -166,8 +193,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				if ($isPeriodSet) {
 					$parameters = array (
 						$tournamentId,
-						$dateFrom,
-						$dateTo
+						$dateFromString,
+						$dateToString
 					);
 					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving . $queryOrder, $parameters);
 				} else {
@@ -203,8 +230,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				if ($isPeriodSet) {
 					$parameters = array (
 						$tournamentId,
-						$dateFrom,
-						$dateTo
+						$dateFromString,
+						$dateToString
 					);
 					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryDate . $queryOrder . $queryLimit, $parameters);
 				} else {
@@ -246,8 +273,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 				if ($isPeriodSet) {
 					$parameters = array (
 						$tournamentId,
-						$dateFrom,
-						$dateTo
+						$dateFromString,
+						$dateToString
 					);
 					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving . $queryOrder, $parameters);
 				} else {
@@ -286,8 +313,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					if ($isPeriodSet) {
 						$parameters = array (
 							$tournamentId,
-							$dateFrom,
-							$dateTo
+							$dateFromString,
+							$dateToString
 						);
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving, $parameters);
 					} else {
@@ -306,7 +333,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$totalScore [SCORE_TOTAL_SCORE] = 0;
 						$totalScore [SCORE_TOTAL_UMA] = 0.0;
 
-						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count($totalScores);
+						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count ($totalScores);
 						$totalScores [] = $totalScore;
 					}
 				}
@@ -322,8 +349,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					if ($isPeriodSet) {
 						$parameters = array (
 							$tournamentId,
-							$dateFrom,
-							$dateTo
+							$dateFromString,
+							$dateToString
 						);
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryDate . $queryGroup, $parameters);
 					} else {
@@ -335,9 +362,9 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					foreach ($result as $line) {
 						$name = $line [TABLE_PLAYER_NAME];
 						if (array_key_exists ($name, $playerIndexMap)) {
-							$index = $playerIndexMap[$name];
-							$totalScores [$index][SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
-							$totalScores [$index][SCORE_TOTAL_SCORE] = $totalScores [$index][SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index][SCORE_TOTAL_NB_GAMES];
+							$index = $playerIndexMap [$name];
+							$totalScores [$index] [SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
+							$totalScores [$index] [SCORE_TOTAL_SCORE] = $totalScores [$index] [SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index] [SCORE_TOTAL_NB_GAMES];
 						}
 					}
 				}
@@ -386,8 +413,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					if ($isPeriodSet) {
 						$parameters = array (
 							$tournamentId,
-							$dateFrom,
-							$dateTo
+							$dateFromString,
+							$dateToString
 						);
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving, $parameters);
 					} else {
@@ -406,7 +433,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 						$totalScore [SCORE_TOTAL_SCORE] = 0;
 						$totalScore [SCORE_TOTAL_UMA] = 0.0;
 
-						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count($totalScores);
+						$playerIndexMap [$totalScore [SCORE_TOTAL_NAME]] = count ($totalScores);
 						$totalScores [] = $totalScore;
 					}
 				}
@@ -422,8 +449,8 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					if ($isPeriodSet) {
 						$parameters = array (
 							$tournamentId,
-							$dateFrom,
-							$dateTo
+							$dateFromString,
+							$dateToString
 						);
 						$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryScore . $queryTournament . $queryDate . $queryGroup, $parameters);
 					} else {
@@ -435,9 +462,9 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					foreach ($result as $line) {
 						$name = $line [TABLE_PLAYER_NAME];
 						if (array_key_exists ($name, $playerIndexMap)) {
-							$index = $playerIndexMap[$name];
-							$totalScores [$index][SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
-							$totalScores [$index][SCORE_TOTAL_SCORE] = $totalScores [$index][SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index][SCORE_TOTAL_NB_GAMES];
+							$index = $playerIndexMap [$name];
+							$totalScores [$index] [SCORE_TOTAL_UMA] = $line [TABLE_VAR_NB_GAMES];
+							$totalScores [$index] [SCORE_TOTAL_SCORE] = $totalScores [$index] [SCORE_TOTAL_UMA] * 100.0 / $totalScores [$index] [SCORE_TOTAL_NB_GAMES];
 						}
 					}
 				}

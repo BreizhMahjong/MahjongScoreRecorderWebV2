@@ -3,23 +3,33 @@ function toggleSelect() {
 	var selectYear = document.getElementById("selectYear");
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
+	var selectDay = document.getElementById("selectDay");
 
 	if (selectPeriod.selectedIndex == 0) {
 		selectYear.style.visibility = "hidden";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 1) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 2) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "visible";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 3) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";
+		selectDay.style.visibility = "hidden";
+	} else if (selectPeriod.selectedIndex == 4) {
+		selectYear.style.visibility = "visible";
+		selectTrimester.style.visibility = "hidden";
+		selectMonth.style.visibility = "visible";
+		selectDay.style.visibility = "visible";
 	}
 }
 
@@ -182,6 +192,7 @@ function getStat() {
 	var selectedYearIndex = selectYear.selectedIndex;
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
+	var selectDay = document.getElementById("selectDay");
 
 	if (selectedTournamentIndex !== -1 && selectedPlayerIndex !== -1 && selectedYearIndex !== -1) {
 		$.ajax({
@@ -195,7 +206,8 @@ function getStat() {
 				"periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
 				"year" : selectYear.options[selectYear.selectedIndex].value,
 				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
-				"month" : selectMonth.options[selectMonth.selectedIndex].value
+				"month" : selectMonth.options[selectMonth.selectedIndex].value,
+				"day" : selectDay.options[selectDay.selectedIndex].value
 			},
 			success : function(result) {
 				hideLoading();
@@ -208,6 +220,40 @@ function getStat() {
 		});
 	} else {
 		displayStat(null, selectScore.selectedIndex);
+	}
+}
+
+function getDays() {
+	var selectTournament = document.getElementById("selectTournament");
+	var selectedTournamentIndex = selectTournament.selectedIndex;
+	var selectYear = document.getElementById("selectYear");
+	var selectedYearIndex = selectYear.selectedIndex;
+	var selectMonth = document.getElementById("selectMonth");
+	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+		$.ajax({
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRDays",
+				"tournamentId" : selectTournament[selectedTournamentIndex].value,
+				"year" : selectYear[selectedYearIndex].value,
+				"month" : selectMonth.selectedIndex
+			},
+			success : function(result) {
+				days = $.parseJSON(result);
+				var index;
+				var selectDay = document.getElementById("selectDay");
+				selectDay.options.length = 0;
+				for (index = 0; index < days.length; index++) {
+					day = days[index];
+					var option = document.createElement("option");
+					option.value = day;
+					option.innerHTML = day;
+					selectDay.appendChild(option);
+				}
+				getStat();
+			}
+		});
 	}
 }
 
@@ -233,7 +279,7 @@ function getYears() {
 				option.innerHTML = year;
 				selectYear.appendChild(option);
 			}
-			getStat();
+			getDays();
 		}
 	});
 }
@@ -304,9 +350,10 @@ function prepare() {
 	document.getElementById("selectScore").onchange = getStat;
 
 	document.getElementById("selectPeriod").onchange = getStat;
-	document.getElementById("selectYear").onchange = getStat;
+	document.getElementById("selectYear").onchange = getDays;
 	document.getElementById("selectTrimester").onchange = getStat;
-	document.getElementById("selectMonth").onchange = getStat;
+	document.getElementById("selectMonth").onchange = getDays;
+	document.getElementById("selectDay").onchange = getStat;
 }
 
 $(document).ready(prepare());

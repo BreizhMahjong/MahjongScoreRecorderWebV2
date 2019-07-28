@@ -9,7 +9,9 @@ define ("PERIOD_MODE_ALL", "all");
 define ("PERIOD_MODE_YEAR", "year");
 define ("PERIOD_MODE_TRIMESTER", "trimester");
 define ("PERIOD_MODE_MONTH", "month");
+define ("PERIOD_MODE_DAY", "day");
 
+define ("MIN_GAME_PLAYED_DAY", 0);
 define ("MIN_GAME_PLAYED_MONTH", 2);
 define ("MIN_GAME_PLAYED_TRIMESTER", 5);
 define ("MIN_GAME_PLAYED_YEAR", 20);

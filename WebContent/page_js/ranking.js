@@ -4,6 +4,7 @@ function toggleSelect() {
 	var selectYear = document.getElementById("selectYear");
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
+	var selectDay = document.getElementById("selectDay");
 
 	var toHide = false;
 	if (selectRanking.selectedIndex < 7) {
@@ -16,18 +17,27 @@ function toggleSelect() {
 		selectYear.style.visibility = "hidden";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 1) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 2) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "visible";
 		selectMonth.style.visibility = "hidden";
+		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 3) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";
+		selectDay.style.visibility = "hidden";
+	} else if (selectPeriod.selectedIndex == 4) {
+		selectYear.style.visibility = "visible";
+		selectTrimester.style.visibility = "hidden";
+		selectMonth.style.visibility = "visible";
+		selectDay.style.visibility = "visible";
 	}
 }
 
@@ -579,6 +589,7 @@ function getRanking() {
 	var selectedYearIndex = selectYear.selectedIndex;
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
+	var selectDay = document.getElementById("selectDay");
 	var checkUseMinGames = document.getElementById("checkUseMinGames");
 	showLoading();
 
@@ -595,6 +606,7 @@ function getRanking() {
 		        "year" : selectYear.options[selectYear.selectedIndex].value,
 		        "trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
 		        "month" : selectMonth.options[selectMonth.selectedIndex].value,
+		        "day" : selectDay.options[selectDay.selectedIndex].value,
 		        "useMinGames" : checkUseMinGames.checked ? "1" : "0"
 		    },
 		    success : function(result) {
@@ -610,6 +622,40 @@ function getRanking() {
 		});
 	} else {
 		displayRanking(-1, null);
+	}
+}
+
+function getDays() {
+	var selectTournament = document.getElementById("selectTournament");
+	var selectedTournamentIndex = selectTournament.selectedIndex;
+	var selectYear = document.getElementById("selectYear");
+	var selectedYearIndex = selectYear.selectedIndex;
+	var selectMonth = document.getElementById("selectMonth");
+	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+		$.ajax({
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRDays",
+				"tournamentId" : selectTournament[selectedTournamentIndex].value,
+				"year" : selectYear[selectedYearIndex].value,
+				"month" : selectMonth.selectedIndex
+			},
+			success : function(result) {
+				days = $.parseJSON(result);
+				var index;
+				var selectDay = document.getElementById("selectDay");
+				selectDay.options.length = 0;
+				for (index = 0; index < days.length; index++) {
+					day = days[index];
+					var option = document.createElement("option");
+					option.value = day;
+					option.innerHTML = day;
+					selectDay.appendChild(option);
+				}
+				getRanking();
+			}
+		});
 	}
 }
 
@@ -635,7 +681,7 @@ function getYears() {
 			    option.innerHTML = year;
 			    selectYear.appendChild(option);
 		    }
-		    getRanking();
+		    getDays();
 	    }
 	});
 }
@@ -707,9 +753,10 @@ function prepare() {
 	document.getElementById("selectRanking").onchange = getRanking;
 	document.getElementById("selectSorting").onchange = getRanking;
 	document.getElementById("selectPeriod").onchange = getRanking;
-	document.getElementById("selectYear").onchange = getRanking;
+	document.getElementById("selectYear").onchange = getDays;
 	document.getElementById("selectTrimester").onchange = getRanking;
-	document.getElementById("selectMonth").onchange = getRanking;
+	document.getElementById("selectMonth").onchange = getDays;
+	document.getElementById("selectDay").onchange = getRanking;
 
 	if (document.addEventListener) {
 		document.addEventListener("keydown", keydown, false);
