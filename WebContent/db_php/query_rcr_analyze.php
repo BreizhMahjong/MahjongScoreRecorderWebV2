@@ -98,8 +98,8 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			$parameters = array (
 				$playerId,
 				$tournamentId,
-				$dateFrom,
-				$dateTo
+				$dateFromString,
+				$dateToString
 			);
 			$result = executeQuery ($querySelect . $queryFrom . $queryWhere . $queryTournament . $queryDate . $queryOrder, $parameters);
 		} else {
