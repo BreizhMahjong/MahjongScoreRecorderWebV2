@@ -27,7 +27,7 @@ function addPlayer($name, $realName) {
 				$id,
 				$name,
 				$realName,
-				0,
+				1,
 				1
 			);
 			$added = executeUpdate ($query, $parameters);
