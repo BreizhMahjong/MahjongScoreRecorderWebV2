@@ -152,7 +152,15 @@ function deleteRCRGame($id) {
 	return json_encode ($result);
 }
 function getRegularRCRPlayers() {
-	$querySelect = "SELECT DISTINCT " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_SCORE;
+	session_start ();
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
+	if ($isAdmin) {
+		$nameField = TABLE_PLAYER_REAL_NAME;
+		$querySelect = "SELECT DISTINCT " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_SCORE;
+	} else {
+		$nameField = TABLE_PLAYER_NAME;
+		$querySelect = "SELECT DISTINCT " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_SCORE;
+	}
 	$queryWhere = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1 AND " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID;
 	$queryOrder = " ORDER BY " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . " ASC";
 	$result = executeQuery ($querySelect . $queryWhere . $queryOrder, null);
@@ -160,7 +168,7 @@ function getRegularRCRPlayers() {
 	foreach ($result as $line) {
 		$player = array ();
 		$player [PLAYER_ID] = $line [TABLE_PLAYER_ID];
-		$player [PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
+		$player [PLAYER_NAME] = $line [$nameField];
 		$players [] = $player;
 	}
 	return json_encode ($players);
@@ -217,6 +225,8 @@ function getRCRGameIds($tournamentId, $year, $month, $day) {
 	return json_encode ($ids);
 }
 function getRCRGame($id) {
+	session_start ();
+	$isAdmin = isset ($_SESSION [SESSION_IS_ADMIN]) ? $_SESSION [SESSION_IS_ADMIN] : false;
 	if ($id !== null) {
 		$query = "SELECT " . TABLE_RCR_GAME_ID_TOURNAMENT_ID . ", " . TABLE_RCR_GAME_ID_NB_PLAYERS . ", " . TABLE_RCR_GAME_ID_NB_ROUNDS . ", YEAR(" . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . " FROM " . TABLE_RCR_GAME_ID . " WHERE " . TABLE_RCR_GAME_ID_ID . "=?";
 		$parameters = array (
@@ -234,7 +244,13 @@ function getRCRGame($id) {
 			$game [RCR_GAME_DAY] = intval ($result [0] [TABLE_VAR_DAY]);
 			$game [RCR_GAME_SCORES] = array ();
 
-			$querySelect = "SELECT " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_UMA_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE;
+			if ($isAdmin) {
+				$nameField = TABLE_PLAYER_REAL_NAME;
+				$querySelect = "SELECT " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_UMA_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE;
+			} else {
+				$nameField = TABLE_PLAYER_NAME;
+				$querySelect = "SELECT " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . ", " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_UMA_SCORE . ", " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE;
+			}
 			$queryFrom = " FROM " . TABLE_RCR_GAME_SCORE . ", " . TABLE_PLAYER;
 			$queryWhere = " WHERE " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . "=" . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . " AND " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID . "=?";
 			$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_RANKING;
@@ -243,7 +259,7 @@ function getRCRGame($id) {
 				foreach ($result as $line) {
 					$score = array ();
 					$score [RCR_SCORE_PLAYER_ID] = intval ($line [TABLE_RCR_GAME_SCORE_PLAYER_ID]);
-					$score [RCR_SCORE_PLAYER_NAME] = $line [TABLE_PLAYER_NAME];
+					$score [RCR_SCORE_PLAYER_NAME] = $line [$nameField];
 					$score [RCR_SCORE_RANKING] = intval ($line [TABLE_RCR_GAME_SCORE_RANKING]);
 					$score [RCR_SCORE_GAME_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_GAME_SCORE]);
 					$score [RCR_SCORE_UMA_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_UMA_SCORE]);

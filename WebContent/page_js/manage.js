@@ -1,3 +1,6 @@
+var inputNewPlayerName;
+var inputNewPlayerRealName;
+
 var selectModifyPlayer;
 var inputModifyPlayerName;
 var inputModifyPlayerRealName;
@@ -23,8 +26,6 @@ var tournaments;
 
 function addPlayer() {
 	disableButtons();
-	inputNewPlayerName = document.getElementById("inputNewPlayerName");
-	inputNewPlayerRealName = document.getElementById("inputNewPlayerRealName");
 	$.ajax({
 		url : SERVER_QUERY_URL,
 		type : "POST",
@@ -38,6 +39,7 @@ function addPlayer() {
 			if (updateResult.result) {
 				window.alert("Le joueur a été ajouté");
 				inputNewPlayerName.value = "";
+				inputNewPlayerRealName.value = "";
 				getPlayers();
 			} else {
 				window.alert(updateResult.message);
@@ -102,6 +104,7 @@ function modifyPlayer() {
 			if (updateResult.result) {
 				window.alert("Le joueur a été modifié");
 				inputNewPlayerName.value = "";
+				inputNewPlayerRealName.value = "";
 				getPlayers();
 			} else {
 				window.alert(updateResult.message);
@@ -313,6 +316,9 @@ function enableButtons() {
 }
 
 function prepare() {
+	inputNewPlayerName = document.getElementById("inputNewPlayerName");
+	inputNewPlayerRealName = document.getElementById("inputNewPlayerRealName");
+
 	selectModifyPlayer = document.getElementById("selectModifyPlayer");
 	inputModifyPlayerName = document.getElementById("inputModifyPlayerName");
 	inputModifyPlayerRealName = document.getElementById("inputModifyPlayerRealName");
