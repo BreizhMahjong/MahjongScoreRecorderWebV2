@@ -21,15 +21,17 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_YEAR:
 				if ($year !== null) {
 					$isPeriodSet = true;
-					$dateFrom = new DateTime ();
+					$dateFrom = date_create ();
 					date_date_set ($dateFrom, $year, 1, 1);
-					$dateTo = new DateTime ();
+					date_time_set ($dateFrom, 0, 0, 0);
+					$dateTo = date_create ();
 					date_date_set ($dateTo, $year, 1, 1);
+					date_time_set ($dateTo, 0, 0, 0);
 					$interval = new DateInterval ("P1Y");
 					date_add ($dateTo, $interval);
 					$dateFromString = date_format ($dateFrom, "Y-m-d");
 					$dateToString = date_format ($dateTo, "Y-m-d");
-					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
+					$minGamePlayed = intval (round (getProportionalPeriod ($dateFrom, $dateTo) * MIN_GAME_PLAYED_YEAR));
 				} else {
 					$isPeriodSet = false;
 					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
@@ -38,15 +40,17 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_TRIMESTER:
 				if ($year !== null && $trimester !== null) {
 					$isPeriodSet = true;
-					$dateFrom = new DateTime ();
+					$dateFrom = date_create ();
 					date_date_set ($dateFrom, $year, $trimester * 3 + 1, 1);
-					$dateTo = new DateTime ();
+					date_time_set ($dateFrom, 0, 0, 0);
+					$dateTo = date_create ();
 					date_date_set ($dateTo, $year, $trimester * 3 + 1, 1);
+					date_time_set ($dateTo, 0, 0, 0);
 					$interval = new DateInterval ("P3M");
 					date_add ($dateTo, $interval);
 					$dateFromString = date_format ($dateFrom, "Y-m-d");
 					$dateToString = date_format ($dateTo, "Y-m-d");
-					$minGamePlayed = MIN_GAME_PLAYED_TRIMESTER;
+					$minGamePlayed = intval (round (getProportionalPeriod ($dateFrom, $dateTo) * MIN_GAME_PLAYED_TRIMESTER));
 				} else {
 					$isPeriodSet = false;
 					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
@@ -55,15 +59,17 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_MONTH:
 				if ($year !== null && $month !== null) {
 					$isPeriodSet = true;
-					$dateFrom = new DateTime ();
+					$dateFrom = date_create ();
 					date_date_set ($dateFrom, $year, $month + 1, 1);
-					$dateTo = new DateTime ();
+					date_time_set ($dateFrom, 0, 0, 0);
+					$dateTo = date_create ();
 					date_date_set ($dateTo, $year, $month + 1, 1);
+					date_time_set ($dateTo, 0, 0, 0);
 					$interval = new DateInterval ("P1M");
 					date_add ($dateTo, $interval);
 					$dateFromString = date_format ($dateFrom, "Y-m-d");
 					$dateToString = date_format ($dateTo, "Y-m-d");
-					$minGamePlayed = MIN_GAME_PLAYED_MONTH;
+					$minGamePlayed = intval (round (getProportionalPeriod ($dateFrom, $dateTo) * MIN_GAME_PLAYED_MONTH));
 				} else {
 					$isPeriodSet = false;
 					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
@@ -72,10 +78,12 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 			case PERIOD_MODE_DAY:
 				if ($year !== null && $month !== null && $day !== null) {
 					$isPeriodSet = true;
-					$dateFrom = new DateTime ();
+					$dateFrom = date_create ();
 					date_date_set ($dateFrom, $year, $month + 1, $day);
-					$dateTo = new DateTime ();
+					date_time_set ($dateFrom, 0, 0, 0);
+					$dateTo = date_create ();
 					date_date_set ($dateTo, $year, $month + 1, $day);
+					date_time_set ($dateTo, 0, 0, 0);
 					$interval = new DateInterval ("P1D");
 					date_add ($dateTo, $interval);
 					$dateFromString = date_format ($dateFrom, "Y-m-d");
@@ -673,8 +681,8 @@ function getNumberOfYearOfAllGamePeriod($tournamentId) {
 	);
 	$result = executeQuery ($query, $parameters);
 	if (count ($result) > 0) {
-		$firstDate = new DateTime ($result [0] ["minDate"]);
-		$lastDate = new DateTime ($result [0] ["maxDate"]);
+		$firstDate = date_create ($result [0] ["minDate"]);
+		$lastDate = date_create ($result [0] ["maxDate"]);
 	}
 	if ($firstDate !== null && $lastDate !== null) {
 		$interval = date_diff ($firstDate, $lastDate);
@@ -682,6 +690,21 @@ function getNumberOfYearOfAllGamePeriod($tournamentId) {
 			return $interval->days / 365.25;
 		} else {
 			return 0.0;
+		}
+	} else {
+		return 0.0;
+	}
+}
+function getProportionalPeriod($dateFrom, $dateTo) {
+	if ($dateFrom !== null && $dateTo !== null) {
+		$today = date_create ();
+		date_time_set ($today, 0, 0, 0);
+		$intervalFromToday = date_diff ($dateFrom, $today);
+		$intervalTodayTo = date_diff ($today, $dateTo);
+		if ($intervalFromToday->invert === 0 && $intervalTodayTo->invert === 0) {
+			return floatval ($intervalFromToday->days) / floatval ($intervalFromToday->days + $intervalTodayTo->days);
+		} else {
+			return 1.0;
 		}
 	} else {
 		return 0.0;
