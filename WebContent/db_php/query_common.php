@@ -6,6 +6,7 @@ define ("COOKIE_NAME_ID", "bmjcLoginID");
 define ("COOKIE_EXPIRE_TIME", 86400);
 
 define ("PERIOD_MODE_ALL", "all");
+define ("PERIOD_MODE_SEASON", "season");
 define ("PERIOD_MODE_YEAR", "year");
 define ("PERIOD_MODE_TRIMESTER", "trimester");
 define ("PERIOD_MODE_MONTH", "month");

@@ -3,6 +3,7 @@ create table bmjr_player(
 	player_name varchar(64) not null,
 	frequent tinyint not null,
 	regular tinyint not null,
+	license varchar(10),
 	constraint player_pk primary key(player_id),
 	constraint player_name_uni unique(player_name)
 );

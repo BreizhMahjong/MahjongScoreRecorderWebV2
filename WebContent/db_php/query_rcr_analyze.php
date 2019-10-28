@@ -24,6 +24,25 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 					$isPeriodSet = false;
 				}
 				break;
+			case PERIOD_MODE_SEASON:
+				if ($year !== null) {
+					$isPeriodSet = true;
+					$dateFrom = date_create ();
+					date_date_set ($dateFrom, $year, 9, 1);
+					date_time_set ($dateFrom, 0, 0, 0);
+					$dateTo = date_create ();
+					date_date_set ($dateTo, $year, 9, 1);
+					date_time_set ($dateTo, 0, 0, 0);
+					$interval = new DateInterval ("P1Y");
+					date_add ($dateTo, $interval);
+					$dateFromString = date_format ($dateFrom, "Y-m-d");
+					$dateToString = date_format ($dateTo, "Y-m-d");
+					$minGamePlayed = intval (round (getProportionalPeriod ($dateFrom, $dateTo) * MIN_GAME_PLAYED_YEAR));
+				} else {
+					$isPeriodSet = false;
+					$minGamePlayed = MIN_GAME_PLAYED_YEAR;
+				}
+				break;
 			case PERIOD_MODE_TRIMESTER:
 				if ($year !== null && $trimester !== null) {
 					$isPeriodSet = true;
