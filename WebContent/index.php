@@ -81,7 +81,8 @@ if (isset ($_GET ["menu"])) {
 						<li <?php if (!$isAdmin) { echo "class=\"disabled\""; } ?> <?php if ($menu === "manage") { echo "class=\"active\""; }?>><a href="?menu=manage">Admin</a></li>
 						<li <?php if (!$isLogin) { echo "class=\"disabled\""; } ?> <?php if ($menu === "newgame") { echo "class=\"active\""; }?>><a href="?menu=newgame">Nouvelle Partie</a></li>
 						<li <?php if ($menu === "ranking") { echo "class=\"active\""; }?>><a href="?menu=ranking">Classements</a></li>
-						<li <?php if ($menu === "analyze") { echo "class=\"active\""; }?>><a href="?menu=analyze">Analyse</a></li>
+						<li <?php if ($menu === "personal_analyze") { echo "class=\"active\""; }?>><a href="?menu=personal_analyze">Analyse joueur</a></li>
+						<li <?php if ($menu === "score_analyze") { echo "class=\"active\""; }?>><a href="?menu=score_analyze">Analyse score</a></li>
 						<li <?php if ($menu === "history") { echo "class=\"active\""; }?>><a href="?menu=history">Historique</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -120,7 +121,6 @@ if (isset ($_GET ["menu"])) {
 		</div>
 	</div>
 
-	<hr />
 	<footer>
 		<p align="center">
 			Authors : Pierric Willemet, Yulong Zhao @ <a href="https://breizhmahjong.fr/">Breizh Mahjong</a>

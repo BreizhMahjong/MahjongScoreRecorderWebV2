@@ -7,7 +7,8 @@ require_once ("./db_php/query_player.php");
 require_once ("./db_php/query_rcr_tournament.php");
 require_once ("./db_php/query_rcr_game.php");
 require_once ("./db_php/query_rcr_ranking.php");
-require_once ("./db_php/query_rcr_analyze.php");
+require_once ("./db_php/query_rcr_personal_analyze.php");
+require_once ("./db_php/query_rcr_score_analyze.php");
 
 $action = isset ($_POST [ACTION]) ? $_POST [ACTION] : null;
 if ($action !== null) {
@@ -95,16 +96,25 @@ if ($action !== null) {
 			$id = isset ($_POST [ACTION_GET_RCR_GAME_PARAM_ID]) ? intval ($_POST [ACTION_GET_RCR_GAME_PARAM_ID]) : null;
 			echo getRCRGame ($id);
 			break;
-		case ACTION_GET_RCR_ANALYZE:
-			$tournamentId = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TOURNAMENT_ID]) : null;
-			$playerId = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_PLAYER_ID]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_PLAYER_ID]) : null;
-			$scoreMode = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE]) ? $_POST [ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE] : null;
-			$periodMode = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_PERIOD_MODE]) ? $_POST [ACTION_GET_RCR_ANALYZE_PARAM_PERIOD_MODE] : null;
-			$year = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_YEAR]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_YEAR]) : null;
-			$trimester = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TRIMESTER]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_TRIMESTER]) : null;
-			$month = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_MONTH]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_MONTH]) : null;
-			$day = isset ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_DAY]) ? intval ($_POST [ACTION_GET_RCR_ANALYZE_PARAM_DAY]) : null;
-			echo getRCRAnalyze ($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day);
+		case ACTION_GET_RCR_PERSONAL_ANALYZE:
+			$tournamentId = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_TOURNAMENT_ID]) : null;
+			$playerId = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_PLAYER_ID]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_PLAYER_ID]) : null;
+			$scoreMode = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_SCORE_MODE]) ? $_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_SCORE_MODE] : null;
+			$periodMode = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_PERIOD_MODE]) ? $_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_PERIOD_MODE] : null;
+			$year = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_YEAR]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_YEAR]) : null;
+			$trimester = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_TRIMESTER]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_TRIMESTER]) : null;
+			$month = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_MONTH]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_MONTH]) : null;
+			$day = isset ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_DAY]) ? intval ($_POST [ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_DAY]) : null;
+			echo getRCRPersonalAnalyze ($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day);
+			break;
+		case ACTION_GET_RCR_SCORE_ANALYZE:
+			$tournamentId = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_TOURNAMENT_ID]) : null;
+			$periodMode = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_PERIOD_MODE]) ? $_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_PERIOD_MODE] : null;
+			$year = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_YEAR]) ? intval ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_YEAR]) : null;
+			$trimester = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_TRIMESTER]) ? intval ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_TRIMESTER]) : null;
+			$month = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_MONTH]) ? intval ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_MONTH]) : null;
+			$day = isset ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_DAY]) ? intval ($_POST [ACTION_GET_RCR_SCORE_ANALYZE_PARAM_DAY]) : null;
+			echo getRCRScoreAnalyze ($tournamentId, $periodMode, $year, $trimester, $month, $day);
 			break;
 		case ACTION_GET_RCR_RANKING:
 			$tournamentId = isset ($_POST [ACTION_GET_RCR_RANKING_PARAM_TOURNAMENT_ID]) ? intval ($_POST [ACTION_GET_RCR_RANKING_PARAM_TOURNAMENT_ID]) : null;

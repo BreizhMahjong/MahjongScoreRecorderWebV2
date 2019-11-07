@@ -76,7 +76,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var totalScore = parseInt(score.score);
@@ -132,7 +132,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var finalScore = parseInt(score.score);
@@ -183,7 +183,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var meanScore = parseInt(score.score);
@@ -239,7 +239,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var stack = parseInt(score.score);
@@ -288,7 +288,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var meanScore = parseInt(score.score);
@@ -340,7 +340,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var rate = parseFloat(score.score);
@@ -392,7 +392,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var rate = parseFloat(score.score);
@@ -440,7 +440,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var totalScore = parseInt(score.score);
@@ -491,7 +491,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var totalScore = parseInt(score.score);
@@ -545,7 +545,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
 				var totalScore = parseInt(score.score);

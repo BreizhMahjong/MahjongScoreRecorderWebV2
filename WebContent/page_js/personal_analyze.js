@@ -204,7 +204,7 @@ function getStat() {
 			url : SERVER_QUERY_URL,
 			type : "POST",
 			data : {
-				"action" : "getRCRAnalyze",
+				"action" : "getRCRPersonalAnalyze",
 				"tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
 				"playerId" : selectPlayer.options[selectPlayer.selectedIndex].value,
 				"scoreMode" : selectScore.options[selectScore.selectedIndex].value,

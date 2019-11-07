@@ -1,8 +1,8 @@
 <?php
 require_once ("query_database_connection.php");
 require_once ("query_database_table_rcr.php");
-require_once ("query_rcr_analyze_config.php");
-function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day) {
+require_once ("query_rcr_personal_analyze_config.php");
+function getRCRPersonalAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year, $trimester, $month, $day) {
 	$analyzeData = array ();
 	if ($periodMode !== null) {
 		switch ($periodMode) {
@@ -95,13 +95,13 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 	}
 
 	switch ($scoreMode) {
-		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_FINAL_SCORE:
+		case ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_SCORE_MODE_FINAL_SCORE:
 			$field = TABLE_RCR_GAME_SCORE_FINAL_SCORE;
 			break;
-		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_ABS_SCORE:
+		case ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_SCORE_MODE_ABS_SCORE:
 			$field = TABLE_RCR_GAME_SCORE_GAME_SCORE . "-30000";
 			break;
-		case ACTION_GET_RCR_ANALYZE_PARAM_SCORE_MODE_GAME_SCORE:
+		case ACTION_GET_RCR_PERSONAL_ANALYZE_PARAM_SCORE_MODE_GAME_SCORE:
 			$field = TABLE_RCR_GAME_SCORE_GAME_SCORE;
 			break;
 	}
@@ -236,26 +236,26 @@ function getRCRAnalyze($tournamentId, $playerId, $scoreMode, $periodMode, $year,
 			}
 		}
 
-		$analyzeData [RCR_ANALYZE_NB_GAMES] = $numberOfGames;
-		$analyzeData [RCR_ANALYZE_SCORE_MAX] = $maxScore;
-		$analyzeData [RCR_ANALYZE_SCORE_MIN] = $minScore;
-		$analyzeData [RCR_ANALYZE_POSITIVE] = $numberOfPositiveGames;
-		$analyzeData [RCR_ANALYZE_POSITIVE_PERCENTAGE] = $numberOfGames > 0 ? intval (round (floatval ($numberOfPositiveGames) * 100.0 / $numberOfGames)) : 0;
-		$analyzeData [RCR_ANALYZE_NEGATIVE] = $numberOfNegativeGames;
-		$analyzeData [RCR_ANALYZE_NEGATIVE_PERCENTAGE] = $numberOfGames > 0 ? intval (round (floatval ($numberOfNegativeGames) * 100.0 / $numberOfGames)) : 0;
-		$analyzeData [RCR_ANALYZE_SCORE_TOTAL] = $totalScore;
-		$analyzeData [RCR_ANALYZE_SCORE_MEAN] = intval (round ($meanScore));
-		$analyzeData [RCR_ANALYZE_SCORE_STDEV] = $stdev;
-		$analyzeData [RCR_ANALYZE_TOTAL_MAX] = $maxTotal;
-		$analyzeData [RCR_ANALYZE_TOTAL_MIN] = $minTotal;
-		$analyzeData [RCR_ANALYZE_FOUR_PLAYERS_GAMES] = $numberOfFourPlayerGames;
-		$analyzeData [RCR_ANALYZE_FOUR_PLAYERS_GAMES_PLACES] = $placeFourPlayers;
-		$analyzeData [RCR_ANALYZE_FOUR_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFourPlayersPercent;
-		$analyzeData [RCR_ANALYZE_FIVE_PLAYERS_GAMES] = $numberOfFivePlayerGames;
-		$analyzeData [RCR_ANALYZE_FIVE_PLAYERS_GAMES_PLACES] = $placeFivePlayers;
-		$analyzeData [RCR_ANALYZE_FIVE_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFivePlayersPercent;
-		$analyzeData [RCR_ANALYZE_LIST_DATE] = $listDate;
-		$analyzeData [RCR_ANALYZE_LIST_SCORE] = $listScore;
+		$analyzeData [RCR_PERSONAL_ANALYZE_NB_GAMES] = $numberOfGames;
+		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_MAX] = $maxScore;
+		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_MIN] = $minScore;
+		$analyzeData [RCR_PERSONAL_ANALYZE_POSITIVE] = $numberOfPositiveGames;
+		$analyzeData [RCR_PERSONAL_ANALYZE_POSITIVE_PERCENTAGE] = $numberOfGames > 0 ? intval (round (floatval ($numberOfPositiveGames) * 100.0 / $numberOfGames)) : 0;
+		$analyzeData [RCR_PERSONAL_ANALYZE_NEGATIVE] = $numberOfNegativeGames;
+		$analyzeData [RCR_PERSONAL_ANALYZE_NEGATIVE_PERCENTAGE] = $numberOfGames > 0 ? intval (round (floatval ($numberOfNegativeGames) * 100.0 / $numberOfGames)) : 0;
+		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_TOTAL] = $totalScore;
+		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_MEAN] = intval (round ($meanScore));
+		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_STDEV] = $stdev;
+		$analyzeData [RCR_PERSONAL_ANALYZE_TOTAL_MAX] = $maxTotal;
+		$analyzeData [RCR_PERSONAL_ANALYZE_TOTAL_MIN] = $minTotal;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES] = $numberOfFourPlayerGames;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES_PLACES] = $placeFourPlayers;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFourPlayersPercent;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FIVE_PLAYERS_GAMES] = $numberOfFivePlayerGames;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FIVE_PLAYERS_GAMES_PLACES] = $placeFivePlayers;
+		$analyzeData [RCR_PERSONAL_ANALYZE_FIVE_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFivePlayersPercent;
+		$analyzeData [RCR_PERSONAL_ANALYZE_LIST_DATE] = $listDate;
+		$analyzeData [RCR_PERSONAL_ANALYZE_LIST_SCORE] = $listScore;
 	}
 	return json_encode ($analyzeData);
 }
