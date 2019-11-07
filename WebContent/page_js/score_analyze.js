@@ -107,6 +107,7 @@ function displayStat(stat) {
 				leftPlayerNameTable.appendChild(line);
 
 				var titlePlayerName = document.createElement("th");
+				titlePlayerName.style.whiteSpace = "nowrap";
 				titlePlayerName.style.width = "143px";
 				titlePlayerName.style.minWidth = "143px";
 				titlePlayerName.style.maxWidth = "143px";
@@ -131,7 +132,6 @@ function displayStat(stat) {
 			sumTitle.style.borderTopWidth = "2px";
 			sumTitle.innerHTML = "Somme";
 			leftPlayerNameTable.appendChild(sumTitle);
-
 		}
 
 		{

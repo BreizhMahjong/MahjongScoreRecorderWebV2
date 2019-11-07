@@ -133,9 +133,13 @@ function getRCRScoreAnalyze($tournamentId, $periodMode, $year, $trimester, $mont
 	}
 	$scores = array ();
 	$sums = array ();
+	$positiveSums = array();
+	$negativeSums = array();
 	$nbPlayers = count($playerNames);
 	for($x = 0; $x < $nbPlayers; $x++) {
 		$sums[$x] = 0;
+		$positiveSums[$x] = 0;
+		$negativeSums[$x] = 0;
 		for($y = 0; $y < $nbPlayers; $y++) {
 			$scores[$x][$y] = 0;
 		}
@@ -207,7 +211,9 @@ function getRCRScoreAnalyze($tournamentId, $periodMode, $year, $trimester, $mont
 						$scores[$playerPositiveIndex][$playerNegativeIndex] += $scorePart;
 						$scores[$playerNegativeIndex][$playerPositiveIndex] -= $scorePart;
 						$sums[$playerPositiveIndex] += $scorePart;
+						$positiveSums[$playerPositiveIndex] += $scorePart;
 						$sums[$playerNegativeIndex] -= $scorePart;
+						$negativeSums[$playerNegativeIndex] -= $scorePart;
 					}
 					$scoreIndex++;
 				}
@@ -220,12 +226,16 @@ function getRCRScoreAnalyze($tournamentId, $periodMode, $year, $trimester, $mont
 				$scores[$x][$y] = intval(round($scores[$x][$y]));
 			}
 			$sums[$x] = intval(round($sums[$x]));
+			$positiveSums[$x] = intval(round($positiveSums[$x]));
+			$negativeSums[$x] = intval(round($negativeSums[$x]));
 		}
 	}
 
 	$analyzeData[RCR_SCORE_ANALYZE_PLAYERS] = $playerNames;
 	$analyzeData[RCR_SCORE_ANALYZE_SCORES] = $scores;
 	$analyzeData[RCR_SCORE_ANALYZE_SUMS] = $sums;
+	$analyzeData[RCR_SCORE_ANALYZE_POSITIVE_SUMS] = $positiveSums;
+	$analyzeData[RCR_SCORE_ANALYZE_NEGATIVE_SUMS] = $negativeSums;
 
 	return json_encode($analyzeData);
 }
