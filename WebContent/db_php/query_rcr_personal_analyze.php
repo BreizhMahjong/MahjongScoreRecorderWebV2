@@ -141,8 +141,8 @@ function getRCRPersonalAnalyze($tournamentId, $playerId, $scoreMode, $periodMode
 		$stdev = 0.0;
 		$maxScore = 0;
 		$minScore = 0;
-		$maxTotal = 0;
-		$minTotal = 0;
+		$positiveTotal = 0;
+		$negativeTotal = 0;
 
 		$numberOfFourPlayerGames = 0;
 		$numberOfFivePlayerGames = 0;
@@ -182,8 +182,10 @@ function getRCRPersonalAnalyze($tournamentId, $playerId, $scoreMode, $periodMode
 			$listScore [] = $score;
 			if ($score >= 0) {
 				$numberOfPositiveGames++;
+				$positiveTotal += $score;
 			} else {
 				$numberOfNegativeGames++;
+				$negativeTotal += $score;
 			}
 
 			if ($index === 0 or $score > $maxScore) {
@@ -202,12 +204,6 @@ function getRCRPersonalAnalyze($tournamentId, $playerId, $scoreMode, $periodMode
 			}
 
 			$totalScore += $score;
-			if ($index === 0 or $totalScore > $maxTotal) {
-				$maxTotal = $totalScore;
-			}
-			if ($index === 0 or $totalScore < $minTotal) {
-				$minTotal = $totalScore;
-			}
 
 			$date = array ();
 			$date [RCR_GAME_ID] = intval ($line [TABLE_RCR_GAME_ID_ID]);
@@ -246,8 +242,8 @@ function getRCRPersonalAnalyze($tournamentId, $playerId, $scoreMode, $periodMode
 		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_TOTAL] = $totalScore;
 		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_MEAN] = intval (round ($meanScore));
 		$analyzeData [RCR_PERSONAL_ANALYZE_SCORE_STDEV] = $stdev;
-		$analyzeData [RCR_PERSONAL_ANALYZE_TOTAL_MAX] = $maxTotal;
-		$analyzeData [RCR_PERSONAL_ANALYZE_TOTAL_MIN] = $minTotal;
+		$analyzeData [RCR_PERSONAL_ANALYZE_POSITIVE_TOTAL] = $positiveTotal;
+		$analyzeData [RCR_PERSONAL_ANALYZE_NEGATIVE_TOTAL] = $negativeTotal;
 		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES] = $numberOfFourPlayerGames;
 		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES_PLACES] = $placeFourPlayers;
 		$analyzeData [RCR_PERSONAL_ANALYZE_FOUR_PLAYERS_GAMES_PLACES_PERCENTAGE] = $placeFourPlayersPercent;

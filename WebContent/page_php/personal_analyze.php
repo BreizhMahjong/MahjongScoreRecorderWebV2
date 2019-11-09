@@ -66,7 +66,7 @@
 			<td align="center" style="width: 15%;">Positif</td>
 			<td align="center" style="width: 15%;">Négatif</td>
 			<td align="center" style="width: 15%;">Score total</td>
-			<td align="center" style="width: 15%;">Total max</td>
+			<td align="center" style="width: 15%;">Total positif</td>
 		</tr>
 		<tr>
 			<td id="nbGames" align="center" style="width: 15%;">0</td>
@@ -74,7 +74,7 @@
 			<td id="positive" align="center" style="width: 15%;">0</td>
 			<td id="negative" align="center" style="width: 15%;">0</td>
 			<td id="scoreTotal" align="center" style="width: 15%;">0</td>
-			<td id="totalMax" align="center" style="width: 15%;">0</td>
+			<td id="positiveTotal" align="center" style="width: 15%;">0</td>
 		</tr>
 		<tr>
 			<td align="center" style="width: 15%;"></td>
@@ -82,7 +82,7 @@
 			<td align="center" style="width: 15%;">Positif %</td>
 			<td align="center" style="width: 15%;">Négatif %</td>
 			<td align="center" style="width: 15%;">Moyenne (écart type)</td>
-			<td align="center" style="width: 15%;">Total min</td>
+			<td align="center" style="width: 15%;">Total négatif</td>
 		</tr>
 		<tr>
 			<td align="center" style="width: 15%;"></td>
@@ -90,7 +90,7 @@
 			<td id="positivePercent" align="center" style="width: 15%;">0</td>
 			<td id="negativePercent" align="center" style="width: 15%;">0</td>
 			<td id="scoreMean" align="center" style="width: 15%;">0</td>
-			<td id="totalMin" align="center" style="width: 15%;">0</td>
+			<td id="negativeTotal" align="center" style="width: 15%;">0</td>
 		</tr>
 	</table>
 	<table style="width: 100%; border: 2px solid gray;">

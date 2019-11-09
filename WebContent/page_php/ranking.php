@@ -74,8 +74,7 @@
 			<th id="tableTitle4" style="text-align: center; width: 25%;">Nombre de parties</th>
 		</tr>
 	</thead>
-	<tbody id="rankingTableBody">
-	</tbody>
+	<tbody id="rankingTableBody" />
 </table>
 <div class="loadingImage">
 	<img src="images/rolling.gif" />

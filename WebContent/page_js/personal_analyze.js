@@ -50,8 +50,8 @@ function displayStat(data, scoreMode) {
 		document.getElementById("scoreTotal").innerHTML = parseInt(data.scoreTotal).toLocaleString("fr-fr");
 		document.getElementById("scoreMean").innerHTML = parseInt(data.scoreMean.toString()).toLocaleString("fr-fr") + " ("
 				+ parseInt(data.scoreStandardDeviation.toString()).toLocaleString("fr-fr") + ")";
-		document.getElementById("totalMax").innerHTML = parseInt(data.totalMax).toLocaleString("fr-fr");
-		document.getElementById("totalMin").innerHTML = parseInt(data.totalMin).toLocaleString("fr-fr");
+		document.getElementById("positiveTotal").innerHTML = parseInt(data.positiveTotal).toLocaleString("fr-fr");
+		document.getElementById("negativeTotal").innerHTML = parseInt(data.negativeTotal).toLocaleString("fr-fr");
 
 		if (data.numberOfFourPlayerGames > 0) {
 			document.getElementById("nbFourPlayerGames").innerHTML = parseInt(data.numberOfFourPlayerGames).toLocaleString("fr-fr");
