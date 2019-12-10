@@ -122,7 +122,7 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 
 	if ($rankingMode !== null) {
 		switch ($rankingMode) {
-			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_TOTAL:
+			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_TOTAL_FINAL_SCORE:
 				if ($isAdmin) {
 					$nameField = TABLE_PLAYER_REAL_NAME;
 					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", SUM(" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ") AS " . TABLE_VAR_SCORE_TOTAL . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
@@ -168,49 +168,6 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_VAR_SCORE_TOTAL]);
 					$totalScore [SCORE_TOTAL_UMA] = 0;
 					$totalScore [SCORE_TOTAL_NB_GAMES] = intval ($line [TABLE_VAR_NB_GAMES]);
-					$totalScores [] = $totalScore;
-				}
-				break;
-			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_FINAL_SCORE:
-				if ($isAdmin) {
-					$nameField = TABLE_PLAYER_REAL_NAME;
-					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_UMA_SCORE;
-				} else {
-					$nameField = TABLE_PLAYER_NAME;
-					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_UMA_SCORE;
-				}
-				$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
-				$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
-				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
-				$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
-				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
-					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_FINAL_SCORE . " ASC ";
-				} else {
-					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_FINAL_SCORE . " DESC ";
-				}
-				$queryLimit = " LIMIT " . RANKING_RESULT_LIMIT;
-				if ($isPeriodSet) {
-					$parameters = array (
-						$tournamentId,
-						$dateFromString,
-						$dateToString
-					);
-					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryDate . $queryOrder . $queryLimit, $parameters);
-				} else {
-					$parameters = array (
-						$tournamentId
-					);
-					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryOrder . $queryLimit, $parameters);
-				}
-				foreach ($result as $line) {
-					$totalScore = array ();
-					$totalScore [SCORE_TOTAL_NAME] = $line [$nameField];
-					$totalScore [SCORE_TOTAL_YEAR] = intval ($line [TABLE_VAR_YEAR]);
-					$totalScore [SCORE_TOTAL_MONTH] = intval ($line [TABLE_VAR_MONTH]);
-					$totalScore [SCORE_TOTAL_DAY] = intval ($line [TABLE_VAR_DAY]);
-					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_FINAL_SCORE]);
-					$totalScore [SCORE_TOTAL_UMA] = intval ($line [TABLE_RCR_GAME_SCORE_UMA_SCORE]);
-					$totalScore [SCORE_TOTAL_NB_GAMES] = 0;
 					$totalScores [] = $totalScore;
 				}
 				break;
@@ -263,22 +220,22 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					$totalScores [] = $totalScore;
 				}
 				break;
-			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_GAME_SCORE:
+			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_BEST_FINAL_SCORE:
 				if ($isAdmin) {
 					$nameField = TABLE_PLAYER_REAL_NAME;
-					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_GAME_SCORE;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_UMA_SCORE;
 				} else {
 					$nameField = TABLE_PLAYER_NAME;
-					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_GAME_SCORE;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_FINAL_SCORE . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_UMA_SCORE;
 				}
 				$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
 				$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
 				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
 				$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
 				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
-					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_GAME_SCORE . " ASC";
+					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_FINAL_SCORE . " ASC ";
 				} else {
-					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_GAME_SCORE . " DESC";
+					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_FINAL_SCORE . " DESC ";
 				}
 				$queryLimit = " LIMIT " . RANKING_RESULT_LIMIT;
 				if ($isPeriodSet) {
@@ -300,9 +257,58 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					$totalScore [SCORE_TOTAL_YEAR] = intval ($line [TABLE_VAR_YEAR]);
 					$totalScore [SCORE_TOTAL_MONTH] = intval ($line [TABLE_VAR_MONTH]);
 					$totalScore [SCORE_TOTAL_DAY] = intval ($line [TABLE_VAR_DAY]);
-					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_GAME_SCORE]);
-					$totalScore [SCORE_TOTAL_UMA] = 0;
+					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_FINAL_SCORE]);
+					$totalScore [SCORE_TOTAL_UMA] = intval ($line [TABLE_RCR_GAME_SCORE_UMA_SCORE]);
 					$totalScore [SCORE_TOTAL_NB_GAMES] = 0;
+					$totalScores [] = $totalScore;
+				}
+				break;
+			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_TOTAL_GAME_SCORE:
+				if ($isAdmin) {
+					$nameField = TABLE_PLAYER_REAL_NAME;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", SUM(" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ") AS " . TABLE_VAR_SCORE_TOTAL . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
+				} else {
+					$nameField = TABLE_PLAYER_NAME;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", SUM(" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_SCORE . ") AS " . TABLE_VAR_SCORE_TOTAL . ", COUNT(*) AS " . TABLE_VAR_NB_GAMES;
+				}
+				$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
+				$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
+				$queryPlayer = SQL_AND . TABLE_PLAYER . DOT . TABLE_PLAYER_REGULAR . "=1";
+				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
+				$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
+				$queryGroup = " GROUP BY " . TABLE_PLAYER . DOT . $nameField;
+				if ($useMinGames) {
+					$queryHaving = " HAVING COUNT(*)>=" . strval ($minGamePlayed);
+				} else {
+					$queryHaving = "";
+				}
+				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
+					$queryOrder = " ORDER BY " . TABLE_VAR_SCORE_TOTAL . " ASC";
+				} else {
+					$queryOrder = " ORDER BY " . TABLE_VAR_SCORE_TOTAL . " DESC";
+				}
+				if ($isPeriodSet) {
+					$parameters = array (
+						$tournamentId,
+						$dateFromString,
+						$dateToString
+					);
+					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryDate . $queryGroup . $queryHaving . $queryOrder, $parameters);
+				} else {
+					$parameters = array (
+						$tournamentId
+					);
+					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryPlayer . $queryTournament . $queryGroup . $queryHaving . $queryOrder, $parameters);
+				}
+				foreach ($result as $line) {
+					$totalScore = array ();
+					$totalScore [SCORE_TOTAL_NAME] = $line [$nameField];
+					$totalScore [SCORE_TOTAL_YEAR] = 0;
+					$totalScore [SCORE_TOTAL_MONTH] = 0;
+					$totalScore [SCORE_TOTAL_DAY] = 0;
+					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_VAR_SCORE_TOTAL]);
+					$totalScore [SCORE_TOTAL_UMA] = 0;
+					$totalScore [SCORE_TOTAL_NB_GAMES] = intval ($line [TABLE_VAR_NB_GAMES]);
 					$totalScores [] = $totalScore;
 				}
 				break;
@@ -352,6 +358,49 @@ function getRCRRanking($tournamentId, $rankingMode, $sortingMode, $periodMode, $
 					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_VAR_SCORE_MEAN]);
 					$totalScore [SCORE_TOTAL_UMA] = intval ($line [TABLE_VAR_SCORE_STDDEV]);
 					$totalScore [SCORE_TOTAL_NB_GAMES] = intval ($line [TABLE_VAR_NB_GAMES]);
+					$totalScores [] = $totalScore;
+				}
+				break;
+			case ACTION_GET_RCR_RANKING_PARAM_RANKING_MODE_BEST_GAME_SCORE:
+				if ($isAdmin) {
+					$nameField = TABLE_PLAYER_REAL_NAME;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_REAL_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_GAME_SCORE;
+				} else {
+					$nameField = TABLE_PLAYER_NAME;
+					$querySelect = "SELECT " . TABLE_PLAYER . DOT . TABLE_PLAYER_NAME . ", YEAR(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_YEAR . ", MONTH(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") - 1 AS " . TABLE_VAR_MONTH . ", DAY(" . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ") AS " . TABLE_VAR_DAY . ", " . TABLE_RCR_GAME_SCORE . "." . TABLE_RCR_GAME_SCORE_GAME_SCORE;
+				}
+				$queryFrom = " FROM " . TABLE_PLAYER . ", " . TABLE_RCR_GAME_ID . ", " . TABLE_RCR_GAME_SCORE;
+				$queryWhereJoin = " WHERE " . TABLE_PLAYER . DOT . TABLE_PLAYER_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_PLAYER_ID . SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_ID . "=" . TABLE_RCR_GAME_SCORE . DOT . TABLE_RCR_GAME_SCORE_GAME_ID;
+				$queryTournament = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_TOURNAMENT_ID . "=?";
+				$queryDate = SQL_AND . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . ">=? AND " . TABLE_RCR_GAME_ID . DOT . TABLE_RCR_GAME_ID_DATE . "<?";
+				if ($sortingMode === ACTION_GET_RCR_RANKING_PARAM_SORTING_MODE_LOWEREST) {
+					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_GAME_SCORE . " ASC";
+				} else {
+					$queryOrder = " ORDER BY " . TABLE_RCR_GAME_SCORE_GAME_SCORE . " DESC";
+				}
+				$queryLimit = " LIMIT " . RANKING_RESULT_LIMIT;
+				if ($isPeriodSet) {
+					$parameters = array (
+						$tournamentId,
+						$dateFromString,
+						$dateToString
+					);
+					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryDate . $queryOrder . $queryLimit, $parameters);
+				} else {
+					$parameters = array (
+						$tournamentId
+					);
+					$result = executeQuery ($querySelect . $queryFrom . $queryWhereJoin . $queryTournament . $queryOrder . $queryLimit, $parameters);
+				}
+				foreach ($result as $line) {
+					$totalScore = array ();
+					$totalScore [SCORE_TOTAL_NAME] = $line [$nameField];
+					$totalScore [SCORE_TOTAL_YEAR] = intval ($line [TABLE_VAR_YEAR]);
+					$totalScore [SCORE_TOTAL_MONTH] = intval ($line [TABLE_VAR_MONTH]);
+					$totalScore [SCORE_TOTAL_DAY] = intval ($line [TABLE_VAR_DAY]);
+					$totalScore [SCORE_TOTAL_SCORE] = intval ($line [TABLE_RCR_GAME_SCORE_GAME_SCORE]);
+					$totalScore [SCORE_TOTAL_UMA] = 0;
+					$totalScore [SCORE_TOTAL_NB_GAMES] = 0;
 					$totalScores [] = $totalScore;
 				}
 				break;

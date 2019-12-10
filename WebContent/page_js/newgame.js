@@ -62,29 +62,18 @@ function calculate() {
 			scoreList = [];
 			return;
 		}
-		playerScore.finalScore = playerScore.gameScore - initialScore;
+		playerScore.gameScore -= initialScore;
 		totalScore += playerScore.gameScore;
 	}
 
 	// Check total score
-	var sumDifference = totalScore - initialScore * nbPlayers;
-	if (sumDifference != 0) {
+	if (totalScore != 0) {
 		window.alert("Le total des scores n'est pas correct");
-		scoreError.innerHTML = sumDifference;
+		scoreError.innerHTML = totalScore;
 		scoreList = [];
 		return;
 	} else {
 		scoreError.innerHTML = "";
-	}
-
-	// If initial score is not 30000, adjust
-	if (initialScore != 30000) {
-		var diff = initialScore - 30000;
-		for (var playerIndex = 0; playerIndex < nbPlayers; playerIndex++) {
-			scoreList[playerIndex].gameScore -= diff;
-		}
-		// inputInitScore.value = 30000;
-		window.alert("Les stacks ont été ajustés à la base de 30000");
 	}
 
 	// Sort score list
@@ -99,17 +88,16 @@ function calculate() {
 		// equalityPlayerIndex: index + 1 of last player who has the same game
 		// score than playerIndex
 		var equalityPlayerIndex = playerIndex + 1;
+		var totalUma = uma[playerIndex];
 		while (equalityPlayerIndex < nbPlayers && scoreList[playerIndex].gameScore == scoreList[equalityPlayerIndex].gameScore) {
+			totalUma += uma[equalityPlayerIndex];
 			equalityPlayerIndex++;
 		}
-		var totalUma = 0;
-		for (index = playerIndex; index < equalityPlayerIndex; index++) {
-			totalUma += uma[index];
-		}
+
 		totalUma /= equalityPlayerIndex - playerIndex;
 		for (index = playerIndex; index < equalityPlayerIndex; index++) {
 			scoreList[index].umaScore = totalUma;
-			scoreList[index].finalScore += totalUma;
+			scoreList[index].finalScore = scoreList[playerIndex].gameScore + totalUma;
 			scoreList[index].place = playerIndex + 1;
 		}
 		playerIndex = equalityPlayerIndex;
@@ -135,7 +123,7 @@ function calculate() {
 	for (var index = 0; index < nbPlayers; index++) {
 		nodeRankings[index].innerHTML = scoreList[index].place;
 		nodePlayers[index].selectedIndex = scoreList[index].index;
-		nodeInputScores[index].value = scoreList[index].gameScore;
+		nodeInputScores[index].value = scoreList[index].gameScore + initialScore;
 		nodeUmas[index].innerHTML = scoreList[index].umaScore;
 		nodeScores[index].innerHTML = scoreList[index].finalScore;
 	}

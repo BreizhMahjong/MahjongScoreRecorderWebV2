@@ -2,11 +2,12 @@
 	<tr>
 		<td style="text-align: right; width: 8%;">Classement&nbsp;:</td>
 		<td style="width: 12%;"><select id="selectRanking" style="width: 100%;">
-				<option value="total">Total</option>
-				<option value="finalScore">Score final</option>
-				<option value="meanFinalScore">Score final moyen</option>
-				<option value="gameScore">Stack</option>
+				<option value="totalFinalScore">Score total</option>
+				<option value="meanFinalScore">Score moyen</option>
+				<option value="bestFinalScore">Meilleur score</option>
+				<option value="totalGameScore">Stack total</option>
 				<option value="meanGameScore">Stack moyen</option>
+				<option value="bestGameScore">Meilleur stack</option>
 				<option value="winRate">Taux victoire</option>
 				<option value="positiveRate">Taux positif</option>
 				<option value="totalAnnual">Total annuel</option>

@@ -150,7 +150,16 @@ function displayStat(stat) {
 					if (x == y) {
 						playerScore.style.backgroundColor = "#000000";
 					} else {
-						playerScore.innerHTML = stat.scores[x][y];
+						var score = parseInt(stat.scores[x][y]);
+						if (score >= 0) {
+							playerScore.innerHTML = stat.scores[x][y];
+						} else {
+							var playerScoreFontGrid = document.createElement("font");
+							playerScore.appendChild(playerScoreFontGrid);
+							playerScoreFontGrid.color = "#FF0000";
+							playerScoreFontGrid.innerHTML = stat.scores[x][y];
+						}
+						
 						if (y % 2 == 0) {
 							playerScore.style.backgroundColor = "#DFDFDF";
 						}
@@ -172,7 +181,15 @@ function displayStat(stat) {
 				sumScore.style.maxHeight = "24px";
 				sumScore.align = "center";
 				sumScore.style.borderTopWidth = "2px";
-				sumScore.innerHTML = stat.sums[x];
+				sum = parseInt(stat.sums[x]);
+				if (sum >= 0) {
+					sumScore.innerHTML = stat.sums[x];
+				} else {
+					var sumScoreFontGrid = document.createElement("font");
+					sumScore.appendChild(sumScoreFontGrid);
+					sumScoreFontGrid.color = "#FF0000";
+					sumScoreFontGrid.innerHTML = stat.sums[x];
+				}
 				sumLine.appendChild(sumScore);
 			}
 		}

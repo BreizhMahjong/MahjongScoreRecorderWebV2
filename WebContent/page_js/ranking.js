@@ -7,7 +7,7 @@ function toggleSelect() {
 	var selectDay = document.getElementById("selectDay");
 
 	var toHide = false;
-	if (selectRanking.selectedIndex < 7) {
+	if (selectRanking.selectedIndex < 8) {
 		selectPeriod.style.visibility = "visible";
 	} else {
 		selectPeriod.style.visibility = "hidden";
@@ -55,7 +55,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 	newTableBody.id = "rankingTableBody";
 
 	switch (selectedRankingIndex) {
-		case 0: {// Total
+		case 0: {// Total final score
 			title3.innerHTML = "Score";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
@@ -105,64 +105,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 1: {// Final Scores
-			var dateOptions = {
-			    weekday : 'short',
-			    year : 'numeric',
-			    month : 'short',
-			    day : 'numeric'
-			};
-			title3.innerHTML = "Score (UMA)";
-			title4.innerHTML = "Date";
-			var lastIndex = -1;
-			var lastScore = null;
-			for (var index = 0; index < listScores.length; index++) {
-				var score = listScores[index];
-				if (lastIndex == -1 || lastScore.score != score.score) {
-					lastIndex = index;
-				}
-				lastScore = score;
-
-				var line = document.createElement("tr");
-				var colRanking = document.createElement("td");
-				colRanking.align = "center";
-				colRanking.style.width = "25%";
-				colRanking.innerHTML = (lastIndex + 1);
-				line.appendChild(colRanking);
-
-				var colName = document.createElement("td");
-				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
-				line.appendChild(colName);
-
-				var finalScore = parseInt(score.score);
-				var colScore = document.createElement("td");
-				colScore.align = "center";
-				colScore.style.width = "25%";
-				if (finalScore > 0) {
-					colScore.innerHTML = "+" + finalScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				} else if (finalScore == 0) {
-					colScore.innerHTML = "000" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				} else {
-					var colScoreFont = document.createElement("font");
-					colScore.appendChild(colScoreFont);
-					colScoreFont.color = "#FF0000";
-					colScoreFont.innerHTML = finalScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
-				}
-				line.appendChild(colScore);
-
-				var colDate = document.createElement("td");
-				colDate.align = "center";
-				colDate.style.width = "25%";
-				var date = new Date(score.year, score.month, score.day, 0, 0, 0, 0);
-				colDate.innerHTML = date.toLocaleDateString("fr-fr", dateOptions);
-				line.appendChild(colDate);
-
-				newTableBody.appendChild(line);
-			}
-		}
-			break;
-		case 2: { // Mean final score
+		case 1: { // Mean final score
 			title3.innerHTML = "Score moyen (écart type)";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
@@ -212,14 +155,14 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 3: { // Stack
+		case 2: {// Best final Scores
 			var dateOptions = {
 			    weekday : 'short',
 			    year : 'numeric',
 			    month : 'short',
 			    day : 'numeric'
 			};
-			title3.innerHTML = "Stack";
+			title3.innerHTML = "Score (UMA)";
 			title4.innerHTML = "Date";
 			var lastIndex = -1;
 			var lastScore = null;
@@ -242,19 +185,21 @@ function displayRanking(selectedRankingIndex, listScores) {
 				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
 				line.appendChild(colName);
 
-				var stack = parseInt(score.score);
-				var colStack = document.createElement("td");
-				colStack.align = "center";
-				colStack.style.width = "25%";
-				if (stack >= 30000) {
-					colStack.innerHTML = stack.toLocaleString("fr-fr");
+				var bestScore = parseInt(score.score);
+				var colScore = document.createElement("td");
+				colScore.align = "center";
+				colScore.style.width = "25%";
+				if (bestScore > 0) {
+					colScore.innerHTML = "+" + bestScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				} else if (bestScore == 0) {
+					colScore.innerHTML = "00" + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				} else {
-					var colStackFont = document.createElement("font");
-					colStack.appendChild(colStackFont);
-					colStackFont.color = "#FF0000";
-					colStackFont.innerHTML = stack.toLocaleString("fr-fr");
+					var colScoreFont = document.createElement("font");
+					colScore.appendChild(colScoreFont);
+					colScoreFont.color = "#FF0000";
+					colScoreFont.innerHTML = bestScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
 				}
-				line.appendChild(colStack);
+				line.appendChild(colScore);
 
 				var colDate = document.createElement("td");
 				colDate.align = "center";
@@ -267,17 +212,17 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 4: { // Mean stack
-			title3.innerHTML = "Stack moyen (écart type)";
+		case 3: {// Total game score
+			title3.innerHTML = "Stack";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
-			var lastScore = null;
+			var lastStack = null;
 			for (var index = 0; index < listScores.length; index++) {
-				var score = listScores[index];
-				if (lastIndex == -1 || lastScore.score != score.score) {
+				var stack = listScores[index];
+				if (lastIndex == -1 || lastStack.score != stack.score) {
 					lastIndex = index;
 				}
-				lastScore = score;
+				lastStack = stack;
 
 				var line = document.createElement("tr");
 				var colRanking = document.createElement("td");
@@ -288,34 +233,143 @@ function displayRanking(selectedRankingIndex, listScores) {
 
 				var colName = document.createElement("td");
 				colName.style.width = "25%";
-				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + stack.name + "\">" + stack.name + "</a>";
 				line.appendChild(colName);
 
-				var meanScore = parseInt(score.score);
-				var colMeanScore = document.createElement("td");
-				colMeanScore.align = "center";
-				colMeanScore.style.width = "25%";
-				if (meanScore >= 30000) {
-					colMeanScore.innerHTML = meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+				var totalStack = parseInt(stack.score);
+				var colTotalStack = document.createElement("td");
+				colTotalStack.align = "center";
+				colTotalStack.style.width = "25%";
+				if (totalStack > 0) {
+					colTotalStack.innerHTML = "+" + totalStack.toLocaleString("fr-fr");
+				} else if (totalStack == 0) {
+					colTotalStack.innerHTML = "0";
 				} else {
-					var colMeanScoreFont = document.createElement("font");
-					colMeanScore.appendChild(colMeanScoreFont);
-					colMeanScoreFont.color = "#FF0000";
-					colMeanScoreFont.innerHTML = meanScore.toLocaleString("fr-fr") + " (" + parseInt(score.uma).toLocaleString("fr-fr") + ")";
+					var colTotalStackFont = document.createElement("font");
+					colTotalStack.appendChild(colTotalStackFont);
+					colTotalStackFont.color = "#FF0000";
+					colTotalStackFont.innerHTML = totalStack.toLocaleString("fr-fr");
 				}
-				line.appendChild(colMeanScore);
+				line.appendChild(colTotalStack);
 
 				var colNbGames = document.createElement("td");
 				colNbGames.align = "center";
 				colNbGames.style.width = "25%";
-				colNbGames.innerHTML = parseInt(score.nbGames).toLocaleString("fr-fr");
+				colNbGames.innerHTML = parseInt(stack.nbGames).toLocaleString("fr-fr");
 				line.appendChild(colNbGames);
 
 				newTableBody.appendChild(line);
 			}
 		}
 			break;
-		case 5: { // Win rate
+		case 4: { // Mean game score
+			title3.innerHTML = "Stack moyen (écart type)";
+			title4.innerHTML = "Nombre de parties";
+			var lastIndex = -1;
+			var lastStack = null;
+			for (var index = 0; index < listScores.length; index++) {
+				var stack = listScores[index];
+				if (lastIndex == -1 || lastStack.score != stack.score) {
+					lastIndex = index;
+				}
+				lastStack = stack;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + stack.name + "\">" + stack.name + "</a>";
+				line.appendChild(colName);
+
+				var meanStack = parseInt(stack.score);
+				var colMeanStack = document.createElement("td");
+				colMeanStack.align = "center";
+				colMeanStack.style.width = "25%";
+				if (meanStack > 0) {
+					colMeanStack.innerHTML = "+" + meanStack.toLocaleString("fr-fr") + " (" + parseInt(stack.uma).toLocaleString("fr-fr") + ")";
+				} else if (meanStack == 0) {
+					colMeanStack.innerHTML = "0" + " (" + parseInt(stack.uma).toLocaleString("fr-fr") + ")";
+				} else {
+					var colMeanStackFont = document.createElement("font");
+					colMeanStack.appendChild(colMeanStackFont);
+					colMeanStackFont.color = "#FF0000";
+					colMeanStackFont.innerHTML = meanStack.toLocaleString("fr-fr") + " (" + parseInt(stack.uma).toLocaleString("fr-fr") + ")";
+				}
+				line.appendChild(colMeanStack);
+
+				var colNbGames = document.createElement("td");
+				colNbGames.align = "center";
+				colNbGames.style.width = "25%";
+				colNbGames.innerHTML = parseInt(stack.nbGames).toLocaleString("fr-fr");
+				line.appendChild(colNbGames);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 5: { // Best game score
+			var dateOptions = {
+			    weekday : 'short',
+			    year : 'numeric',
+			    month : 'short',
+			    day : 'numeric'
+			};
+			title3.innerHTML = "Stack";
+			title4.innerHTML = "Date";
+			var lastIndex = -1;
+			var lastStack = null;
+			for (var index = 0; index < listScores.length; index++) {
+				var stack = listScores[index];
+				if (lastIndex == -1 || lastStack.score != stack.score) {
+					lastIndex = index;
+				}
+				lastStack = stack;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + stack.name + "\">" + stack.name + "</a>";
+				line.appendChild(colName);
+
+				var bestStack = parseInt(stack.score);
+				var colStack = document.createElement("td");
+				colStack.align = "center";
+				colStack.style.width = "25%";
+				if (bestStack > 0) {
+					colStack.innerHTML = "+" + bestStack.toLocaleString("fr-fr");
+				} else if (bestScore == 0) {d
+					colStack.innerHTML = "0";
+				} else {
+					var colStackFont = document.createElement("font");
+					colStack.appendChild(colStackFont);
+					colStackFont.color = "#FF0000";
+					colStackFont.innerHTML = bestStack.toLocaleString("fr-fr");
+				}
+				line.appendChild(colStack);
+
+				var colDate = document.createElement("td");
+				colDate.align = "center";
+				colDate.style.width = "25%";
+				var date = new Date(stack.year, stack.month, stack.day, 0, 0, 0, 0);
+				colDate.innerHTML = date.toLocaleDateString("fr-fr", dateOptions);
+				line.appendChild(colDate);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 6: { // Win rate
 			title3.innerHTML = "Taux de victoire";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
@@ -367,7 +421,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 6: { // Positive rate
+		case 7: { // Positive rate
 			title3.innerHTML = "Taux de positif";
 			title4.innerHTML = "Nombre de parties";
 			var lastIndex = -1;
@@ -419,7 +473,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 7: { // Annual total
+		case 8: { // Annual total
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
 			var lastIndex = -1;
@@ -469,7 +523,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 8: { // Trimesterial total
+		case 9: { // Trimesterial total
 			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -520,7 +574,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 9: { // Mensual total
+		case 10: { // Mensual total
 			var dateOptions = {
 			    year : 'numeric',
 			    month : 'short'

@@ -149,38 +149,34 @@ function displayStat(data, scoreMode) {
 		};
 		$("#scoreChart").highcharts(scoreChart);
 
-		if (scoreMode == 0) {
-			var sumChart = {
-				"colors" : [ "#0000ff" ],
+		var sumChart = {
+			"colors" : [ "#0000ff" ],
+			"title" : {
+				"text" : "Total"
+			},
+			"xAxis" : {
+				"type" : "category",
+				"tickInterval" : Math.ceil(data.listScore.length / 10)
+			},
+			"yAxis" : {
 				"title" : {
 					"text" : "Total"
+				}
+			},
+			"legend" : {
+				"enabled" : true
+			},
+			"series" : [ {
+				"type" : "area",
+				"name" : "Total",
+				"data" : sumList,
+				"dataLabels" : {
+					"enabled" : false
 				},
-				"xAxis" : {
-					"type" : "category",
-					"tickInterval" : Math.ceil(data.listScore.length / 10)
-				},
-				"yAxis" : {
-					"title" : {
-						"text" : "Total"
-					}
-				},
-				"legend" : {
-					"enabled" : true
-				},
-				"series" : [ {
-					"type" : "area",
-					"name" : "Total",
-					"data" : sumList,
-					"dataLabels" : {
-						"enabled" : false
-					},
-					"animation" : false
-				} ]
-			};
-			$("#sumChart").highcharts(sumChart);
-		} else {
-			$("#sumChart").empty();
-		}
+				"animation" : false
+			} ]
+		};
+		$("#sumChart").highcharts(sumChart);
 	}
 }
 
