@@ -33,7 +33,7 @@ function addRCRGame($game) {
 				foreach ($queryResult as $line) {
 					$existingIds [] = intval ($line [TABLE_RCR_GAME_ID_ID]);
 				}
-				$minGameId = ((($year % 100) * 100 + ($month + 1)) * 100 + $day) * 100 + 1;
+				$minGameId = (($year * 100 + ($month + 1)) * 100 + $day) * 100 + 1;
 				if (empty ($existingIds)) {
 					$gameId = $minGameId;
 				} else {

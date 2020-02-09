@@ -8,8 +8,10 @@
 				<option value="totalGameScore">Stack total</option>
 				<option value="meanGameScore">Stack moyen</option>
 				<option value="bestGameScore">Meilleur stack</option>
-				<option value="winRate">Taux victoire</option>
-				<option value="positiveRate">Taux positif</option>
+				<option value="winRate4">Taux victoire (4 joueurs)</option>
+				<option value="winRate5">Taux victoire (5 joueurs)</option>
+				<option value="positiveRate4">Taux positif (4 joueurs)</option>
+				<option value="positiveRate5">Taux positif (5 joueurs)</option>
 				<option value="totalAnnual">Total annuel</option>
 				<option value="totalTrimestrial">Total trimestriel</option>
 				<option value="totalMensual">Total mensuel</option>
@@ -27,7 +29,6 @@
 		<td style="text-align: right; width: 8%;">Période&nbsp;:</td>
 		<td style="width: 12%;"><select id="selectPeriod" style="width: 100%;">
 				<option value="all">Tout</option>
-				<option value="season">Saison</option>
 				<option value="year">Année</option>
 				<option value="trimester" selected="selected">Trimestre</option>
 				<option value="month">Mois</option>

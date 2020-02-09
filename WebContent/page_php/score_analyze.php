@@ -13,7 +13,6 @@
 		<td style="text-align: right; width: 8%;">Période&nbsp;:</td>
 		<td style="width: 12%;"><select id="selectPeriod" style="width: 100%;">
 				<option value="all">Tout</option>
-				<option value="season">Saison</option>
 				<option value="year">Année</option>
 				<option value="trimester" selected="selected">Trimestre</option>
 				<option value="month">Mois</option>
