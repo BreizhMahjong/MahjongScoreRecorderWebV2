@@ -12,9 +12,12 @@
 				<option value="winRate5">Taux victoire (5 joueurs)</option>
 				<option value="positiveRate4">Taux positif (4 joueurs)</option>
 				<option value="positiveRate5">Taux positif (5 joueurs)</option>
-				<option value="totalAnnual">Total annuel</option>
-				<option value="totalTrimestrial">Total trimestriel</option>
-				<option value="totalMensual">Total mensuel</option>
+				<option value="totalFinalScoreAnnual">Total score annuel</option>
+				<option value="totalFinalScoreTrimestrial">Total score trimestriel</option>
+				<option value="totalFinalScoreMensual">Total score mensuel</option>
+				<option value="totalGameScoreAnnual">Total stack annuel</option>
+				<option value="totalGameScoreTrimestrial">Total stack trimestriel</option>
+				<option value="totalGameScoreMensual">Total stack mensuel</option>
 		</select></td>
 		<td style="text-align: right; width: 6%;">Tournoi&nbsp;:</td>
 		<td colspan="5" style="width: 48%;"><select id="selectTournament" style="width: 100%;"></select></td>

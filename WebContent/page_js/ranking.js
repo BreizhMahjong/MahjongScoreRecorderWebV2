@@ -25,20 +25,15 @@ function toggleSelect() {
 		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 2) {
 		selectYear.style.visibility = "visible";
-		selectTrimester.style.visibility = "hidden";
+		selectTrimester.style.visibility = "visible";
 		selectMonth.style.visibility = "hidden";
 		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 3) {
 		selectYear.style.visibility = "visible";
-		selectTrimester.style.visibility = "visible";
-		selectMonth.style.visibility = "hidden";
-		selectDay.style.visibility = "hidden";
-	} else if (selectPeriod.selectedIndex == 4) {
-		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";
 		selectDay.style.visibility = "hidden";
-	} else if (selectPeriod.selectedIndex == 5) {
+	} else if (selectPeriod.selectedIndex == 4) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";
@@ -577,7 +572,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 10: { // Annual total
+		case 10: { // Annual total final score
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
 			var lastIndex = -1;
@@ -627,7 +622,7 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 11: { // Trimesterial total
+		case 11: { // Trimesterial total final score
 			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -678,7 +673,163 @@ function displayRanking(selectedRankingIndex, listScores) {
 			}
 		}
 			break;
-		case 12: { // Mensual total
+		case 12: { // Mensual total final score
+			var dateOptions = {
+			    year : 'numeric',
+			    month : 'short'
+			};
+			title3.innerHTML = "Total";
+			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
+			for (var index = 0; index < listScores.length; index++) {
+				var score = listScores[index];
+				if (lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
+				line.appendChild(colName);
+
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
+
+				var colDate = document.createElement("td");
+				colDate.align = "center";
+				colDate.style.width = "25%";
+				var date = new Date(score.year, score.month, 1, 0, 0, 0, 0);
+				colDate.innerHTML = date.toLocaleDateString("fr-fr", dateOptions);
+				line.appendChild(colDate);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 13: { // Annual total game score
+			title3.innerHTML = "Total";
+			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
+			for (var index = 0; index < listScores.length; index++) {
+				var score = listScores[index];
+				if (lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
+				line.appendChild(colName);
+
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
+
+				var colDate = document.createElement("td");
+				colDate.align = "center";
+				colDate.style.width = "25%";
+				colDate.innerHTML = score.year;
+				line.appendChild(colDate);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 14: { // Trimesterial total game score
+			var trimesterStrings = [ "1er", "2ème", "3ème", "4ème" ];
+			title3.innerHTML = "Total";
+			title4.innerHTML = "Période";
+			var lastIndex = -1;
+			var lastScore = null;
+			for (var index = 0; index < listScores.length; index++) {
+				var score = listScores[index];
+				if (lastIndex == -1 || lastScore.score != score.score) {
+					lastIndex = index;
+				}
+				lastScore = score;
+
+				var line = document.createElement("tr");
+				var colRanking = document.createElement("td");
+				colRanking.align = "center";
+				colRanking.style.width = "25%";
+				colRanking.innerHTML = (lastIndex + 1);
+				line.appendChild(colRanking);
+
+				var colName = document.createElement("td");
+				colName.style.width = "25%";
+				colName.innerHTML = "<a href=\"/bmjc/?menu=personal_analyze&player=" + score.name + "\">" + score.name + "</a>";
+				line.appendChild(colName);
+
+				var totalScore = parseInt(score.score);
+				var colTotalScore = document.createElement("td");
+				colTotalScore.align = "center";
+				colTotalScore.style.width = "25%";
+				if (totalScore > 0) {
+					colTotalScore.innerHTML = "+" + totalScore.toLocaleString("fr-fr");
+				} else if (totalScore == 0) {
+					colTotalScore.innerHTML = "000";
+				} else {
+					var colTotalScoreFont = document.createElement("font");
+					colTotalScore.appendChild(colTotalScoreFont);
+					colTotalScoreFont.color = "#FF0000";
+					colTotalScoreFont.innerHTML = totalScore.toLocaleString("fr-fr");
+				}
+				line.appendChild(colTotalScore);
+
+				var colDate = document.createElement("td");
+				colDate.align = "center";
+				colDate.style.width = "25%";
+				colDate.innerHTML = trimesterStrings[score.month] + " " + score.year;
+				line.appendChild(colDate);
+
+				newTableBody.appendChild(line);
+			}
+		}
+			break;
+		case 15: { // Mensual total game score
 			var dateOptions = {
 			    year : 'numeric',
 			    month : 'short'

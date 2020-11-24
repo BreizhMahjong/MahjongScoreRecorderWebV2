@@ -98,7 +98,6 @@ function addRCRGame($game) {
 					$result [ADD_RCR_GAME_MESSAGE] = ADD_RCR_GAME_MESSAGE_GAME_ERROR;
 				}
 			} else {
-				rollBack ();
 				$result [ADD_RCR_GAME_RESULT] = false;
 				$result [ADD_RCR_GAME_MESSAGE] = ADD_RCR_GAME_MESSAGE_NULL;
 			}
@@ -121,6 +120,7 @@ function deleteRCRGame($id) {
 	$isAdmin = isset ($_SESSION[SESSION_IS_ADMIN]) ? $_SESSION[SESSION_IS_ADMIN] : false;
 	if ($isAdmin) {
 		if ($id !== null) {
+			beginTransaction ();
 			$query = "DELETE FROM " . TABLE_RCR_GAME_SCORE . " WHERE " . TABLE_RCR_GAME_SCORE_GAME_ID . "=?";
 			$parameters = array (
 				$id
@@ -128,6 +128,7 @@ function deleteRCRGame($id) {
 			$deleted = executeUpdate ($query, $parameters);
 
 			if (! $deleted) {
+				rollBack ();
 				$result [DELETE_RCR_GAME_RESULT] = false;
 				$result [DELETE_RCR_GAME_MESSAGE] = DELETE_RCR_GAME_MESSAGE_DB;
 			} else {
@@ -137,8 +138,11 @@ function deleteRCRGame($id) {
 				);
 				$deleted = executeUpdate ($query, $parameters);
 				if (! $deleted) {
+					rollBack ();
 					$result [DELETE_RCR_GAME_RESULT] = false;
 					$result [DELETE_RCR_GAME_MESSAGE] = DELETE_RCR_GAME_MESSAGE_DB;
+				} else {
+					commit ();
 				}
 			}
 		} else {

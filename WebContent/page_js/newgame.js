@@ -26,6 +26,14 @@ function calculate() {
 	var nbPlayers = parseInt(selectPlayer.options[nbPlayersIndex].value);
 	var umaSetIndex = selectUma.selectedIndex;
 	var initialScore = parseInt(inputInitScore.value);
+	if (initialScore < 0) {
+		initialScore = 0;
+		inputInitScore.value = initialScore;
+	} else if (initialScore > 35000) {
+		initialScore = 35000;
+		inputInitScore.value = initialScore;
+	}
+		
 	scoreList = [];
 	var totalScore = 0;
 	var index;

@@ -1,13 +1,16 @@
-<div style="width: 640px">
-	<table class="table" style="width: 640px">
+<div style="width: 100%">
+	<table class="table" style="width: 60%">
 		<tr>
-			<td>Tournoi&nbsp;:</td>
-			<td><select id="selectTournament"></select></td>
-			<td>Année&nbsp;:</td>
-			<td><select id="selectYear">
-			</select></td>
-			<td>Mois&nbsp;:</td>
-			<td><select id="selectMonth">
+			<td style="text-align: right; width: 11%;">Tournoi&nbsp;:</td>
+			<td colspan="7" style="width: 89%;"><select id="selectTournament" style="width: 100%;"></select></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; width: 11%;">Stack Initial&nbsp;:</td>
+			<td style="width: 11%;"><input id="inputInitGameScore" type="number" min="0" max="35000" step="100" value="30000" required="required" style="width: 100%;" /></td>
+			<td style="text-align: right; width: 11%;">Année&nbsp;:</td>
+			<td style="width: 11%;"><select id="selectYear" style="width: 100%;"></select></td>
+			<td style="text-align: right; width: 11%;" style="width: 100%;">Mois&nbsp;:</td>
+			<td style="width: 11%;"><select id="selectMonth">
 					<?php $month = intval (date ("m")) - 1; ?>
 					<option value="0" <?php if ($month == 0) { echo " selected=\"selected\""; }?>>Janvier</option>
 					<option value="1" <?php	if ($month == 1) { echo " selected=\"selected\""; }?>>Février</option>
@@ -22,14 +25,13 @@
 					<option value="10" <?php if ($month == 10) { echo " selected=\"selected\""; }?>>Novembre</option>
 					<option value="11" <?php if ($month == 11) { echo " selected=\"selected\""; }?>>Décembre</option>
 			</select></td>
-			<td>Jour&nbsp;:</td>
-			<td><select id="selectDay">
-			</select></td>
-			<td><button id="buttonDisplay" type="button">Afficher</button></td>
+			<td style="text-align: right; width: 11%;">Jour&nbsp;:</td>
+			<td style="width: 11%;"><select id="selectDay" style="width: 100%;"></select></td>
+			<td style="width: 12%;"><button id="buttonDisplay" type="button" style="width: 100%;">Afficher</button></td>
 		</tr>
 	</table>
 </div>
-<div id="gamePanel" style="width: 648px;"></div>
+<div id="gamePanel" style="width: 640px;"></div>
 <div class="loadingImage">
 	<img src="images/rolling.gif" />
 </div>

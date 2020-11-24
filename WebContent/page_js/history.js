@@ -1,4 +1,6 @@
+var inputInitScore;
 var buttonDisplay;
+var initialScore;
 
 function createGameNode(table, game) {
 	var gameInfoLine = document.createElement("tr");
@@ -102,7 +104,7 @@ function createGameNode(table, game) {
 		playerLine.appendChild(gameScoreGrid);
 		gameScoreGrid.style.width = "20%";
 		gameScoreGrid.align = "center";
-		gameScoreGrid.innerHTML = parseInt(score.gameScore).toLocaleString("fr-fr");
+		gameScoreGrid.innerHTML = parseInt(score.gameScore + initialScore).toLocaleString("fr-fr");
 
 		var umaScoreGrid = document.createElement("td");
 		playerLine.appendChild(umaScoreGrid);
@@ -132,7 +134,15 @@ function displayGames(ids) {
 	var gamePanel = document.getElementById("gamePanel");
 	var newGamePanel = document.createElement("div");
 	newGamePanel.id = "gamePanel";
-	newGamePanel.style.width = "648px";
+	newGamePanel.style.width = "640px";
+	initialScore = parseInt(inputInitScore.value);
+	if (initialScore < 0) {
+		initialScore = 0;
+		inputInitScore.value = initialScore;
+	} else if (initialScore > 35000) {
+		initialScore = 35000;
+		inputInitScore.value = initialScore;
+	}
 
 	var index = 0;
 	function getNextGame() {
@@ -295,6 +305,7 @@ function prepare() {
 	document.getElementById("selectYear").onchange = getDays;
 	document.getElementById("selectMonth").onchange = getDays;
 
+	inputInitScore = document.getElementById("inputInitGameScore");
 	buttonDisplay = document.getElementById("buttonDisplay");
 	buttonDisplay.onclick = getRCRGameIds;
 }

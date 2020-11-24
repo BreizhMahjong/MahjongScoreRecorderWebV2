@@ -17,20 +17,15 @@ function toggleSelect() {
 		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 2) {
 		selectYear.style.visibility = "visible";
-		selectTrimester.style.visibility = "hidden";
+		selectTrimester.style.visibility = "visible";
 		selectMonth.style.visibility = "hidden";
 		selectDay.style.visibility = "hidden";
 	} else if (selectPeriod.selectedIndex == 3) {
 		selectYear.style.visibility = "visible";
-		selectTrimester.style.visibility = "visible";
-		selectMonth.style.visibility = "hidden";
-		selectDay.style.visibility = "hidden";
-	} else if (selectPeriod.selectedIndex == 4) {
-		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";
 		selectDay.style.visibility = "hidden";
-	} else if (selectPeriod.selectedIndex == 5) {
+	} else if (selectPeriod.selectedIndex == 4) {
 		selectYear.style.visibility = "visible";
 		selectTrimester.style.visibility = "hidden";
 		selectMonth.style.visibility = "visible";

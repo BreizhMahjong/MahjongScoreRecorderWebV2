@@ -18,7 +18,7 @@
 				<option value="4">Ichisosen</option>
 		</select></td>
 		<td style="text-align: right; width: 12.5%;">Stack Initial&nbsp;:</td>
-		<td style="width: 12.5%;"><input id="inputInitGameScore" type="number" step="100" value="30000" required="required" style="width: 100%;" /></td>
+		<td style="width: 12.5%;"><input id="inputInitGameScore" type="number" min="0" max="35000" step="100" value="30000" required="required" style="width: 100%;" /></td>
 		<td style="text-align: right; width: 12.5%;">Uma&nbsp;:</td>
 		<td style="width: 12.5%;"><select id="selectUma" style="width: 100%;">
 				<option value="1" selected="selected">+15000</option>
