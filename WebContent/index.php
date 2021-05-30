@@ -86,21 +86,26 @@ if (isset ($_GET ["menu"])) {
 						<li <?php if ($menu === "history") { echo "class=\"active\""; }?>><a href="?menu=history">Historique</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<?php if ($isLogin) { ?>
-						<li><img class="navbar-brand"
-							src="<?php
-							$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg';
-							if (file_exists ($avatarPath)) {
-								echo $avatarPath;
+						<?php if($isLogin) { ?>
+						<li>
+						<?php
+							$avatarPath1 = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40x40.jpg';
+							$avatarPath2 = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.jpg';
+							$avatarPath3 = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40x40.png';
+							$avatarPath4 = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.png';
+							if(file_exists($avatarPath1)) {
+								echo "<img class=\"navbar-brand\" src=\"" . $avatarPath1 . "\"/>";
+							} else if(file_exists($avatarPath2)) {
+								echo "<img class=\"navbar-brand\" src=\"" . $avatarPath2 . "\"/>";
+							} else if(file_exists($avatarPath3)) {
+								echo "<img class=\"navbar-brand\" src=\"" . $avatarPath3 . "\"/>";
+							} else if(file_exists($avatarPath4)) {
+								echo "<img class=\"navbar-brand\" src=\"" . $avatarPath4 . "\"/>";
 							} else {
-								$avatarPath = '../wp-content/uploads/ultimatemember/' . $loginId . '/profile_photo-40.png';
-								if (file_exists ($avatarPath)) {
-									echo $avatarPath;
-								} else {
-									echo "../wp-content/uploads/2018/07/ouest-riichi.png";
-								}
+								echo "<img class=\"navbar-brand\" src=\"../wp-content/uploads/2018/07/ouest-riichi.png\"/>";
 							}
-							?>" /></li>
+							?>
+						</li>
 						<li><button id="logoutButton" type="button" class="btn btn-default navbar-btn" onclick="logoutEvent()">
 								<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion
 							</button></li>

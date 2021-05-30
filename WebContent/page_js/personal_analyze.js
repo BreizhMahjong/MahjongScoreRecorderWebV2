@@ -179,18 +179,17 @@ function getStat() {
 	toggleSelect();
 	showLoading();
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectPlayer = document.getElementById("selectPlayer");
-	var selectedPlayerIndex = selectPlayer.selectedIndex;
 	var selectScore = document.getElementById("selectScore");
 	var selectPeriod = document.getElementById("selectPeriod");
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
 	var selectDay = document.getElementById("selectDay");
 
-	if (selectedTournamentIndex !== -1 && selectedPlayerIndex !== -1 && selectedYearIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 
+		&& selectPlayer.selectedIndex !== -1 
+		&& selectYear.selectedIndex !== -1) {
 		$.ajax({
 			url : SERVER_QUERY_URL,
 			type : "POST",
@@ -203,7 +202,7 @@ function getStat() {
 				"year" : selectYear.options[selectYear.selectedIndex].value,
 				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
 				"month" : selectMonth.options[selectMonth.selectedIndex].value,
-				"day" : selectDay.options[selectDay.selectedIndex].value
+				"day" : selectDay.selectedIndex !== -1 ? selectDay.options[selectDay.selectedIndex].value : null
 			},
 			success : function(result) {
 				hideLoading();
@@ -221,18 +220,16 @@ function getStat() {
 
 function getDays() {
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectMonth = document.getElementById("selectMonth");
-	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 && selectYear.selectedIndex !== -1) {
 		$.ajax({
 			url : SERVER_QUERY_URL,
 			type : "POST",
 			data : {
 				"action" : "getRCRDays",
-				"tournamentId" : selectTournament[selectedTournamentIndex].value,
-				"year" : selectYear[selectedYearIndex].value,
+				"tournamentId" : selectTournament[selectTournament.selectedIndex].value,
+				"year" : selectYear[selectYear.selectedIndex].value,
 				"month" : selectMonth.selectedIndex
 			},
 			success : function(result) {

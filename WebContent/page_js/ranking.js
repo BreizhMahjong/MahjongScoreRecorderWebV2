@@ -152,10 +152,10 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 2: {// Best final Scores
 			var dateOptions = {
-			    weekday : 'short',
-			    year : 'numeric',
-			    month : 'short',
-			    day : 'numeric'
+				weekday : 'short',
+				year : 'numeric',
+				month : 'short',
+				day : 'numeric'
 			};
 			title3.innerHTML = "Score (UMA)";
 			title4.innerHTML = "Date";
@@ -309,10 +309,10 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 5: { // Best game score
 			var dateOptions = {
-			    weekday : 'short',
-			    year : 'numeric',
-			    month : 'short',
-			    day : 'numeric'
+				weekday : 'short',
+				year : 'numeric',
+				month : 'short',
+				day : 'numeric'
 			};
 			title3.innerHTML = "Stack";
 			title4.innerHTML = "Date";
@@ -370,8 +370,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastIndex = -1;
 			var lastScore = null;
 			var rateStringOption = {
-			    minimumFractionDigits : 2,
-			    maximumFractionDigits : 2
+				minimumFractionDigits : 2,
+				maximumFractionDigits : 2
 			};
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
@@ -422,8 +422,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastIndex = -1;
 			var lastScore = null;
 			var rateStringOption = {
-			    minimumFractionDigits : 2,
-			    maximumFractionDigits : 2
+				minimumFractionDigits : 2,
+				maximumFractionDigits : 2
 			};
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
@@ -474,8 +474,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastIndex = -1;
 			var lastScore = null;
 			var rateStringOption = {
-			    minimumFractionDigits : 1,
-			    maximumFractionDigits : 1
+				minimumFractionDigits : 1,
+				maximumFractionDigits : 1
 			};
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
@@ -526,8 +526,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			var lastIndex = -1;
 			var lastScore = null;
 			var rateStringOption = {
-			    minimumFractionDigits : 1,
-			    maximumFractionDigits : 1
+				minimumFractionDigits : 1,
+				maximumFractionDigits : 1
 			};
 			for (var index = 0; index < listScores.length; index++) {
 				var score = listScores[index];
@@ -675,8 +675,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 12: { // Mensual total final score
 			var dateOptions = {
-			    year : 'numeric',
-			    month : 'short'
+				year : 'numeric',
+				month : 'short'
 			};
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -831,8 +831,8 @@ function displayRanking(selectedRankingIndex, listScores) {
 			break;
 		case 15: { // Mensual total game score
 			var dateOptions = {
-			    year : 'numeric',
-			    month : 'short'
+				year : 'numeric',
+				month : 'short'
 			};
 			title3.innerHTML = "Total";
 			title4.innerHTML = "Période";
@@ -894,45 +894,42 @@ function displayRanking(selectedRankingIndex, listScores) {
 function getRanking() {
 	toggleSelect();
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectRanking = document.getElementById("selectRanking");
-	var selectedRankingIndex = selectRanking.selectedIndex;
 	var selectSorting = document.getElementById("selectSorting");
 	var selectPeriod = document.getElementById("selectPeriod");
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectTrimester = document.getElementById("selectTrimester");
 	var selectMonth = document.getElementById("selectMonth");
 	var selectDay = document.getElementById("selectDay");
 	var checkUseMinGames = document.getElementById("checkUseMinGames");
 	showLoading();
 
-	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 && selectYear.selectedIndex !== -1) {
 		$.ajax({
-		    url : SERVER_QUERY_URL,
-		    type : "POST",
-		    data : {
-		        "action" : "getRCRRanking",
-		        "tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
-		        "rankingMode" : selectRanking.options[selectRanking.selectedIndex].value,
-		        "sortingMode" : selectSorting.options[selectSorting.selectedIndex].value,
-		        "periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
-		        "year" : selectYear.options[selectYear.selectedIndex].value,
-		        "trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
-		        "month" : selectMonth.options[selectMonth.selectedIndex].value,
-		        "day" : selectDay.options[selectDay.selectedIndex].value,
-		        "useMinGames" : checkUseMinGames.checked ? "1" : "0"
-		    },
-		    success : function(result) {
-			    hideLoading();
-			    listScores = $.parseJSON(result);
-			    displayRanking(selectedRankingIndex, listScores);
-			    hideLoading();
-		    },
-		    error : function(xhr, status, error) {
-			    displayRanking(-1, null);
-			    hideLoading();
-		    }
+			url : SERVER_QUERY_URL,
+			type : "POST",
+			data : {
+				"action" : "getRCRRanking",
+				"tournamentId" : selectTournament.options[selectTournament.selectedIndex].value,
+				"rankingMode" : selectRanking.options[selectRanking.selectedIndex].value,
+				"sortingMode" : selectSorting.options[selectSorting.selectedIndex].value,
+				"periodMode" : selectPeriod.options[selectPeriod.selectedIndex].value,
+				"year" : selectYear.options[selectYear.selectedIndex].value,
+				"trimester" : selectTrimester.options[selectTrimester.selectedIndex].value,
+				"month" : selectMonth.options[selectMonth.selectedIndex].value,
+				"day" : selectDay.selectedIndex !== -1 ? selectDay.options[selectDay.selectedIndex].value : null,
+				"useMinGames" : checkUseMinGames.checked ? "1" : "0"
+			},
+			success : function(result) {
+				hideLoading();
+				listScores = $.parseJSON(result);
+				displayRanking(selectRanking.selectedIndex, listScores);
+				hideLoading();
+			},
+			error : function(xhr, status, error) {
+				displayRanking(-1, null);
+				hideLoading();
+			}
 		});
 	} else {
 		displayRanking(-1, null);
@@ -941,18 +938,16 @@ function getRanking() {
 
 function getDays() {
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectMonth = document.getElementById("selectMonth");
-	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 && selectYear.selectedIndex !== -1) {
 		$.ajax({
 			url : SERVER_QUERY_URL,
 			type : "POST",
 			data : {
 				"action" : "getRCRDays",
-				"tournamentId" : selectTournament[selectedTournamentIndex].value,
-				"year" : selectYear[selectedYearIndex].value,
+				"tournamentId" : selectTournament[selectTournament.selectedIndex].value,
+				"year" : selectYear[selectYear.selectedIndex].value,
 				"month" : selectMonth.selectedIndex
 			},
 			success : function(result) {
@@ -977,50 +972,50 @@ function getYears() {
 	var selectTournament = document.getElementById("selectTournament");
 	var selectedTournamentId = selectTournament.options[selectTournament.selectedIndex].value;
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-	        "action" : "getRCRYears",
-	        "tournamentId" : selectedTournamentId
-	    },
-	    success : function(result) {
-		    years = $.parseJSON(result);
-		    var index;
-		    var selectYear = document.getElementById("selectYear");
-		    selectYear.options.length = 0;
-		    for (index = 0; index < years.length; index++) {
-			    year = years[index];
-			    var option = document.createElement("option");
-			    option.value = year;
-			    option.innerHTML = year;
-			    selectYear.appendChild(option);
-		    }
-		    getDays();
-	    }
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRYears",
+			"tournamentId" : selectedTournamentId
+		},
+		success : function(result) {
+			years = $.parseJSON(result);
+			var index;
+			var selectYear = document.getElementById("selectYear");
+			selectYear.options.length = 0;
+			for (index = 0; index < years.length; index++) {
+				year = years[index];
+				var option = document.createElement("option");
+				option.value = year;
+				option.innerHTML = year;
+				selectYear.appendChild(option);
+			}
+			getDays();
+		}
 	});
 }
 
 function getTournaments() {
 	$.ajax({
-	    url : SERVER_QUERY_URL,
-	    type : "POST",
-	    data : {
-		    "action" : "getRCRTournaments"
-	    },
-	    success : function(result) {
-		    tournaments = $.parseJSON(result);
-		    var index;
-		    var selectTournament = document.getElementById("selectTournament");
-		    selectTournament.options.length = 0;
-		    for (index = 0; index < tournaments.length; index++) {
-			    tournament = tournaments[index];
-			    var option = document.createElement("option");
-			    option.value = tournament.id;
-			    option.innerHTML = tournament.name;
-			    selectTournament.appendChild(option);
-		    }
-		    getYears();
-	    }
+		url : SERVER_QUERY_URL,
+		type : "POST",
+		data : {
+			"action" : "getRCRTournaments"
+		},
+		success : function(result) {
+			tournaments = $.parseJSON(result);
+			var index;
+			var selectTournament = document.getElementById("selectTournament");
+			selectTournament.options.length = 0;
+			for (index = 0; index < tournaments.length; index++) {
+				tournament = tournaments[index];
+				var option = document.createElement("option");
+				option.value = tournament.id;
+				option.innerHTML = tournament.name;
+				selectTournament.appendChild(option);
+			}
+			getYears();
+		}
 	});
 }
 

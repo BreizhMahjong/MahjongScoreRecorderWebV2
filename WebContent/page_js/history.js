@@ -175,14 +175,13 @@ function displayGames(ids) {
 
 function getRCRGameIds() {
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectMonth = document.getElementById("selectMonth");
 	var selectDay = document.getElementById("selectDay");
-	var selectedDayIndex = selectDay.selectedIndex;
 
-	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1 && selectedDayIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 
+		&& selectYear.selectedIndex !== -1 
+		&& selectDay.selectedIndex !== -1) {
 		buttonDisplay.disabled = true;
 
 		var gamePanel = document.getElementById("gamePanel");
@@ -196,10 +195,10 @@ function getRCRGameIds() {
 			type : "POST",
 			data : {
 				"action" : "getRCRGameIds",
-				"tournamentId" : selectTournament[selectedTournamentIndex].value,
-				"year" : selectYear[selectedYearIndex].value,
+				"tournamentId" : selectTournament[selectTournament.selectedIndex].value,
+				"year" : selectYear[selectYear.selectedIndex].value,
 				"month" : selectMonth.selectedIndex,
-				"day" : selectDay[selectedDayIndex].value
+				"day" : selectDay[selectDay.selectedIndex].value
 			},
 			success : function(result) {
 				displayGames($.parseJSON(result));
@@ -215,18 +214,16 @@ function getRCRGameIds() {
 
 function getDays() {
 	var selectTournament = document.getElementById("selectTournament");
-	var selectedTournamentIndex = selectTournament.selectedIndex;
 	var selectYear = document.getElementById("selectYear");
-	var selectedYearIndex = selectYear.selectedIndex;
 	var selectMonth = document.getElementById("selectMonth");
-	if (selectedTournamentIndex !== -1 && selectedYearIndex !== -1) {
+	if (selectTournament.selectedIndex !== -1 && selectYear.selectedIndex !== -1) {
 		$.ajax({
 			url : SERVER_QUERY_URL,
 			type : "POST",
 			data : {
 				"action" : "getRCRDays",
-				"tournamentId" : selectTournament[selectedTournamentIndex].value,
-				"year" : selectYear[selectedYearIndex].value,
+				"tournamentId" : selectTournament[selectTournament.selectedIndex].value,
+				"year" : selectYear[selectYear.selectedIndex].value,
 				"month" : selectMonth.selectedIndex
 			},
 			success : function(result) {
